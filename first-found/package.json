@@ -1,0 +1,9 @@
+{
+  "name": "first-found-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "First Found — marketing site + free GEO/AEO visibility checker",
+  "engines": {
+    "node": ">=18"
+  }
+}

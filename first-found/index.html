@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>First Found — Word gevonden door AI</title>
+<meta name="description" content="First Found meet en verbetert of jouw bedrijf wordt genoemd in ChatGPT, Perplexity, Gemini en Claude. Begin met een gratis check.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a href="#top" class="wordmark">First Found</a>
+    <nav class="main-nav">
+      <a href="#hoe-het-werkt">Hoe het werkt</a>
+      <a href="#tool">Check je site</a>
+      <a href="#diensten">Diensten</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a href="#tool" class="btn btn-small">Check je site</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ================= HERO ================= -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <h1>Wordt jouw bedrijf genoemd als iemand het aan AI vraagt?</h1>
+        <p class="hero-sub">
+          Steeds meer mensen zoeken niet meer via Google, maar vragen het
+          rechtstreeks aan ChatGPT, Perplexity of Claude. Als jouw bedrijf
+          daar niet in het antwoord staat, besta je voor die klant niet.
+          First Found meet dat — en zorgt dat je wél genoemd wordt.
+        </p>
+        <div class="hero-actions">
+          <a href="#tool" class="btn btn-primary">Check je site gratis</a>
+          <a href="#hoe-het-werkt" class="btn-text">Hoe werkt dat precies?</a>
+        </div>
+      </div>
+
+      <div class="hero-visual" aria-hidden="true">
+        <div class="chat-mock">
+          <div class="chat-mock-bar">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+          </div>
+          <div class="chat-mock-q">"Beste installateur voor zonnepanelen in Groningen?"</div>
+          <div class="chat-mock-a">
+            Voor zonnepanelen in Groningen worden vaak
+            <span class="chip chip-found">ZPN Installaties</span>
+            en
+            <span class="chip chip-found">SUN-TAG Nederland</span>
+            genoemd, beide met ervaring in de regio en goede reviews.
+            <span class="chip chip-missing">jouw bedrijf?</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= HOE HET WERKT ================= -->
+  <section id="hoe-het-werkt" class="section">
+    <div class="wrap">
+      <h2>Hoe het werkt</h2>
+      <p class="section-lead">
+        Dit heet <strong>GEO</strong> (Generative Engine Optimization) — hetzelfde
+        idee als SEO, maar dan voor AI-antwoorden in plaats van zoekresultaten.
+        Simpel gezegd komt het op drie dingen neer.
+      </p>
+
+      <ol class="steps">
+        <li class="step">
+          <span class="step-num">1</span>
+          <div>
+            <h3>We stellen AI dezelfde vragen als jouw klanten</h3>
+            <p>Niet "noem [bedrijfsnaam]", maar echte koopvragen zoals
+              "beste [dienst] in [plaats]" of "wat kost [dienst] ongeveer".
+              Zo zien we wat een klant écht te zien krijgt.</p>
+          </div>
+        </li>
+        <li class="step">
+          <span class="step-num">2</span>
+          <div>
+            <h3>We meten of, hoe vaak en hoe je genoemd wordt</h3>
+            <p>Over de vier grote platformen — ChatGPT, Perplexity, Gemini
+              en Claude — zodat je één helder cijfer krijgt in plaats van
+              een onderbuikgevoel.</p>
+          </div>
+        </li>
+        <li class="step">
+          <span class="step-num">3</span>
+          <div>
+            <h3>We passen je site en content aan</h3>
+            <p>Technisch fundament op orde, content in de vorm die AI
+              begrijpt en overneemt, en elke maand opnieuw gemeten —
+              want wat AI aanbeveelt verschuift voortdurend.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ================= TOOL ================= -->
+  <section id="tool" class="section section-tool">
+    <div class="wrap">
+      <h2>Check je site</h2>
+      <p class="section-lead">
+        Twee stappen. Eerst een gratis technische check — direct, geen
+        kosten. Daarna kun je één keer live laten checken of Claude jouw
+        bedrijf ook echt noemt.
+      </p>
+
+      <!-- STEP 1: technical check -->
+      <div class="tool-card" id="step-audit">
+        <div class="tool-card-head">
+          <span class="tool-step-label">Stap 1 — gratis, direct</span>
+          <h3>Kunnen AI's je site überhaupt lezen?</h3>
+        </div>
+        <form id="audit-form" class="tool-form">
+          <label for="audit-url" class="sr-only">Website URL</label>
+          <input type="text" id="audit-url" name="url" placeholder="jouwbedrijf.nl" required autocomplete="off">
+          <button type="submit" class="btn btn-primary" id="audit-submit">Check mijn site</button>
+        </form>
+        <p class="tool-hint" id="audit-hint"></p>
+
+        <div class="tool-result" id="audit-result" hidden>
+          <div class="score-row">
+            <div class="score-num" id="audit-score">—</div>
+            <div class="score-label">
+              <span id="audit-grade">—</span>
+              <span class="score-sub">technisch fundament, op 100</span>
+            </div>
+          </div>
+          <ul class="check-list" id="audit-checks"></ul>
+        </div>
+      </div>
+
+      <!-- STEP 2: spotcheck -->
+      <div class="tool-card tool-card-locked" id="step-spotcheck">
+        <div class="tool-card-head">
+          <span class="tool-step-label">Stap 2 — één gratis check</span>
+          <h3>Noemt Claude jouw bedrijf ook echt?</h3>
+        </div>
+        <p class="tool-hint">
+          We vragen het aan Claude, zoals een klant dat zou doen — inclusief
+          live websearch. Dit werkt één keer gratis per bezoek.
+        </p>
+        <form id="spotcheck-form" class="tool-form tool-form-3">
+          <input type="text" id="sc-name" name="name" placeholder="Bedrijfsnaam" required autocomplete="off">
+          <input type="text" id="sc-industry" name="industry" placeholder="Branche, bv. loodgieter" required autocomplete="off">
+          <input type="text" id="sc-city" name="city" placeholder="Plaats" required autocomplete="off">
+          <!-- honeypot -->
+          <input type="text" id="sc-website" name="website" class="hp-field" tabindex="-1" autocomplete="off">
+          <button type="submit" class="btn btn-primary" id="spotcheck-submit" disabled>Vraag het aan Claude</button>
+        </form>
+
+        <div class="tool-result" id="spotcheck-result" hidden>
+          <div class="spot-verdict" id="spot-verdict"></div>
+          <p class="spot-answer" id="spot-answer"></p>
+        </div>
+      </div>
+
+      <div class="tool-cta" id="tool-cta" hidden>
+        <p><strong>Niet zichtbaar?</strong> Dat is precies wat we oplossen.</p>
+        <a href="#contact" class="btn btn-primary">Neem contact op</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= DIENSTEN ================= -->
+  <section id="diensten" class="section">
+    <div class="wrap">
+      <h2>Wat we doen</h2>
+      <p class="section-lead">
+        De gratis check hierboven laat een momentopname zien. Ons werk is
+        structureel: we zorgen dat je zichtbaar blijft, niet één keer maar
+        continu.
+      </p>
+
+      <div class="service-grid">
+        <div class="service">
+          <h3>Volledige meting</h3>
+          <p>Tientallen realistische koopvragen, getest over ChatGPT,
+            Perplexity, Gemini én Claude — inclusief je concurrenten, zodat
+            je weet waar je precies staat.</p>
+        </div>
+        <div class="service">
+          <h3>Technisch fundament</h3>
+          <p>Robots.txt, sitemap, structured data, laadsnelheid: de dingen
+            die AI-crawlers nodig hebben om je site te kunnen lezen — en die
+            nu misschien in de weg zitten.</p>
+        </div>
+        <div class="service">
+          <h3>Content die AI overneemt</h3>
+          <p>Korte, directe antwoorden, FAQ's, duidelijke koppen. Precies de
+            vorm die AI-modellen citeren in plaats van negeren.</p>
+        </div>
+        <div class="service">
+          <h3>Maandelijkse herijking</h3>
+          <p>Citatiepatronen verschuiven in dagen, niet maanden. We meten
+            doorlopend en sturen bij zodra dat nodig is.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CONTACT ================= -->
+  <section id="contact" class="section section-contact">
+    <div class="wrap contact-grid">
+      <div class="contact-intro">
+        <h2>Praat met ons</h2>
+        <p>
+          Vertel kort over je bedrijf en wat je opviel bij de check
+          hierboven — we reageren binnen één werkdag.
+        </p>
+        <dl class="contact-details">
+          <div>
+            <dt>E-mail</dt>
+            <dd><a href="mailto:hallo@firstfound.nl">hallo@firstfound.nl</a></dd>
+          </div>
+          <div>
+            <dt>Telefoon</dt>
+            <dd><a href="tel:+31000000000">+31 (0)0 000 00 00</a></dd>
+          </div>
+          <div>
+            <dt>Basis</dt>
+            <dd>Groningen — actief in heel Nederland</dd>
+          </div>
+        </dl>
+      </div>
+
+      <form class="contact-form" id="contact-form" name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="contact">
+        <div class="form-row">
+          <label for="c-name">Naam</label>
+          <input type="text" id="c-name" name="name" required>
+        </div>
+        <div class="form-row">
+          <label for="c-email">E-mail</label>
+          <input type="email" id="c-email" name="email" required>
+        </div>
+        <div class="form-row">
+          <label for="c-company">Bedrijf</label>
+          <input type="text" id="c-company" name="company">
+        </div>
+        <div class="form-row">
+          <label for="c-message">Bericht</label>
+          <textarea id="c-message" name="message" rows="4" required></textarea>
+        </div>
+        <input type="text" name="bot-field" class="hp-field" tabindex="-1" autocomplete="off">
+        <button type="submit" class="btn btn-primary">Verstuur bericht</button>
+        <p class="form-status" id="contact-status" role="status"></p>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <span>First Found — Groningen, Nederland</span>
+    <span class="footer-sep">·</span>
+    <a href="mailto:hallo@firstfound.nl">hallo@firstfound.nl</a>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
