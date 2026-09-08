@@ -8,12 +8,27 @@
 // rejects anything that points at a private, loopback, or
 // link-local address before any fetch happens.
 //
-// Good enough for a marketing-site tool. If you later handle
-// anything sensitive, swap this for a maintained package (e.g.
-// ssrfcheck) or route the fetch through a locked-down proxy.
+// Validating the typed URL is NOT enough on its own: a hostile
+// site can accept the request and answer "302 -> http://10.0.0.5/",
+// and a following fetch would go there having never been checked.
+// So use safeFetch() below rather than fetch() directly — it
+// re-validates every hop of every redirect chain.
+//
+// Residual risk, accepted knowingly: between our DNS check and the
+// fetch's own lookup, a domain with a very short TTL could flip to
+// a private address (DNS rebinding). Closing that needs pinning the
+// connection to the validated IP, which Node's fetch can't express
+// without breaking TLS certificate checks. The window is tiny and
+// the audit only ever reveals booleans, so it's a poor target — but
+// if this ever returns fetched content, revisit it.
+//
+// Rejections throw an Error carrying a `.key` — the site is
+// bilingual, so the wording lives in the front-end dictionary
+// (i18n.js, under "error.<key>") rather than here.
 // ============================================================
 
 const dns = require("node:dns").promises;
+const REDIRECT_STATUSES = new Set([301, 302, 303, 307, 308]);
 const net = require("node:net");
 
 function isPrivateIPv4(ip) {
@@ -51,9 +66,16 @@ function isPrivateIP(ip) {
   return true; // unknown format — fail closed
 }
 
+/** Error carrying a translation key for the front-end to resolve. */
+function reject(key, detail) {
+  const err = new Error(detail);
+  err.key = key;
+  return err;
+}
+
 /**
  * Validates a URL is safe to fetch server-side.
- * Throws with a user-facing message if not.
+ * Throws an Error with a `.key` (see i18n.js "error.*") if not.
  * Returns the parsed URL on success.
  */
 async function assertSafeUrl(rawUrl) {
@@ -61,11 +83,11 @@ async function assertSafeUrl(rawUrl) {
   try {
     parsed = new URL(rawUrl);
   } catch {
-    throw new Error("Dat is geen geldige URL.");
+    throw reject("url_invalid", "unparseable URL");
   }
 
   if (!["http:", "https:"].includes(parsed.protocol)) {
-    throw new Error("Alleen http:// en https:// worden ondersteund.");
+    throw reject("url_protocol", `unsupported protocol: ${parsed.protocol}`);
   }
 
   const hostname = parsed.hostname;
@@ -73,21 +95,64 @@ async function assertSafeUrl(rawUrl) {
   // Reject obvious loopback/metadata hostnames outright.
   const blockedHosts = ["localhost", "metadata.google.internal"];
   if (blockedHosts.includes(hostname.toLowerCase())) {
-    throw new Error("Deze host kan niet gecheckt worden.");
+    throw reject("url_blocked_host", `blocked hostname: ${hostname}`);
   }
 
   let addresses;
   try {
     addresses = await dns.lookup(hostname, { all: true });
   } catch {
-    throw new Error("Kon dit domein niet vinden. Klopt de URL?");
+    throw reject("url_dns", `DNS lookup failed for ${hostname}`);
   }
 
   if (addresses.length === 0 || addresses.some((a) => isPrivateIP(a.address))) {
-    throw new Error("Deze URL wijst naar een adres dat niet gecheckt kan worden.");
+    throw reject("url_private", `resolves to a private address: ${hostname}`);
   }
 
   return parsed;
 }
 
-module.exports = { assertSafeUrl, isPrivateIP };
+/**
+ * fetch() that is safe to point at a visitor-supplied URL.
+ *
+ * Every hop is validated before it is requested, redirects are
+ * followed manually so none of them can skip that check, and the
+ * whole chain shares one deadline (Netlify kills the function at
+ * 10s, so per-hop timeouts could otherwise add up past the limit).
+ */
+async function safeFetch(rawUrl, options = {}, { timeoutMs = 8000, maxRedirects = 3 } = {}) {
+  const deadline = Date.now() + timeoutMs;
+  let url = rawUrl;
+
+  for (let hop = 0; hop <= maxRedirects; hop++) {
+    await assertSafeUrl(url);
+
+    const remaining = deadline - Date.now();
+    if (remaining <= 0) throw reject("url_timeout", `timed out after ${hop} hop(s)`);
+
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), remaining);
+    let res;
+    try {
+      res = await fetch(url, { ...options, signal: controller.signal, redirect: "manual" });
+    } finally {
+      clearTimeout(timer);
+    }
+
+    if (!REDIRECT_STATUSES.has(res.status)) return res;
+
+    const location = res.headers.get("location");
+    if (!location) return res; // a 3xx with nowhere to go — treat as the answer
+
+    // Relative redirects are legal, so resolve against the current URL.
+    try {
+      url = new URL(location, url).toString();
+    } catch {
+      throw reject("url_invalid", `unparseable redirect target: ${location}`);
+    }
+  }
+
+  throw reject("url_redirects", `more than ${maxRedirects} redirects`);
+}
+
+module.exports = { assertSafeUrl, safeFetch, isPrivateIP };

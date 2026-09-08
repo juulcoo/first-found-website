@@ -12,6 +12,11 @@
 // Requires ANTHROPIC_API_KEY as a server-side environment variable
 // (Netlify → Site configuration → Environment variables). Never
 // expose this key in front-end code.
+//
+// Bilingual in two ways: errors come back as { errorKey } for the
+// front-end dictionary to resolve, and `lang` decides which
+// language the buying question is asked in — an English visitor
+// asking about a Dutch town should still see a realistic answer.
 // ============================================================
 
 const { checkRateLimit } = require("./_lib/rate-limit");
@@ -20,6 +25,14 @@ const MODEL = "claude-sonnet-5";
 const MAX_FIELD_LEN = 80;
 const JSON_HEADERS = { "Content-Type": "application/json" };
 
+// The question a real customer would type, per supported language.
+const PROMPTS = {
+  nl: ({ industry, city }) =>
+    `Wat is de beste ${industry} in ${city}? Geef een kort antwoord met een paar concrete aanbevelingen.`,
+  en: ({ industry, city }) =>
+    `What is the best ${industry} in ${city}? Give a short answer with a few concrete recommendations.`,
+};
+
 function clean(value) {
   if (typeof value !== "string") return "";
   return value.replace(/[\r\n\t]/g, " ").trim().slice(0, MAX_FIELD_LEN);
@@ -27,23 +40,23 @@ function clean(value) {
 
 exports.handler = async (event) => {
   if (event.httpMethod !== "POST") {
-    return { statusCode: 405, headers: JSON_HEADERS, body: JSON.stringify({ error: "Methode niet toegestaan." }) };
+    return { statusCode: 405, headers: JSON_HEADERS, body: JSON.stringify({ errorKey: "method_not_allowed" }) };
   }
 
   if (!process.env.ANTHROPIC_API_KEY) {
     return {
       statusCode: 500,
       headers: JSON_HEADERS,
-      body: JSON.stringify({ error: "Server is niet geconfigureerd (ontbrekende API key)." }),
+      body: JSON.stringify({ errorKey: "not_configured" }),
     };
   }
 
-  const { allowed } = checkRateLimit(event.headers || {});
+  const { allowed } = checkRateLimit(event.headers || {}, { bucket: "spotcheck" });
   if (!allowed) {
     return {
       statusCode: 429,
       headers: JSON_HEADERS,
-      body: JSON.stringify({ error: "Je hebt de gratis check al gebruikt. Neem contact op voor een volledige meting." }),
+      body: JSON.stringify({ errorKey: "rate_limited" }),
     };
   }
 
@@ -51,12 +64,13 @@ exports.handler = async (event) => {
   try {
     payload = event.body ? JSON.parse(event.body) : {};
   } catch {
-    return { statusCode: 400, headers: JSON_HEADERS, body: JSON.stringify({ error: "Ongeldige aanvraag." }) };
+    return { statusCode: 400, headers: JSON_HEADERS, body: JSON.stringify({ errorKey: "bad_request" }) };
   }
 
   const name = clean(payload.name);
   const industry = clean(payload.industry);
   const city = clean(payload.city);
+  const lang = payload.lang === "en" ? "en" : "nl";
   const honeypot = payload.website;
 
   if (honeypot) {
@@ -68,11 +82,11 @@ exports.handler = async (event) => {
     return {
       statusCode: 400,
       headers: JSON_HEADERS,
-      body: JSON.stringify({ error: "Vul bedrijfsnaam, branche en plaats in." }),
+      body: JSON.stringify({ errorKey: "fields_required" }),
     };
   }
 
-  const prompt = `Wat is de beste ${industry} in ${city}? Geef een kort antwoord met een paar concrete aanbevelingen.`;
+  const prompt = (PROMPTS[lang] || PROMPTS.nl)({ industry, city });
 
   try {
     const apiRes = await fetch("https://api.anthropic.com/v1/messages", {
@@ -96,7 +110,7 @@ exports.handler = async (event) => {
       return {
         statusCode: 502,
         headers: JSON_HEADERS,
-        body: JSON.stringify({ error: "Kon Claude niet bereiken. Probeer het later opnieuw." }),
+        body: JSON.stringify({ errorKey: "upstream_unreachable" }),
       };
     }
 
@@ -113,14 +127,14 @@ exports.handler = async (event) => {
     return {
       statusCode: 200,
       headers: JSON_HEADERS,
-      body: JSON.stringify({ mentioned, snippet: snippet || "Geen antwoord ontvangen." }),
+      body: JSON.stringify({ mentioned, snippet }),
     };
   } catch (err) {
     console.error("spotcheck error:", err);
     return {
       statusCode: 500,
       headers: JSON_HEADERS,
-      body: JSON.stringify({ error: "Er ging iets mis. Probeer het later opnieuw." }),
+      body: JSON.stringify({ errorKey: "server_error" }),
     };
   }
 };

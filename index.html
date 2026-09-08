@@ -1,62 +1,136 @@
 <!doctype html>
-<html lang="nl">
+<html lang="nl" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>First Found — Word gevonden door AI</title>
-<meta name="description" content="First Found meet en verbetert of jouw bedrijf wordt genoemd in ChatGPT, Perplexity, Gemini en Claude. Begin met een gratis check.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title data-i18n="meta.title">First Found — Word gevonden door AI</title>
+<meta name="description" data-i18n-content="meta.description" content="First Found meet en verbetert of jouw bedrijf wordt genoemd in ChatGPT, Perplexity, Gemini en Claude. Begin met een gratis check.">
+<meta name="theme-color" content="#f7f6f1" data-theme-color-light="#f7f6f1" data-theme-color-dark="#0d1015">
+<!-- Fonts are self-hosted (fonts/), not loaded from Google: a third-party
+     font request hands every visitor's IP to Google for no benefit. -->
+<link rel="preload" href="fonts/inter-400-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/archivo-500-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="fonts/fonts.css">
 <link rel="stylesheet" href="style.css">
+<script>
+/* Applied before first paint so the page never flashes the wrong theme/language. */
+(function () {
+  try {
+    var t = localStorage.getItem("ff_theme");
+    if (t !== "light" && t !== "dark") {
+      t = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    document.documentElement.setAttribute("data-theme", t);
+
+    var l = localStorage.getItem("ff_lang");
+    if (l !== "nl" && l !== "en") {
+      l = (navigator.language || "nl").toLowerCase().startsWith("nl") ? "nl" : "en";
+    }
+    document.documentElement.setAttribute("lang", l);
+  } catch (e) { /* private mode — fall back to the markup defaults */ }
+})();
+</script>
 </head>
 <body>
 
+<a class="skip-link" href="#main" data-i18n="nav.skip">Naar hoofdinhoud</a>
+
 <header class="site-header">
   <div class="wrap header-inner">
-    <a href="#top" class="wordmark">First Found</a>
-    <nav class="main-nav">
-      <a href="#hoe-het-werkt">Hoe het werkt</a>
-      <a href="#tool">Check je site</a>
-      <a href="#diensten">Diensten</a>
-      <a href="#contact">Contact</a>
+    <a href="#top" class="wordmark">
+      <span class="wordmark-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="7"></circle>
+          <path d="M20 20l-3.6-3.6"></path>
+        </svg>
+      </span>
+      <span>First Found</span>
+    </a>
+
+    <nav class="main-nav" id="main-nav" aria-label="Hoofdmenu" data-i18n-aria-label="nav.label">
+      <a href="#hoe-het-werkt" data-i18n="nav.how">Hoe het werkt</a>
+      <a href="#tool" data-i18n="nav.check">Check je site</a>
+      <a href="#diensten" data-i18n="nav.services">Diensten</a>
+      <a href="#contact" data-i18n="nav.contact">Contact</a>
     </nav>
-    <a href="#tool" class="btn btn-small">Check je site</a>
+
+    <div class="header-actions">
+      <div class="lang-switch" role="group" aria-label="Taal" data-i18n-aria-label="nav.language">
+        <button type="button" class="lang-btn" data-lang="nl" aria-pressed="true">NL</button>
+        <button type="button" class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
+      </div>
+
+      <button type="button" class="icon-btn theme-toggle" id="theme-toggle"
+              aria-label="Wissel tussen licht en donker" data-i18n-aria-label="nav.theme">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4.2"></circle>
+          <path d="M12 2.5v2.2M12 19.3v2.2M4.2 4.2l1.6 1.6M18.2 18.2l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.2 19.8l1.6-1.6M18.2 5.8l1.6-1.6"></path>
+        </svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M20 14.2A8.2 8.2 0 019.8 4a8.2 8.2 0 1010.2 10.2z"></path>
+        </svg>
+      </button>
+
+      <a href="#tool" class="btn btn-primary btn-small header-cta" data-i18n="nav.check">Check je site</a>
+
+      <button type="button" class="icon-btn nav-toggle" id="nav-toggle"
+              aria-label="Menu" aria-expanded="false" aria-controls="mobile-nav" data-i18n-aria-label="nav.menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <path d="M4 7h16M4 12h16M4 17h16"></path>
+        </svg>
+      </button>
+    </div>
   </div>
+
+  <nav class="mobile-nav" id="mobile-nav" aria-label="Hoofdmenu" data-i18n-aria-label="nav.label" hidden>
+    <a href="#hoe-het-werkt" data-i18n="nav.how">Hoe het werkt</a>
+    <a href="#tool" data-i18n="nav.check">Check je site</a>
+    <a href="#diensten" data-i18n="nav.services">Diensten</a>
+    <a href="#contact" data-i18n="nav.contact">Contact</a>
+  </nav>
 </header>
 
-<main id="top">
+<main id="main">
+<div id="top"></div>
 
   <!-- ================= HERO ================= -->
   <section class="hero">
+    <div class="hero-glow" aria-hidden="true"></div>
     <div class="wrap hero-grid">
       <div class="hero-copy">
-        <h1>Wordt jouw bedrijf genoemd als iemand het aan AI vraagt?</h1>
-        <p class="hero-sub">
+        <span class="eyebrow" data-i18n="hero.eyebrow">Generative Engine Optimization</span>
+        <h1 data-i18n="hero.title">Wordt jouw bedrijf genoemd als iemand het aan AI vraagt?</h1>
+        <p class="hero-sub" data-i18n="hero.sub">
           Steeds meer mensen zoeken niet meer via Google, maar vragen het
           rechtstreeks aan ChatGPT, Perplexity of Claude. Als jouw bedrijf
           daar niet in het antwoord staat, besta je voor die klant niet.
           First Found meet dat — en zorgt dat je wél genoemd wordt.
         </p>
         <div class="hero-actions">
-          <a href="#tool" class="btn btn-primary">Check je site gratis</a>
-          <a href="#hoe-het-werkt" class="btn-text">Hoe werkt dat precies?</a>
+          <a href="#tool" class="btn btn-primary" data-i18n="hero.cta">Check je site gratis</a>
+          <a href="#hoe-het-werkt" class="btn-text" data-i18n="hero.secondary">Hoe werkt dat precies?</a>
         </div>
+        <ul class="hero-badges">
+          <li data-i18n="hero.badge1">Gratis technische check</li>
+          <li data-i18n="hero.badge2">Geen account nodig</li>
+          <li data-i18n="hero.badge3">Resultaat in seconden</li>
+        </ul>
       </div>
 
       <div class="hero-visual" aria-hidden="true">
         <div class="chat-mock">
           <div class="chat-mock-bar">
             <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            <span class="chat-mock-label" data-i18n="hero.mock.label">AI-antwoord</span>
           </div>
-          <div class="chat-mock-q">"Beste installateur voor zonnepanelen in Groningen?"</div>
+          <div class="chat-mock-q" data-i18n="hero.mock.question">"Beste installateur voor zonnepanelen in Groningen?"</div>
           <div class="chat-mock-a">
-            Voor zonnepanelen in Groningen worden vaak
+            <span data-i18n="hero.mock.answerA">Voor zonnepanelen in Groningen worden vaak</span>
             <span class="chip chip-found">ZPN Installaties</span>
-            en
+            <span data-i18n="hero.mock.answerB">en</span>
             <span class="chip chip-found">SUN-TAG Nederland</span>
-            genoemd, beide met ervaring in de regio en goede reviews.
-            <span class="chip chip-missing">jouw bedrijf?</span>
+            <span data-i18n="hero.mock.answerC">genoemd, beide met ervaring in de regio en goede reviews.</span>
+            <span class="chip chip-missing" data-i18n="hero.mock.missing">jouw bedrijf?</span>
           </div>
         </div>
       </div>
@@ -66,8 +140,9 @@
   <!-- ================= HOE HET WERKT ================= -->
   <section id="hoe-het-werkt" class="section">
     <div class="wrap">
-      <h2>Hoe het werkt</h2>
-      <p class="section-lead">
+      <span class="eyebrow" data-i18n="how.eyebrow">Aanpak</span>
+      <h2 data-i18n="how.title">Hoe het werkt</h2>
+      <p class="section-lead" data-i18n-html="how.lead">
         Dit heet <strong>GEO</strong> (Generative Engine Optimization) — hetzelfde
         idee als SEO, maar dan voor AI-antwoorden in plaats van zoekresultaten.
         Simpel gezegd komt het op drie dingen neer.
@@ -76,30 +151,24 @@
       <ol class="steps">
         <li class="step">
           <span class="step-num">1</span>
-          <div>
-            <h3>We stellen AI dezelfde vragen als jouw klanten</h3>
-            <p>Niet "noem [bedrijfsnaam]", maar echte koopvragen zoals
-              "beste [dienst] in [plaats]" of "wat kost [dienst] ongeveer".
-              Zo zien we wat een klant écht te zien krijgt.</p>
-          </div>
+          <h3 data-i18n="how.s1.title">We stellen AI dezelfde vragen als jouw klanten</h3>
+          <p data-i18n="how.s1.body">Niet "noem [bedrijfsnaam]", maar echte koopvragen zoals
+            "beste [dienst] in [plaats]" of "wat kost [dienst] ongeveer".
+            Zo zien we wat een klant écht te zien krijgt.</p>
         </li>
         <li class="step">
           <span class="step-num">2</span>
-          <div>
-            <h3>We meten of, hoe vaak en hoe je genoemd wordt</h3>
-            <p>Over de vier grote platformen — ChatGPT, Perplexity, Gemini
-              en Claude — zodat je één helder cijfer krijgt in plaats van
-              een onderbuikgevoel.</p>
-          </div>
+          <h3 data-i18n="how.s2.title">We meten of, hoe vaak en hoe je genoemd wordt</h3>
+          <p data-i18n="how.s2.body">Over de vier grote platformen — ChatGPT, Perplexity, Gemini
+            en Claude — zodat je één helder cijfer krijgt in plaats van
+            een onderbuikgevoel.</p>
         </li>
         <li class="step">
           <span class="step-num">3</span>
-          <div>
-            <h3>We passen je site en content aan</h3>
-            <p>Technisch fundament op orde, content in de vorm die AI
-              begrijpt en overneemt, en elke maand opnieuw gemeten —
-              want wat AI aanbeveelt verschuift voortdurend.</p>
-          </div>
+          <h3 data-i18n="how.s3.title">We passen je site en content aan</h3>
+          <p data-i18n="how.s3.body">Technisch fundament op orde, content in de vorm die AI
+            begrijpt en overneemt, en elke maand opnieuw gemeten —
+            want wat AI aanbeveelt verschuift voortdurend.</p>
         </li>
       </ol>
     </div>
@@ -108,8 +177,9 @@
   <!-- ================= TOOL ================= -->
   <section id="tool" class="section section-tool">
     <div class="wrap">
-      <h2>Check je site</h2>
-      <p class="section-lead">
+      <span class="eyebrow" data-i18n="tool.eyebrow">Gratis check</span>
+      <h2 data-i18n="tool.title">Check je site</h2>
+      <p class="section-lead" data-i18n="tool.lead">
         Twee stappen. Eerst een gratis technische check — direct, geen
         kosten. Daarna kun je één keer live laten checken of Claude jouw
         bedrijf ook echt noemt.
@@ -118,22 +188,25 @@
       <!-- STEP 1: technical check -->
       <div class="tool-card" id="step-audit">
         <div class="tool-card-head">
-          <span class="tool-step-label">Stap 1 — gratis, direct</span>
-          <h3>Kunnen AI's je site überhaupt lezen?</h3>
+          <span class="tool-step-label" data-i18n="tool.step1.label">Stap 1 — gratis, direct</span>
+          <h3 data-i18n="tool.step1.title">Kunnen AI's je site überhaupt lezen?</h3>
         </div>
         <form id="audit-form" class="tool-form">
-          <label for="audit-url" class="sr-only">Website URL</label>
-          <input type="text" id="audit-url" name="url" placeholder="jouwbedrijf.nl" required autocomplete="off">
-          <button type="submit" class="btn btn-primary" id="audit-submit">Check mijn site</button>
+          <label for="audit-url" class="sr-only" data-i18n="tool.step1.inputLabel">Website URL</label>
+          <input type="text" id="audit-url" name="url" placeholder="jouwbedrijf.nl"
+                 data-i18n-placeholder="tool.step1.placeholder" required autocomplete="off">
+          <button type="submit" class="btn btn-primary" id="audit-submit" data-i18n="tool.step1.submit">Check mijn site</button>
         </form>
-        <p class="tool-hint" id="audit-hint"></p>
+        <p class="tool-hint" id="audit-hint" role="status"></p>
 
         <div class="tool-result" id="audit-result" hidden>
           <div class="score-row">
-            <div class="score-num" id="audit-score">—</div>
+            <div class="score-dial" id="audit-dial">
+              <div class="score-num" id="audit-score">—</div>
+            </div>
             <div class="score-label">
               <span id="audit-grade">—</span>
-              <span class="score-sub">technisch fundament, op 100</span>
+              <span class="score-sub" data-i18n="tool.step1.scoreSub">technisch fundament, op 100</span>
             </div>
           </div>
           <ul class="check-list" id="audit-checks"></ul>
@@ -143,20 +216,26 @@
       <!-- STEP 2: spotcheck -->
       <div class="tool-card tool-card-locked" id="step-spotcheck">
         <div class="tool-card-head">
-          <span class="tool-step-label">Stap 2 — één gratis check</span>
-          <h3>Noemt Claude jouw bedrijf ook echt?</h3>
+          <span class="tool-step-label" data-i18n="tool.step2.label">Stap 2 — één gratis check</span>
+          <h3 data-i18n="tool.step2.title">Noemt Claude jouw bedrijf ook echt?</h3>
         </div>
-        <p class="tool-hint">
+        <p class="tool-hint" data-i18n="tool.step2.hint">
           We vragen het aan Claude, zoals een klant dat zou doen — inclusief
           live websearch. Dit werkt één keer gratis per bezoek.
         </p>
         <form id="spotcheck-form" class="tool-form tool-form-3">
-          <input type="text" id="sc-name" name="name" placeholder="Bedrijfsnaam" required autocomplete="off">
-          <input type="text" id="sc-industry" name="industry" placeholder="Branche, bv. loodgieter" required autocomplete="off">
-          <input type="text" id="sc-city" name="city" placeholder="Plaats" required autocomplete="off">
+          <label for="sc-name" class="sr-only" data-i18n="tool.step2.nameLabel">Bedrijfsnaam</label>
+          <input type="text" id="sc-name" name="name" placeholder="Bedrijfsnaam"
+                 data-i18n-placeholder="tool.step2.namePlaceholder" required autocomplete="off">
+          <label for="sc-industry" class="sr-only" data-i18n="tool.step2.industryLabel">Branche</label>
+          <input type="text" id="sc-industry" name="industry" placeholder="Branche, bv. loodgieter"
+                 data-i18n-placeholder="tool.step2.industryPlaceholder" required autocomplete="off">
+          <label for="sc-city" class="sr-only" data-i18n="tool.step2.cityLabel">Plaats</label>
+          <input type="text" id="sc-city" name="city" placeholder="Plaats"
+                 data-i18n-placeholder="tool.step2.cityPlaceholder" required autocomplete="off">
           <!-- honeypot -->
-          <input type="text" id="sc-website" name="website" class="hp-field" tabindex="-1" autocomplete="off">
-          <button type="submit" class="btn btn-primary" id="spotcheck-submit" disabled>Vraag het aan Claude</button>
+          <input type="text" id="sc-website" name="website" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <button type="submit" class="btn btn-primary" id="spotcheck-submit" data-i18n="tool.step2.submit" disabled>Vraag het aan Claude</button>
         </form>
 
         <div class="tool-result" id="spotcheck-result" hidden>
@@ -166,8 +245,8 @@
       </div>
 
       <div class="tool-cta" id="tool-cta" hidden>
-        <p><strong>Niet zichtbaar?</strong> Dat is precies wat we oplossen.</p>
-        <a href="#contact" class="btn btn-primary">Neem contact op</a>
+        <p data-i18n-html="tool.cta.text"><strong>Niet zichtbaar?</strong> Dat is precies wat we oplossen.</p>
+        <a href="#contact" class="btn btn-invert" data-i18n="tool.cta.button">Neem contact op</a>
       </div>
     </div>
   </section>
@@ -175,8 +254,9 @@
   <!-- ================= DIENSTEN ================= -->
   <section id="diensten" class="section">
     <div class="wrap">
-      <h2>Wat we doen</h2>
-      <p class="section-lead">
+      <span class="eyebrow" data-i18n="services.eyebrow">Diensten</span>
+      <h2 data-i18n="services.title">Wat we doen</h2>
+      <p class="section-lead" data-i18n="services.lead">
         De gratis check hierboven laat een momentopname zien. Ons werk is
         structureel: we zorgen dat je zichtbaar blijft, niet één keer maar
         continu.
@@ -184,25 +264,49 @@
 
       <div class="service-grid">
         <div class="service">
-          <h3>Volledige meting</h3>
-          <p>Tientallen realistische koopvragen, getest over ChatGPT,
+          <span class="service-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19V9M10 19V5M16 19v-7M22 19H2"></path>
+            </svg>
+          </span>
+          <h3 data-i18n="services.s1.title">Volledige meting</h3>
+          <p data-i18n="services.s1.body">Tientallen realistische koopvragen, getest over ChatGPT,
             Perplexity, Gemini én Claude — inclusief je concurrenten, zodat
             je weet waar je precies staat.</p>
         </div>
         <div class="service">
-          <h3>Technisch fundament</h3>
-          <p>Robots.txt, sitemap, structured data, laadsnelheid: de dingen
+          <span class="service-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3l7.5 4v6c0 4.2-3.1 7-7.5 8-4.4-1-7.5-3.8-7.5-8V7z"></path>
+              <path d="M9 12l2.2 2.2L15.5 10"></path>
+            </svg>
+          </span>
+          <h3 data-i18n="services.s2.title">Technisch fundament</h3>
+          <p data-i18n="services.s2.body">Robots.txt, sitemap, structured data, laadsnelheid: de dingen
             die AI-crawlers nodig hebben om je site te kunnen lezen — en die
             nu misschien in de weg zitten.</p>
         </div>
         <div class="service">
-          <h3>Content die AI overneemt</h3>
-          <p>Korte, directe antwoorden, FAQ's, duidelijke koppen. Precies de
+          <span class="service-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 5h16v11H8l-4 3.5z"></path>
+              <path d="M8.5 9.5h7M8.5 12.5h4"></path>
+            </svg>
+          </span>
+          <h3 data-i18n="services.s3.title">Content die AI overneemt</h3>
+          <p data-i18n="services.s3.body">Korte, directe antwoorden, FAQ's, duidelijke koppen. Precies de
             vorm die AI-modellen citeren in plaats van negeren.</p>
         </div>
         <div class="service">
-          <h3>Maandelijkse herijking</h3>
-          <p>Citatiepatronen verschuiven in dagen, niet maanden. We meten
+          <span class="service-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20.5 12a8.5 8.5 0 10-2.6 6.1"></path>
+              <path d="M20.8 6.4v5h-5"></path>
+              <path d="M12 7.6V12l2.8 1.7"></path>
+            </svg>
+          </span>
+          <h3 data-i18n="services.s4.title">Maandelijkse herijking</h3>
+          <p data-i18n="services.s4.body">Citatiepatronen verschuiven in dagen, niet maanden. We meten
             doorlopend en sturen bij zodra dat nodig is.</p>
         </div>
       </div>
@@ -213,23 +317,24 @@
   <section id="contact" class="section section-contact">
     <div class="wrap contact-grid">
       <div class="contact-intro">
-        <h2>Praat met ons</h2>
-        <p>
+        <span class="eyebrow" data-i18n="contact.eyebrow">Contact</span>
+        <h2 data-i18n="contact.title">Praat met ons</h2>
+        <p data-i18n="contact.lead">
           Vertel kort over je bedrijf en wat je opviel bij de check
           hierboven — we reageren binnen één werkdag.
         </p>
         <dl class="contact-details">
           <div>
-            <dt>E-mail</dt>
+            <dt data-i18n="contact.emailLabel">E-mail</dt>
             <dd><a href="mailto:hallo@firstfound.nl">hallo@firstfound.nl</a></dd>
           </div>
           <div>
-            <dt>Telefoon</dt>
+            <dt data-i18n="contact.phoneLabel">Telefoon</dt>
             <dd><a href="tel:+31000000000">+31 (0)0 000 00 00</a></dd>
           </div>
           <div>
-            <dt>Basis</dt>
-            <dd>Groningen — actief in heel Nederland</dd>
+            <dt data-i18n="contact.baseLabel">Basis</dt>
+            <dd data-i18n="contact.baseValue">Groningen — actief in heel Nederland</dd>
           </div>
         </dl>
       </div>
@@ -237,23 +342,23 @@
       <form class="contact-form" id="contact-form" name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field">
         <input type="hidden" name="form-name" value="contact">
         <div class="form-row">
-          <label for="c-name">Naam</label>
-          <input type="text" id="c-name" name="name" required>
+          <label for="c-name" data-i18n="contact.name">Naam</label>
+          <input type="text" id="c-name" name="name" required autocomplete="name">
         </div>
         <div class="form-row">
-          <label for="c-email">E-mail</label>
-          <input type="email" id="c-email" name="email" required>
+          <label for="c-email" data-i18n="contact.email">E-mail</label>
+          <input type="email" id="c-email" name="email" required autocomplete="email">
         </div>
         <div class="form-row">
-          <label for="c-company">Bedrijf</label>
-          <input type="text" id="c-company" name="company">
+          <label for="c-company" data-i18n="contact.company">Bedrijf</label>
+          <input type="text" id="c-company" name="company" autocomplete="organization">
         </div>
         <div class="form-row">
-          <label for="c-message">Bericht</label>
+          <label for="c-message" data-i18n="contact.message">Bericht</label>
           <textarea id="c-message" name="message" rows="4" required></textarea>
         </div>
-        <input type="text" name="bot-field" class="hp-field" tabindex="-1" autocomplete="off">
-        <button type="submit" class="btn btn-primary">Verstuur bericht</button>
+        <input type="text" name="bot-field" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button type="submit" class="btn btn-primary" data-i18n="contact.submit">Verstuur bericht</button>
         <p class="form-status" id="contact-status" role="status"></p>
       </form>
     </div>
@@ -263,12 +368,13 @@
 
 <footer class="site-footer">
   <div class="wrap footer-inner">
-    <span>First Found — Groningen, Nederland</span>
-    <span class="footer-sep">·</span>
+    <span data-i18n="footer.base">First Found — Groningen, Nederland</span>
+    <span class="footer-sep" aria-hidden="true">·</span>
     <a href="mailto:hallo@firstfound.nl">hallo@firstfound.nl</a>
   </div>
 </footer>
 
+<script src="i18n.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

@@ -1,4 +1,7 @@
 .env
 .env.local
 node_modules/
-.vercel/
+.netlify/
+
+# local preview config (not part of the deploy)
+.claude/launch.json
