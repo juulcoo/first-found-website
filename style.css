@@ -20,7 +20,6 @@
   --paper-2: #f1efe8;
   --surface: #ffffff;
   --surface-2: #faf9f6;
-  --surface-3: #f2f0ea;
 
   --ink: #12151a;
   --ink-soft: #4a4f58;
@@ -78,7 +77,6 @@
   --paper-2: #0a0d11;
   --surface: #141920;
   --surface-2: #191f27;
-  --surface-3: #212832;
 
   --ink: #eef0f4;
   --ink-soft: #b3bac6;
@@ -855,6 +853,123 @@ a:hover { text-decoration: underline; }
 .service h3 { margin-bottom: 0.45em; }
 .service p { margin: 0; font-size: 0.95rem; }
 
+
+/* ---------- packages (deliberately quieter than .service) ----------
+   No icons, no hover lift, no prices: this block is a positioning
+   aid, not a pricing table. The conversation happens in contact. */
+
+.packages {
+  margin-top: 64px;
+  padding-top: 40px;
+  border-top: 1px solid var(--line);
+}
+
+.packages-title {
+  font-size: 1.25rem;
+  margin-bottom: 0.5em;
+}
+
+.packages-lead {
+  font-size: 0.98rem;
+  color: var(--ink-soft);
+  max-width: 62ch;
+  margin-bottom: 2.2em;
+}
+
+.tiers {
+  display: grid;
+  gap: 18px;
+}
+@media (min-width: 860px) {
+  .tiers { grid-template-columns: repeat(3, 1fr); }
+}
+
+.tier {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 24px 22px 22px;
+  background: var(--surface);
+}
+
+/* The featured tier is marked with a hairline accent edge rather than
+   a filled card, so it reads as a hint and not a hard sell. */
+.tier-featured {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent-soft);
+}
+
+.tier-flag {
+  position: absolute;
+  top: -10px; left: 22px;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--surface);
+  border: 1px solid var(--accent);
+  border-radius: 100px;
+  padding: 0.25em 0.7em;
+}
+
+.tier-name {
+  display: block;
+  font-weight: 500;
+  font-size: 1.05rem;
+  margin-bottom: 0.25em;
+}
+
+.tier-line {
+  font-size: 0.92rem;
+  color: var(--muted);
+  font-style: italic;
+  margin: 0 0 1.1em;
+}
+
+.tier-list {
+  list-style: none;
+  margin: 0 0 1.2em;
+  padding: 0;
+  display: grid;
+  gap: 9px;
+}
+
+.tier-list li {
+  position: relative;
+  padding-left: 20px;
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+
+.tier-list li::before {
+  content: "";
+  position: absolute;
+  left: 2px; top: 0.55em;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  border: 1px solid var(--accent);
+}
+
+.tier-foot {
+  margin: 0;
+  margin-top: auto;
+  padding-top: 0.9em;
+  border-top: 1px solid var(--line);
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+
+.packages-note {
+  margin: 26px 0 0;
+  font-size: 0.92rem;
+  color: var(--muted);
+  max-width: 62ch;
+}
 /* ---------- contact ---------- */
 
 .section-contact { background: var(--surface); }

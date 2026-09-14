@@ -92,6 +92,29 @@ anything unexpected — set it and forget it.
   (`_lib/rate-limit.js`, using Netlify's `x-nf-client-connection-ip`
   header for the real visitor IP), has a honeypot field to deter simple
   bots, and caps `max_tokens` to keep any single call cheap.
+- **Both endpoints are origin-locked** (`_lib/origin-check.js`). A call
+  whose `Origin` isn't one of our own is refused with a 403 before any
+  work happens, so neither endpoint can be wired into someone else's
+  page and billed to us. The allowlist is built from Netlify's own
+  `URL` / `DEPLOY_PRIME_URL` / `DEPLOY_URL`, so previews and branch
+  deploys keep working with no configuration; set `ALLOWED_ORIGINS`
+  (comma-separated) once a custom domain is live.
+
+  Be clear about what this does and doesn't do: browsers set `Origin`
+  and page JavaScript cannot forge it, so this stops cross-site use and
+  casual `curl`. It does **not** stop someone who sets the header
+  themselves. The spend cap below is what actually bounds the damage.
+
+  It deliberately **fails open** when no allowlist can be built at all
+  (local `netlify dev`, where Netlify sets none of those variables) —
+  otherwise the endpoints would break locally. A real deploy always has
+  `URL` set.
+- **Response bodies are read with a 512KB ceiling** (`readCapped()` in
+  `_lib/ssrf-guard.js`). `/api/audit` reads the body of whatever site a
+  visitor names, and a hostile or broken target can stream forever;
+  reading that into a string is how a function runs out of memory. We
+  only look at the first few KB anyway, so the reader stops early and
+  cancels the rest. Request bodies are capped at 4KB for the same reason.
 - **`/api/*` routing**: `netlify.toml` redirects `/api/audit` and
   `/api/spotcheck` to Netlify's actual function URLs
   (`/.netlify/functions/...`), so the front-end code never needs to know
@@ -224,6 +247,7 @@ netlify/functions/
   _lib/
     ssrf-guard.js               safeFetch(): validates every redirect hop
     rate-limit.js                per-endpoint request caps, keyed by visitor IP
+    origin-check.js               refuses calls that didn't come from our own site
 ```
 
 ## Changing the copy

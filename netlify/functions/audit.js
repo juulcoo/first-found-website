@@ -20,12 +20,17 @@
 // never see it.
 // ============================================================
 
-const { assertSafeUrl, safeFetch } = require("./_lib/ssrf-guard");
+const { assertSafeUrl, safeFetch, readCapped } = require("./_lib/ssrf-guard");
 const { checkRateLimit } = require("./_lib/rate-limit");
+const { checkOrigin } = require("./_lib/origin-check");
 
 const AI_CRAWLERS = ["OAI-SearchBot", "GPTBot", "PerplexityBot", "ClaudeBot", "Google-Extended"];
 const FETCH_TIMEOUT_MS = 8000;
-const JSON_HEADERS = { "Content-Type": "application/json" };
+// no-store: these answers are per-visitor and per-site; nothing in
+// the chain (CDN, browser, proxy) should hold on to them.
+const JSON_HEADERS = { "Content-Type": "application/json", "Cache-Control": "no-store" };
+// A URL is a few hundred bytes. Anything larger is not a real client.
+const MAX_REQUEST_BYTES = 4 * 1024;
 
 // Every outbound request in this file goes through here. safeFetch
 // re-validates the URL on each redirect hop, so a site that answers
@@ -41,7 +46,7 @@ async function checkRobotsTxt(origin) {
   try {
     const res = await fetchWithTimeout(url);
     if (res.status !== 200) return { found: false, blocked };
-    const text = await res.text();
+    const text = await readCapped(res);
 
     let currentAgents = [];
     for (const rawLine of text.split("\n")) {
@@ -73,7 +78,7 @@ async function checkRobotsTxt(origin) {
 async function checkRendering(origin) {
   try {
     const res = await fetchWithTimeout(origin, { headers: { "User-Agent": "OAI-SearchBot" } });
-    const html = await res.text();
+    const html = await readCapped(res);
     const scriptTags = (html.match(/<script/gi) || []).length;
     const bodyMatch = html.match(/<body[\s\S]*$/i);
     const bodyTextEstimate = bodyMatch ? bodyMatch[0].length : 0;
@@ -119,6 +124,16 @@ function gradeKey(score) {
 exports.handler = async (event) => {
   if (event.httpMethod !== "POST") {
     return { statusCode: 405, headers: JSON_HEADERS, body: JSON.stringify({ errorKey: "method_not_allowed" }) };
+  }
+
+  const originCheck = checkOrigin(event.headers || {});
+  if (!originCheck.ok) {
+    console.warn("audit blocked:", originCheck.reason);
+    return { statusCode: 403, headers: JSON_HEADERS, body: JSON.stringify({ errorKey: "forbidden" }) };
+  }
+
+  if (event.body && event.body.length > MAX_REQUEST_BYTES) {
+    return { statusCode: 413, headers: JSON_HEADERS, body: JSON.stringify({ errorKey: "request_too_large" }) };
   }
 
   const { allowed } = checkRateLimit(event.headers || {}, {

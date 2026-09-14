@@ -20,10 +20,14 @@
 // ============================================================
 
 const { checkRateLimit } = require("./_lib/rate-limit");
+const { checkOrigin } = require("./_lib/origin-check");
 
 const MODEL = "claude-sonnet-5";
 const MAX_FIELD_LEN = 80;
-const JSON_HEADERS = { "Content-Type": "application/json" };
+// no-store: the answer is specific to one business and one visitor.
+const JSON_HEADERS = { "Content-Type": "application/json", "Cache-Control": "no-store" };
+// Three short fields plus a language flag. Anything larger is not a real client.
+const MAX_REQUEST_BYTES = 4 * 1024;
 
 // The question a real customer would type, per supported language.
 const PROMPTS = {
@@ -41,6 +45,16 @@ function clean(value) {
 exports.handler = async (event) => {
   if (event.httpMethod !== "POST") {
     return { statusCode: 405, headers: JSON_HEADERS, body: JSON.stringify({ errorKey: "method_not_allowed" }) };
+  }
+
+  const originCheck = checkOrigin(event.headers || {});
+  if (!originCheck.ok) {
+    console.warn("spotcheck blocked:", originCheck.reason);
+    return { statusCode: 403, headers: JSON_HEADERS, body: JSON.stringify({ errorKey: "forbidden" }) };
+  }
+
+  if (event.body && event.body.length > MAX_REQUEST_BYTES) {
+    return { statusCode: 413, headers: JSON_HEADERS, body: JSON.stringify({ errorKey: "request_too_large" }) };
   }
 
   if (!process.env.ANTHROPIC_API_KEY) {

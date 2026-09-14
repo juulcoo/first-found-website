@@ -29,6 +29,9 @@
 
 const dns = require("node:dns").promises;
 const REDIRECT_STATUSES = new Set([301, 302, 303, 307, 308]);
+// Far more than any robots.txt or <head> we need, small enough that a
+// hostile response can't exhaust the function's memory.
+const MAX_BODY_BYTES = 512 * 1024;
 const net = require("node:net");
 
 function isPrivateIPv4(ip) {
@@ -155,4 +158,45 @@ async function safeFetch(rawUrl, options = {}, { timeoutMs = 8000, maxRedirects 
   throw reject("url_redirects", `more than ${maxRedirects} redirects`);
 }
 
-module.exports = { assertSafeUrl, safeFetch, isPrivateIP };
+/**
+ * res.text() with a ceiling.
+ *
+ * /api/audit reads the body of whatever site a visitor names, and a
+ * hostile (or merely broken) target can answer with an endless
+ * stream. Reading that into a string is how a function runs out of
+ * memory. We only ever look at the first few KB — script tags, a
+ * JSON-LD marker, robots directives — so stop pulling bytes once we
+ * have plenty and cancel the rest.
+ */
+async function readCapped(res, maxBytes = MAX_BODY_BYTES) {
+  if (!res.body) return res.text(); // no stream to meter — nothing to cap
+
+  const reader = res.body.getReader();
+  const chunks = [];
+  let total = 0;
+
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      total += value.length;
+      if (total > maxBytes) {
+        chunks.push(value.subarray(0, value.length - (total - maxBytes)));
+        break;
+      }
+      chunks.push(value);
+    }
+  } finally {
+    // Releases the socket whether we stopped early or read to the end.
+    try {
+      await reader.cancel();
+    } catch {
+      /* already closed */
+    }
+  }
+
+  return Buffer.concat(chunks).toString("utf8");
+}
+
+module.exports = { assertSafeUrl, safeFetch, readCapped };

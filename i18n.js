@@ -115,6 +115,33 @@
     "services.s4.body":
       "Citatiepatronen verschuiven in dagen, niet maanden. We meten doorlopend en sturen bij zodra dat nodig is.",
 
+    "packages.title": "Hoe we samenwerken",
+    "packages.lead":
+      "Elk traject begint met een eenmalige nulmeting: waar sta je nu, wat houdt AI tegen, en wie wordt er in jouw regio wél genoemd. Daarna kies je hoeveel we uit handen nemen.",
+    "packages.featured": "Meest gekozen",
+    "packages.t1.name": "Monitor",
+    "packages.t1.line": "Weten waar je staat.",
+    "packages.t1.b1": "Maandelijkse meting over de grote AI-platforms",
+    "packages.t1.b2": "Rapport met score, ontwikkeling en marktverschuivingen",
+    "packages.t1.b3": "Signalering zodra een concurrent terrein wint",
+    "packages.t1.foot": "Jij krijgt het inzicht. De uitvoering doe je zelf.",
+    "packages.t2.name": "Groei",
+    "packages.t2.line": "Zichtbaar worden, zonder dat het jouw tijd kost.",
+    "packages.t2.b1": "Alles uit Monitor",
+    "packages.t2.b2": "Wij schrijven de content, gericht op de gaten die de meting laat zien",
+    "packages.t2.b3": "Autoriteit-opbouw op de externe platforms die AI daadwerkelijk citeert",
+    "packages.t2.b4": "Strategiecall per kwartaal",
+    "packages.t2.foot": "Wij leveren aan. Jij zet het live.",
+    "packages.t3.name": "Dominantie",
+    "packages.t3.line": "Wij doen het. Jij ziet de aanvragen binnenkomen.",
+    "packages.t3.b1": "Alles uit Groei",
+    "packages.t3.b2": "Volledige uitvoering: wij plaatsen de content en regelen de technische aanpassingen",
+    "packages.t3.b3": "Uitgebreidere meting over meer AI-platforms en meerdere regio's of diensten",
+    "packages.t3.b4": "Actieve concurrent-monitoring en maandelijkse strategiecall",
+    "packages.t3.foot": "Jij hoeft niets te doen.",
+    "packages.note":
+      "Welk pakket past, hangt af van je branche, je regio en hoeveel je zelf wilt oppakken. Dat bespreken we — inclusief de kosten — in een vrijblijvend kennismakingsgesprek. <a href=\"#contact\">Neem contact op</a>.",
+
     "audit.grade.strong": "Sterk — AI-crawlers kunnen je site goed lezen",
       "audit.grade.good": "Redelijk — een paar dingen staan in de weg",
       "audit.grade.limited": "Beperkt — belangrijke blokkades gevonden",
@@ -136,6 +163,8 @@
 
       "error.method_not_allowed": "Methode niet toegestaan.",
       "error.bad_request": "Ongeldige aanvraag.",
+      "error.forbidden": "Deze check werkt alleen vanaf onze eigen site.",
+      "error.request_too_large": "Aanvraag te groot.",
       "error.url_required": "Geef een website URL op.",
       "error.url_invalid": "Dat is geen geldige URL.",
       "error.url_protocol": "Alleen http:// en https:// worden ondersteund.",
@@ -264,6 +293,33 @@
     "services.s4.body":
       "Citation patterns shift in days, not months. We keep measuring and adjust as soon as it's needed.",
 
+    "packages.title": "How we work together",
+    "packages.lead":
+      "Every engagement starts with a one-off baseline measurement: where you stand today, what's holding AI back, and who does get named in your region. From there you choose how much we take off your hands.",
+    "packages.featured": "Most chosen",
+    "packages.t1.name": "Monitor",
+    "packages.t1.line": "Know where you stand.",
+    "packages.t1.b1": "Monthly measurement across the major AI platforms",
+    "packages.t1.b2": "Report with score, movement and market shifts",
+    "packages.t1.b3": "An alert as soon as a competitor gains ground",
+    "packages.t1.foot": "You get the insight. You handle the execution.",
+    "packages.t2.name": "Growth",
+    "packages.t2.line": "Get visible, without it costing you time.",
+    "packages.t2.b1": "Everything in Monitor",
+    "packages.t2.b2": "We write the content, aimed at the gaps the measurement reveals",
+    "packages.t2.b3": "Authority building on the external platforms AI actually cites",
+    "packages.t2.b4": "Quarterly strategy call",
+    "packages.t2.foot": "We deliver. You publish.",
+    "packages.t3.name": "Dominance",
+    "packages.t3.line": "We do it. You watch the enquiries come in.",
+    "packages.t3.b1": "Everything in Growth",
+    "packages.t3.b2": "Full execution: we publish the content and handle the technical changes",
+    "packages.t3.b3": "Broader measurement across more AI platforms, and multiple regions or services",
+    "packages.t3.b4": "Active competitor monitoring and a monthly strategy call",
+    "packages.t3.foot": "Nothing for you to do.",
+    "packages.note":
+      "Which package fits depends on your industry, your region and how much you want to handle yourself. We'll go through that — costs included — in a no-obligation intro call. <a href=\"#contact\">Get in touch</a>.",
+
     "audit.grade.strong": "Strong — AI crawlers can read your site well",
       "audit.grade.good": "Decent — a few things are getting in the way",
       "audit.grade.limited": "Limited — significant blockers found",
@@ -285,6 +341,8 @@
 
       "error.method_not_allowed": "Method not allowed.",
       "error.bad_request": "Invalid request.",
+      "error.forbidden": "This check only works from our own site.",
+      "error.request_too_large": "Request too large.",
       "error.url_required": "Please enter a website URL.",
       "error.url_invalid": "That isn't a valid URL.",
       "error.url_protocol": "Only http:// and https:// are supported.",
@@ -411,6 +469,6 @@
   // DOM is parsed and the swap happens before the browser's first paint.
   setLang(currentLang, { persist: false });
 
-  window.FFI18n = { t, setLang, getLang, onLangChange, applyTranslations, SUPPORTED };
+  window.FFI18n = { t, setLang, getLang, onLangChange };
 
 })();
