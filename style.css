@@ -876,6 +876,95 @@ a:hover { text-decoration: underline; }
   margin-bottom: 2.2em;
 }
 
+/* The one-off setup reads as a single wide panel, so it can't be
+   mistaken for a fourth monthly option sitting next to the tiers. */
+.setup {
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--surface-2);
+  padding: 26px 24px 24px;
+  margin-bottom: 34px;
+}
+
+.setup-step,
+.packages-step {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+
+.packages-step { margin-top: 6px; }
+
+.setup-title {
+  font-size: 1.1rem;
+  margin: 0 0 0.4em;
+}
+
+.setup-line {
+  font-size: 0.94rem;
+  color: var(--ink-soft);
+  max-width: 62ch;
+  margin: 0 0 1.3em;
+}
+
+.setup-list {
+  list-style: none;
+  margin: 0 0 1.3em;
+  padding: 0;
+  display: grid;
+  gap: 9px;
+}
+@media (min-width: 860px) {
+  .setup-list { grid-template-columns: repeat(2, 1fr); gap: 9px 28px; }
+}
+
+.setup-list li {
+  position: relative;
+  padding-left: 20px;
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+
+.setup-list li::before {
+  content: "";
+  position: absolute;
+  left: 2px; top: 0.55em;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  border: 1px solid var(--accent);
+}
+
+.setup-foot {
+  margin: 0;
+  padding-top: 0.9em;
+  border-top: 1px solid var(--line);
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+
+.packages-steplead {
+  font-size: 0.94rem;
+  color: var(--ink-soft);
+  max-width: 62ch;
+  margin: 0 0 1.8em;
+}
+
+.tier-cadence {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.5em;
+}
+
 .tiers {
   display: grid;
   gap: 18px;

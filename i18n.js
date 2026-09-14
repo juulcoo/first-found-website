@@ -117,7 +117,23 @@
 
     "packages.title": "Hoe we samenwerken",
     "packages.lead":
-      "Elk traject begint met een eenmalige nulmeting: waar sta je nu, wat houdt AI tegen, en wie wordt er in jouw regio wél genoemd. Daarna kies je hoeveel we uit handen nemen.",
+      "Elk traject bestaat uit twee delen: een eenmalige opstart waarin we alles doorlopen en op AI-zichtbaarheid richten, en daarna een maandelijks pakket dat het bijhoudt.",
+    "packages.setup.step": "Stap 1 · eenmalig",
+    "packages.setup.title": "De opstart",
+    "packages.setup.line":
+      "Voor elke nieuwe klant. We brengen je hele aanwezigheid in kaart en richten hem op AI-zichtbaarheid — zodat het maandelijkse werk daarna op een fundament staat.",
+    "packages.setup.b1": "Volledige nulmeting: tientallen koopvragen over vijf categorieën, op meerdere AI-platforms",
+    "packages.setup.b2": "Technische check: robots.txt, server-side rendering, schema markup en sitemap",
+    "packages.setup.b3": "Concurrentieanalyse: wie wordt er in jouw regio wél genoemd, en waarom",
+    "packages.setup.b4": "Bronnenanalyse: welke externe platforms AI citeert in jouw branche",
+    "packages.setup.b5": "Je bestaande content — website en waar relevant je social profielen — doorgelicht en op AI-zichtbaarheid gericht",
+    "packages.setup.b6": "Contentfundament: de kernpagina's die de grootste gaten dichten",
+    "packages.setup.b7": "Strategisch rapport met prioriteiten voor de zes maanden erna",
+    "packages.setup.foot": "Doorlooptijd: 2 tot 3 weken.",
+    "packages.tiers.step": "Stap 2 · maandelijks",
+    "packages.tiers.lead":
+      "Zichtbaarheid in AI verschuift continu, dus na de opstart houden we het bij. Je kiest per maand hoeveel we uit handen nemen.",
+    "packages.cadence": "per maand",
     "packages.featured": "Meest gekozen",
     "packages.t1.name": "Monitor",
     "packages.t1.line": "Weten waar je staat.",
@@ -295,7 +311,23 @@
 
     "packages.title": "How we work together",
     "packages.lead":
-      "Every engagement starts with a one-off baseline measurement: where you stand today, what's holding AI back, and who does get named in your region. From there you choose how much we take off your hands.",
+      "Every engagement has two parts: a one-off setup where we go through everything and point it at AI visibility, and a monthly package that keeps it there afterwards.",
+    "packages.setup.step": "Step 1 · one-off",
+    "packages.setup.title": "The setup",
+    "packages.setup.line":
+      "For every new client. We map your whole presence and aim it at AI visibility — so the monthly work afterwards stands on a foundation.",
+    "packages.setup.b1": "Full baseline: dozens of buying questions across five categories, on multiple AI platforms",
+    "packages.setup.b2": "Technical check: robots.txt, server-side rendering, schema markup and sitemap",
+    "packages.setup.b3": "Competitor analysis: who does get named in your region, and why",
+    "packages.setup.b4": "Source analysis: which external platforms AI cites in your industry",
+    "packages.setup.b5": "Your existing content — website and, where relevant, your social profiles — reviewed and aimed at AI visibility",
+    "packages.setup.b6": "Content foundation: the core pages that close the biggest gaps",
+    "packages.setup.b7": "Strategic report with priorities for the six months that follow",
+    "packages.setup.foot": "Turnaround: 2 to 3 weeks.",
+    "packages.tiers.step": "Step 2 · monthly",
+    "packages.tiers.lead":
+      "Visibility in AI shifts constantly, so after the setup we keep it up. You choose month to month how much we take off your hands.",
+    "packages.cadence": "per month",
     "packages.featured": "Most chosen",
     "packages.t1.name": "Monitor",
     "packages.t1.line": "Know where you stand.",
