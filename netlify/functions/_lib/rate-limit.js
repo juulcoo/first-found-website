@@ -1,5 +1,5 @@
 // ============================================================
-// Rate limiter — in-memory, per function instance
+// Rate limiter :: in-memory, per function instance
 // ------------------------------------------------------------
 // Same caveat as before: resets on cold start, not shared across
 // concurrent instances. Fine for a marketing site's traffic;

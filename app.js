@@ -1,5 +1,5 @@
 // ============================================================
-// First Found — front-end logic
+// First Found :: front-end logic
 // Talks to two serverless endpoints:
 //   POST /api/audit       { url }                          -> free, unlimited
 //   POST /api/spotcheck   { name, industry, city }          -> one-time, guarded
@@ -29,7 +29,7 @@
     try {
       localStorage.setItem(key, value);
     } catch {
-      /* private mode — the choice just won't survive a reload */
+      /* private mode, so the choice just won't survive a reload */
     }
   }
 
@@ -236,7 +236,7 @@
     try {
       sessionStorage.setItem(SPOTCHECK_DONE_KEY, "1");
     } catch {
-      /* private mode — the server-side rate limit is the real guard anyway */
+      /* private mode. The server-side rate limit is the real guard anyway */
     }
   }
 
@@ -268,14 +268,14 @@
   spotcheckForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    // honeypot — if filled, silently do nothing
+    // honeypot: if filled, silently do nothing
     if (document.getElementById("sc-website").value) return;
 
     const payload = {
       name: document.getElementById("sc-name").value.trim(),
       industry: document.getElementById("sc-industry").value.trim(),
       city: document.getElementById("sc-city").value.trim(),
-      // Ask Claude in the visitor's own language — the question has to read
+      // Ask Claude in the visitor's own language, because the question has to read
       // like something a real customer would type.
       lang: getLang(),
     };
@@ -317,7 +317,7 @@
     }
   });
 
-  // ---------- contact form (Netlify Forms — no external account needed) ----------
+  // ---------- contact form (Netlify Forms, no external account needed) ----------
   // Netlify detects the <form name="contact" data-netlify="true"> at deploy
   // time from the static HTML, so submissions just need to POST back to "/"
   // as normal form-encoded data for Netlify's edge to catch and store them.

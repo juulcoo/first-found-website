@@ -1,5 +1,5 @@
 // ============================================================
-// Netlify Function — POST /api/spotcheck  { name, industry, city }
+// Netlify Function :: POST /api/spotcheck  { name, industry, city }
 // (routed from /api/spotcheck to here via netlify.toml redirect)
 // ------------------------------------------------------------
 // Asks Claude one realistic buying question, with live web search
@@ -15,7 +15,7 @@
 //
 // Bilingual in two ways: errors come back as { errorKey } for the
 // front-end dictionary to resolve, and `lang` decides which
-// language the buying question is asked in — an English visitor
+// language the buying question is asked in. An English visitor
 // asking about a Dutch town should still see a realistic answer.
 // ============================================================
 
@@ -88,7 +88,7 @@ exports.handler = async (event) => {
   const honeypot = payload.website;
 
   if (honeypot) {
-    // bot filled the hidden field — pretend success, do nothing real
+    // bot filled the hidden field, so pretend success and do nothing real
     return { statusCode: 200, headers: JSON_HEADERS, body: JSON.stringify({ mentioned: false, snippet: "" }) };
   }
 

@@ -1,5 +1,5 @@
 // ============================================================
-// Origin check — "did this call come from our own site?"
+// Origin check :: "did this call come from our own site?"
 // ------------------------------------------------------------
 // Both endpoints cost us something: /api/audit makes three
 // outbound requests, /api/spotcheck spends Anthropic tokens. The
@@ -61,7 +61,7 @@ function checkOrigin(headers = {}) {
 
   // Safari has historically omitted Origin on some same-origin POSTs;
   // Referer is a usable second opinion, and only ever narrows what
-  // we accept — it can never widen it past the allowlist.
+  // we accept, so it can never widen it past the allowlist.
   if (!candidate) {
     const referer = headers.referer || headers.Referer;
     if (referer) candidate = toOrigin(referer);

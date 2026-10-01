@@ -11,7 +11,7 @@
 // Validating the typed URL is NOT enough on its own: a hostile
 // site can accept the request and answer "302 -> http://10.0.0.5/",
 // and a following fetch would go there having never been checked.
-// So use safeFetch() below rather than fetch() directly — it
+// So use safeFetch() below rather than fetch() directly, because it
 // re-validates every hop of every redirect chain.
 //
 // Residual risk, accepted knowingly: between our DNS check and the
@@ -19,10 +19,10 @@
 // a private address (DNS rebinding). Closing that needs pinning the
 // connection to the validated IP, which Node's fetch can't express
 // without breaking TLS certificate checks. The window is tiny and
-// the audit only ever reveals booleans, so it's a poor target — but
+// the audit only ever reveals booleans, so it's a poor target. But
 // if this ever returns fetched content, revisit it.
 //
-// Rejections throw an Error carrying a `.key` — the site is
+// Rejections throw an Error carrying a `.key`. The site is
 // bilingual, so the wording lives in the front-end dictionary
 // (i18n.js, under "error.<key>") rather than here.
 // ============================================================
@@ -56,7 +56,7 @@ function isPrivateIPv6(ip) {
   if (lower.startsWith("fe80:")) return true; // link-local
   if (lower.startsWith("fc") || lower.startsWith("fd")) return true; // unique local fc00::/7
   if (lower.startsWith("::ffff:")) {
-    // IPv4-mapped address — check the embedded IPv4 part
+    // IPv4-mapped address, so check the embedded IPv4 part
     const v4 = lower.split("::ffff:")[1];
     if (v4 && v4.includes(".")) return isPrivateIPv4(v4);
   }
@@ -66,7 +66,7 @@ function isPrivateIPv6(ip) {
 function isPrivateIP(ip) {
   if (net.isIPv4(ip)) return isPrivateIPv4(ip);
   if (net.isIPv6(ip)) return isPrivateIPv6(ip);
-  return true; // unknown format — fail closed
+  return true; // unknown format, fail closed
 }
 
 /** Error carrying a translation key for the front-end to resolve. */
@@ -145,7 +145,7 @@ async function safeFetch(rawUrl, options = {}, { timeoutMs = 8000, maxRedirects 
     if (!REDIRECT_STATUSES.has(res.status)) return res;
 
     const location = res.headers.get("location");
-    if (!location) return res; // a 3xx with nowhere to go — treat as the answer
+    if (!location) return res; // a 3xx with nowhere to go, treat as the answer
 
     // Relative redirects are legal, so resolve against the current URL.
     try {
@@ -164,12 +164,12 @@ async function safeFetch(rawUrl, options = {}, { timeoutMs = 8000, maxRedirects 
  * /api/audit reads the body of whatever site a visitor names, and a
  * hostile (or merely broken) target can answer with an endless
  * stream. Reading that into a string is how a function runs out of
- * memory. We only ever look at the first few KB — script tags, a
- * JSON-LD marker, robots directives — so stop pulling bytes once we
+ * memory. We only ever look at the first few KB (script tags, a
+ * JSON-LD marker, robots directives), so stop pulling bytes once we
  * have plenty and cancel the rest.
  */
 async function readCapped(res, maxBytes = MAX_BODY_BYTES) {
-  if (!res.body) return res.text(); // no stream to meter — nothing to cap
+  if (!res.body) return res.text(); // no stream to meter, nothing to cap
 
   const reader = res.body.getReader();
   const chunks = [];

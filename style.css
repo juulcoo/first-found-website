@@ -1,8 +1,8 @@
 /* ============================================================
-   First Found — design tokens
+   First Found :: design tokens
    ------------------------------------------------------------
    One palette, two themes. Every colour below is a token, and
-   the dark theme only redefines the tokens — no component rule
+   the dark theme only redefines the tokens, so no component rule
    ever hardcodes a colour, so nothing has to be kept in sync
    twice. Archivo for display, Inter for body/UI, IBM Plex Mono
    for scores & data.
@@ -411,7 +411,7 @@ a:hover { text-decoration: underline; }
 }
 
 /* Narrow phones: tighten the header rather than dropping the language
-   switch — being able to pick NL/EN matters more than the breathing room. */
+   switch. Being able to pick NL/EN matters more than the breathing room. */
 @media (max-width: 420px) {
   .wrap { padding: 0 18px; }
   .header-actions { gap: 7px; }
@@ -427,7 +427,7 @@ a:hover { text-decoration: underline; }
   overflow: hidden;
 }
 
-/* Soft accent wash behind the hero — decorative, never in the flow. */
+/* Soft accent wash behind the hero: decorative, never in the flow. */
 .hero-glow {
   position: absolute;
   top: -280px;
@@ -819,17 +819,17 @@ a:hover { text-decoration: underline; }
 
 .service-grid {
   display: grid;
-  gap: 20px;
+  gap: 18px;
 }
 @media (min-width: 720px) {
-  .service-grid { grid-template-columns: repeat(2, 1fr); }
+  .service-grid { grid-template-columns: repeat(2, 1fr); gap: 20px 24px; }
 }
 
 .service {
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  padding: 26px 24px 24px;
+  padding: 28px 26px 26px;
   transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease), border-color 0.25s var(--ease);
 }
 .service:hover {
@@ -850,8 +850,26 @@ a:hover { text-decoration: underline; }
 }
 .service-icon svg { width: 21px; height: 21px; }
 
-.service h3 { margin-bottom: 0.45em; }
-.service p { margin: 0; font-size: 0.95rem; }
+.service h3 { margin-bottom: 0.5em; }
+
+/* Two levels of text per card: the promise, then the detail. Splitting
+   them keeps each line short enough to scan instead of read. */
+.service-lead {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.5;
+  margin: 0 0 0.6em;
+  text-wrap: pretty;
+}
+
+.service p:last-child {
+  margin: 0;
+  font-size: 0.93rem;
+  line-height: 1.65;
+  color: var(--ink-soft);
+  text-wrap: pretty;
+}
 
 
 /* ---------- packages (deliberately quieter than .service) ----------

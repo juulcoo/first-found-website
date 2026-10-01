@@ -1,8 +1,8 @@
 // ============================================================
-// Netlify Function — POST /api/audit  { url }
+// Netlify Function :: POST /api/audit  { url }
 // (routed from /api/audit to here via netlify.toml redirect)
 // ------------------------------------------------------------
-// Free, unlimited, no external API calls — checks whether AI
+// Free, unlimited, no external API calls. Checks whether AI
 // crawlers can technically read the given site. Same logic as
 // the original geo_tracker Python tool's technical_audit.py +
 // scoring.technical_score.
@@ -16,7 +16,7 @@
 // outbound requests, so it's loosely rate-limited to stop the
 // endpoint being used as a request amplifier against someone else
 // (and to keep our own function invocations in check). The limit is
-// deliberately generous — a real person trying a few sites should
+// deliberately generous: a real person trying a few sites should
 // never see it.
 // ============================================================
 
@@ -70,7 +70,7 @@ async function checkRobotsTxt(origin) {
     }
     return { found: true, blocked };
   } catch (err) {
-    if (err && err.key) throw err; // guard rejection — let the handler report it
+    if (err && err.key) throw err; // guard rejection, let the handler report it
     return { found: false, blocked, error: true };
   }
 }
@@ -85,7 +85,7 @@ async function checkRendering(origin) {
     const likelyClientSideRendered = bodyTextEstimate < 500 && scriptTags > 5;
     return { likelyClientSideRendered, htmlLength: html.length, html };
   } catch (err) {
-    if (err && err.key) throw err; // guard rejection — let the handler report it
+    if (err && err.key) throw err; // guard rejection, let the handler report it
     return { likelyClientSideRendered: null, html: "" };
   }
 }
@@ -96,7 +96,7 @@ async function checkSitemap(origin) {
     const res = await fetchWithTimeout(url);
     return { found: res.status === 200 };
   } catch (err) {
-    if (err && err.key) throw err; // guard rejection — let the handler report it
+    if (err && err.key) throw err; // guard rejection, let the handler report it
     return { found: false };
   }
 }
