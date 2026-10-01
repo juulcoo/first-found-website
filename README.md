@@ -30,17 +30,26 @@ without calling the API again.
 
 ## Before you deploy: two things to fill in, one to switch on after
 
-1. **Contact details**: replace the placeholders in *both* files:
-   - `hallo@firstfound.nl`: twice in `index.html` (contact block, footer)
-     and once in each language's `contact.fail` message in `i18n.js`
-   - `+31 (0)0 000 00 00`: in `index.html`, in both the link text and
-     the `tel:` href next to it
+1. **Phone number is still a placeholder.** `+31 (0)0 000 00 00` appears
+   twice in `index.html` (contact block and footer), each time in both
+   the link text and the `tel:` href beside it. Replace both before the
+   site goes public: a real site with a fake number reads as a template.
+
+   The email address is set to `info@firstfound.nl` and appears in
+   `index.html` (contact block, footer, and the JSON-LD block in
+   `<head>`) and in each language's `contact.fail` message in `i18n.js`.
+   Change it in all of those if it ever moves.
+
+   The canonical URL, `og:url` and `og:image` in `<head>` point at
+   `https://firstfound.nl/`. Change them if the domain differs, since
+   OpenGraph needs absolute URLs and would otherwise point shared links
+   at the wrong site.
 2. **Domain**: decide what you're deploying to (e.g. `firstfound.nl`).
 3. **After your first deploy**, turn on email notifications for the
    contact form. Netlify stores submissions in its dashboard by default,
    but does *not* email them to you until you ask it to:
    **Site configuration → Forms → Form notifications → Add notification
-   → Email notification** → point it at `hallo@firstfound.nl`.
+   → Email notification** → point it at `info@firstfound.nl`.
    Without this step, messages arrive but nothing tells you they did.
 
 ## Deploying (Netlify)
@@ -230,10 +239,31 @@ English. The browser only downloads the subsets a page actually uses, so
 in practice a visitor fetches about 112KB of font, once, then it's cached
 for a year by the `Cache-Control` rule in `netlify.toml`.
 
+## Homepage structure
+
+The page walks a visitor from problem to proof to offer, in this order:
+
+| Section | id | What it does |
+|---|---|---|
+| Hero | | The claim, the primary CTA, and a conceptual AI answer |
+| De verschuiving | `#verschuiving` | Why search behaviour is changing |
+| Wat is GEO | `#geo` | Plain explanation, plus GEO versus SEO |
+| Zichtbaarheidsscan | `#scan` | The two free tools, the main lead magnet |
+| Werkwijze | `#werkwijze` | Four steps, in order |
+| Diensten | `#diensten` | Four services, then the packages |
+| Over FirstFound | `#over` | Differentiators and the regional line |
+| Slot-CTA | | Dark band, single action |
+| Contact | `#contact` | Details and the Netlify form |
+
+The hero's AI answer is a **conceptual illustration**, labelled as such in
+the markup and in a visible caption. It must never be presented as real
+model output, and it names only FirstFound, never a third party.
+
 ## Project structure
 
 ```
 index.html                     the whole site (one page)
+og-image.png                   1200x630 social preview, regenerate if the claim changes
 style.css                      design tokens + light/dark themes
 i18n.js                        NL/EN dictionary and the translation engine
 app.js                         front-end logic for the tool, theme, nav, contact form

@@ -3,15 +3,60 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title data-i18n="meta.title">First Found | Word gevonden door AI</title>
-<meta name="description" data-i18n-content="meta.description" content="First Found meet en verbetert of jouw bedrijf wordt genoemd in ChatGPT, Perplexity, Gemini en Claude. Begin met een gratis check.">
-<meta name="theme-color" content="#f7f6f1" data-theme-color-light="#f7f6f1" data-theme-color-dark="#0d1015">
+<title data-i18n="meta.title">FirstFound | AI-zichtbaarheid en GEO vanuit Noord-Nederland</title>
+<meta name="description" data-i18n-content="meta.description" content="FirstFound meet en verbetert hoe zichtbaar uw bedrijf is in antwoorden van ChatGPT, Gemini, Perplexity en Claude. Begin met een gratis zichtbaarheidsscan.">
+<meta name="theme-color" content="#fbfaf8" data-theme-color-light="#fbfaf8" data-theme-color-dark="#0b0d11">
+<link rel="canonical" href="https://firstfound.nl/">
+
+<!-- OpenGraph / Twitter. og:url and og:image need absolute URLs, so they
+     point at the production domain rather than being relative. -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="FirstFound">
+<meta property="og:locale" content="nl_NL">
+<meta property="og:locale:alternate" content="en_GB">
+<meta property="og:url" content="https://firstfound.nl/">
+<meta property="og:title" data-i18n-content="meta.title" content="FirstFound | AI-zichtbaarheid en GEO vanuit Noord-Nederland">
+<meta property="og:description" data-i18n-content="meta.description" content="FirstFound meet en verbetert hoe zichtbaar uw bedrijf is in antwoorden van ChatGPT, Gemini, Perplexity en Claude.">
+<meta property="og:image" content="https://firstfound.nl/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" data-i18n-content="meta.ogAlt" content="FirstFound, specialist in AI-zichtbaarheid">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" data-i18n-content="meta.title" content="FirstFound | AI-zichtbaarheid en GEO vanuit Noord-Nederland">
+<meta name="twitter:description" data-i18n-content="meta.description" content="FirstFound meet en verbetert hoe zichtbaar uw bedrijf is in antwoorden van ChatGPT, Gemini, Perplexity en Claude.">
+<meta name="twitter:image" content="https://firstfound.nl/og-image.png">
+
 <!-- Fonts are self-hosted (fonts/), not loaded from Google: a third-party
      font request hands every visitor's IP to Google for no benefit. -->
 <link rel="preload" href="fonts/inter-400-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/archivo-500-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="fonts/fonts.css">
 <link rel="stylesheet" href="style.css">
+
+<!-- We audit other sites for structured data, so our own should have it.
+     Only facts we can stand behind: no invented ratings or review counts. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "FirstFound",
+  "url": "https://firstfound.nl/",
+  "email": "info@firstfound.nl",
+  "description": "FirstFound meet en verbetert hoe zichtbaar bedrijven zijn in antwoorden van AI-systemen zoals ChatGPT, Gemini, Perplexity en Claude.",
+  "knowsAbout": ["Generative Engine Optimization", "AI-zichtbaarheid", "LLM-monitoring", "Zoekmachineoptimalisatie"],
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Groningen",
+    "addressCountry": "NL"
+  },
+  "areaServed": [
+    { "@type": "AdministrativeArea", "name": "Groningen" },
+    { "@type": "AdministrativeArea", "name": "Friesland" },
+    { "@type": "AdministrativeArea", "name": "Drenthe" },
+    { "@type": "Country", "name": "Nederland" }
+  ]
+}
+</script>
 <script>
 /* Applied before first paint so the page never flashes the wrong theme/language. */
 (function () {
@@ -35,22 +80,24 @@
 
 <a class="skip-link" href="#main" data-i18n="nav.skip">Naar hoofdinhoud</a>
 
-<header class="site-header">
+<header class="site-header" id="site-header">
   <div class="wrap header-inner">
-    <a href="#top" class="wordmark">
+    <a href="#top" class="wordmark" aria-label="FirstFound">
       <span class="wordmark-mark" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="11" cy="11" r="7"></circle>
-          <path d="M20 20l-3.6-3.6"></path>
+        <svg viewBox="0 0 28 28" fill="none" aria-hidden="true">
+          <circle cx="12.5" cy="12.5" r="7.5" stroke="currentColor" stroke-width="2"></circle>
+          <path d="M18.4 18.4L24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+          <circle cx="12.5" cy="12.5" r="2.4" fill="currentColor"></circle>
         </svg>
       </span>
-      <span>First Found</span>
+      <span class="wordmark-text">First<span class="wordmark-accent">Found</span></span>
     </a>
 
     <nav class="main-nav" id="main-nav" aria-label="Hoofdmenu" data-i18n-aria-label="nav.label">
-      <a href="#hoe-het-werkt" data-i18n="nav.how">Hoe het werkt</a>
-      <a href="#tool" data-i18n="nav.check">Check je site</a>
+      <a href="#geo" data-i18n="nav.geo">GEO</a>
+      <a href="#werkwijze" data-i18n="nav.method">Werkwijze</a>
       <a href="#diensten" data-i18n="nav.services">Diensten</a>
+      <a href="#over" data-i18n="nav.about">Over ons</a>
       <a href="#contact" data-i18n="nav.contact">Contact</a>
     </nav>
 
@@ -62,20 +109,20 @@
 
       <button type="button" class="icon-btn theme-toggle" id="theme-toggle"
               aria-label="Wissel tussen licht en donker" data-i18n-aria-label="nav.theme">
-        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true">
           <circle cx="12" cy="12" r="4.2"></circle>
           <path d="M12 2.5v2.2M12 19.3v2.2M4.2 4.2l1.6 1.6M18.2 18.2l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.2 19.8l1.6-1.6M18.2 5.8l1.6-1.6"></path>
         </svg>
-        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M20 14.2A8.2 8.2 0 019.8 4a8.2 8.2 0 1010.2 10.2z"></path>
         </svg>
       </button>
 
-      <a href="#tool" class="btn btn-primary btn-small header-cta" data-i18n="nav.check">Check je site</a>
+      <a href="#scan" class="btn btn-primary btn-small header-cta" data-i18n="nav.cta">Zichtbaarheidsscan</a>
 
       <button type="button" class="icon-btn nav-toggle" id="nav-toggle"
               aria-label="Menu" aria-expanded="false" aria-controls="mobile-nav" data-i18n-aria-label="nav.menu">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
           <path d="M4 7h16M4 12h16M4 17h16"></path>
         </svg>
       </button>
@@ -83,10 +130,12 @@
   </div>
 
   <nav class="mobile-nav" id="mobile-nav" aria-label="Hoofdmenu" data-i18n-aria-label="nav.label" hidden>
-    <a href="#hoe-het-werkt" data-i18n="nav.how">Hoe het werkt</a>
-    <a href="#tool" data-i18n="nav.check">Check je site</a>
+    <a href="#geo" data-i18n="nav.geo">GEO</a>
+    <a href="#werkwijze" data-i18n="nav.method">Werkwijze</a>
     <a href="#diensten" data-i18n="nav.services">Diensten</a>
+    <a href="#over" data-i18n="nav.about">Over ons</a>
     <a href="#contact" data-i18n="nav.contact">Contact</a>
+    <a href="#scan" class="btn btn-primary mobile-nav-cta" data-i18n="nav.cta">Zichtbaarheidsscan</a>
   </nav>
 </header>
 
@@ -95,107 +144,203 @@
 
   <!-- ================= HERO ================= -->
   <section class="hero">
-    <div class="hero-glow" aria-hidden="true"></div>
-    <div class="wrap hero-grid">
+    <div class="hero-grid wrap">
       <div class="hero-copy">
         <span class="eyebrow" data-i18n="hero.eyebrow">Generative Engine Optimization</span>
-        <h1 data-i18n="hero.title">Wordt jouw bedrijf genoemd als iemand het aan AI vraagt?</h1>
+        <h1 class="hero-title">
+          <span data-i18n="hero.titleA">Uw klant vraagt het aan AI.</span>
+          <span data-i18n="hero.titleB">Wij zorgen dat u genoemd wordt.</span>
+        </h1>
         <p class="hero-sub" data-i18n="hero.sub">
-          Steeds meer mensen zoeken niet meer via Google, maar vragen het
-          rechtstreeks aan ChatGPT, Perplexity of Claude. Als jouw bedrijf
-          daar niet in het antwoord staat, besta je voor die klant niet.
-          First Found meet dat, en zorgt dat je wél genoemd wordt.
+          Steeds meer mensen vragen ChatGPT, Gemini of Perplexity om een
+          aanbeveling. FirstFound meet hoe zichtbaar uw bedrijf daar is en
+          verbetert die positie stap voor stap.
         </p>
         <div class="hero-actions">
-          <a href="#tool" class="btn btn-primary" data-i18n="hero.cta">Check je site gratis</a>
-          <a href="#hoe-het-werkt" class="btn-text" data-i18n="hero.secondary">Hoe werkt dat precies?</a>
+          <a href="#scan" class="btn btn-primary btn-lg" data-i18n="hero.cta">Ontdek uw AI-zichtbaarheid</a>
+          <a href="#geo" class="btn-text" data-i18n="hero.secondary">Hoe werkt GEO?</a>
         </div>
         <ul class="hero-badges">
-          <li data-i18n="hero.badge1">Gratis technische check</li>
-          <li data-i18n="hero.badge2">Geen account nodig</li>
-          <li data-i18n="hero.badge3">Resultaat in seconden</li>
+          <li data-i18n="hero.badge1">Gratis eerste scan</li>
+          <li data-i18n="hero.badge2">Resultaat binnen enkele minuten</li>
+          <li data-i18n="hero.badge3">Vrijblijvend</li>
         </ul>
       </div>
 
-      <div class="hero-visual" aria-hidden="true">
-        <div class="chat-mock">
-          <div class="chat-mock-bar">
-            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-            <span class="chat-mock-label" data-i18n="hero.mock.label">AI-antwoord</span>
+      <!-- Conceptual demonstration of an AI answer. Labelled as an
+           illustration in the markup and in the caption, so it can never
+           read as a real transcript from a model. -->
+      <figure class="demo">
+        <div class="demo-card">
+          <div class="demo-top">
+            <span class="demo-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="demo-label" data-i18n="hero.demo.label">Illustratie</span>
           </div>
-          <div class="chat-mock-q" data-i18n="hero.mock.question">"Beste installateur voor zonnepanelen in Groningen?"</div>
-          <div class="chat-mock-a">
-            <span data-i18n="hero.mock.answerA">Voor zonnepanelen in Groningen worden vaak</span>
-            <span class="chip chip-found" data-i18n="hero.mock.company1">Installateur A</span>
-            <span data-i18n="hero.mock.answerB">en</span>
-            <span class="chip chip-found" data-i18n="hero.mock.company2">Installateur B</span>
-            <span data-i18n="hero.mock.answerC">genoemd, beide met ervaring in de regio en goede reviews.</span>
-            <span class="chip chip-missing" data-i18n="hero.mock.missing">jouw bedrijf?</span>
+          <p class="demo-q" data-i18n="hero.demo.question">
+            Welke bedrijven helpen met AI-vindbaarheid in Noord-Nederland?
+          </p>
+          <div class="demo-a">
+            <span data-i18n="hero.demo.answerA">Voor AI-vindbaarheid, ook wel GEO genoemd, in Noord-Nederland komt</span>
+            <mark class="demo-brand" data-i18n="hero.demo.brand">FirstFound</mark>
+            <span data-i18n="hero.demo.answerB">naar voren als specialist. Het bureau meet hoe vaak een bedrijf in AI-antwoorden wordt genoemd en werkt daarna aan die zichtbaarheid.</span>
+          </div>
+          <div class="demo-sources">
+            <span class="demo-sources-label" data-i18n="hero.demo.sources">Bronnen</span>
+            <span class="demo-source" data-i18n="hero.demo.source1">firstfound.nl</span>
+            <span class="demo-source" data-i18n="hero.demo.source2">branchegids</span>
+            <span class="demo-source" data-i18n="hero.demo.source3">vakpublicatie</span>
           </div>
         </div>
+        <figcaption class="demo-caption" data-i18n="hero.demo.caption">
+          Conceptueel voorbeeld. Dit is geen echte uitvoer van een AI-systeem.
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ================= DE VERSCHUIVING ================= -->
+  <section id="verschuiving" class="section section-alt">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow" data-i18n="shift.eyebrow">De verschuiving</span>
+        <h2 data-i18n="shift.title">Zoeken verandert. Kiezen ook.</h2>
+        <p class="section-lead" data-i18n="shift.lead">
+          Een zoekopdracht leverde vroeger tien links op, waarna uw klant zelf
+          ging vergelijken. Nu stelt hij een vraag en krijgt hij een antwoord
+          met twee of drie namen erin.
+        </p>
+      </div>
+
+      <div class="shift-grid">
+        <div class="shift-col">
+          <span class="shift-label" data-i18n="shift.thenLabel">Zoekmachine</span>
+          <ol class="shift-steps">
+            <li data-i18n="shift.then1">Klant typt een zoekopdracht</li>
+            <li data-i18n="shift.then2">Lijst met tien websites</li>
+            <li data-i18n="shift.then3">Klant vergelijkt zelf en kiest</li>
+          </ol>
+        </div>
+        <div class="shift-col shift-col-now">
+          <span class="shift-label" data-i18n="shift.nowLabel">AI-assistent</span>
+          <ol class="shift-steps">
+            <li data-i18n="shift.now1">Klant stelt een vraag</li>
+            <li data-i18n="shift.now2">Eén antwoord met enkele namen</li>
+            <li data-i18n="shift.now3">Klant kiest uit die namen</li>
+          </ol>
+        </div>
+      </div>
+
+      <p class="shift-close" data-i18n="shift.close">
+        Staat u niet in dat antwoord, dan doet u niet mee in de eerste
+        afweging. Niet omdat u minder goed bent, maar omdat u niet genoemd
+        wordt.
+      </p>
+    </div>
+  </section>
+
+  <!-- ================= WAT IS GEO ================= -->
+  <section id="geo" class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow" data-i18n="geo.eyebrow">GEO</span>
+        <h2 data-i18n="geo.title">Wat is Generative Engine Optimization?</h2>
+        <p class="section-lead lead-strong" data-i18n="geo.lead">
+          SEO helpt u gevonden te worden in zoekmachines. GEO helpt u genoemd
+          te worden in AI-antwoorden.
+        </p>
+        <p class="section-body" data-i18n="geo.body">
+          Een AI-systeem stelt zijn antwoord samen uit veel signalen tegelijk:
+          wat er op uw eigen website staat, hoe duidelijk die informatie is
+          opgebouwd, en wat andere bronnen over u zeggen. GEO is het werk dat
+          die signalen op orde brengt.
+        </p>
+      </div>
+
+      <div class="pillars">
+        <div class="pillar">
+          <span class="pillar-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 3.5h8.5L19 8v12.5H6z"></path>
+              <path d="M14 3.5V8h5"></path>
+              <path d="M9 12.5h7M9 16h4.5"></path>
+            </svg>
+          </span>
+          <h3 data-i18n="geo.p1.title">Uw eigen content</h3>
+          <p data-i18n="geo.p1.body">Informatie die een AI-systeem kan lezen, begrijpen en overnemen.</p>
+        </div>
+        <div class="pillar">
+          <span class="pillar-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="6" cy="6.5" r="2.6"></circle>
+              <circle cx="18" cy="12" r="2.6"></circle>
+              <circle cx="6.8" cy="18" r="2.6"></circle>
+              <path d="M8.4 7.8l7.2 3M15.6 13.6l-6.4 3.2"></path>
+            </svg>
+          </span>
+          <h3 data-i18n="geo.p2.title">Externe bronnen</h3>
+          <p data-i18n="geo.p2.body">De plekken buiten uw site waar AI zijn beeld van uw markt vandaan haalt.</p>
+        </div>
+        <div class="pillar">
+          <span class="pillar-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 21s7-4.9 7-10.2A7 7 0 005 10.8C5 16.1 12 21 12 21z"></path>
+              <circle cx="12" cy="10.5" r="2.5"></circle>
+            </svg>
+          </span>
+          <h3 data-i18n="geo.p3.title">Context</h3>
+          <p data-i18n="geo.p3.body">Wie u bent, wat u doet, voor wie, en in welke regio.</p>
+        </div>
+      </div>
+
+      <div class="versus">
+        <h3 class="versus-title" data-i18n="versus.title">GEO vervangt SEO niet</h3>
+        <div class="versus-grid">
+          <div class="versus-card">
+            <span class="versus-tag" data-i18n="versus.seoLabel">SEO</span>
+            <p class="versus-goal" data-i18n="versus.seoGoal">Doel: hoger in de zoekresultaten.</p>
+            <p class="versus-result" data-i18n="versus.seoResult">Resultaat: meer bezoekers op uw website.</p>
+          </div>
+          <span class="versus-plus" aria-hidden="true">+</span>
+          <div class="versus-card versus-card-geo">
+            <span class="versus-tag" data-i18n="versus.geoLabel">GEO</span>
+            <p class="versus-goal" data-i18n="versus.geoGoal">Doel: genoemd worden in het antwoord.</p>
+            <p class="versus-result" data-i18n="versus.geoResult">Resultaat: u komt in de overweging voor.</p>
+          </div>
+        </div>
+        <p class="versus-close" data-i18n="versus.close">
+          De twee versterken elkaar. Een site die technisch goed in elkaar
+          zit, presteert in allebei beter.
+        </p>
       </div>
     </div>
   </section>
 
-  <!-- ================= HOE HET WERKT ================= -->
-  <section id="hoe-het-werkt" class="section">
+  <!-- ================= AI-ZICHTBAARHEIDSSCAN =================
+       Element ids here are wired to app.js (audit + spotcheck).
+       Rename nothing without updating app.js alongside it. -->
+  <section id="scan" class="section section-alt">
     <div class="wrap">
-      <span class="eyebrow" data-i18n="how.eyebrow">Aanpak</span>
-      <h2 data-i18n="how.title">Hoe het werkt</h2>
-      <p class="section-lead" data-i18n-html="how.lead">
-        Dit heet <strong>GEO</strong> (Generative Engine Optimization): hetzelfde
-        idee als SEO, maar dan voor AI-antwoorden in plaats van zoekresultaten.
-        Simpel gezegd komt het op drie dingen neer.
-      </p>
-
-      <ol class="steps">
-        <li class="step">
-          <span class="step-num">1</span>
-          <h3 data-i18n="how.s1.title">We stellen AI dezelfde vragen als jouw klanten</h3>
-          <p data-i18n="how.s1.body">Niet "noem [bedrijfsnaam]", maar echte koopvragen zoals
-            "beste [dienst] in [plaats]" of "wat kost [dienst] ongeveer".
-            Zo zien we wat een klant écht te zien krijgt.</p>
-        </li>
-        <li class="step">
-          <span class="step-num">2</span>
-          <h3 data-i18n="how.s2.title">We meten of, hoe vaak en hoe je genoemd wordt</h3>
-          <p data-i18n="how.s2.body">Over de vier grote platformen (ChatGPT, Perplexity, Gemini
-            en Claude), zodat je één helder cijfer krijgt in plaats van
-            een onderbuikgevoel.</p>
-        </li>
-        <li class="step">
-          <span class="step-num">3</span>
-          <h3 data-i18n="how.s3.title">We passen je site en content aan</h3>
-          <p data-i18n="how.s3.body">Technisch fundament op orde, content in de vorm die AI
-            begrijpt en overneemt, en elke maand opnieuw gemeten,
-            want wat AI aanbeveelt verschuift voortdurend.</p>
-        </li>
-      </ol>
-    </div>
-  </section>
-
-  <!-- ================= TOOL ================= -->
-  <section id="tool" class="section section-tool">
-    <div class="wrap">
-      <span class="eyebrow" data-i18n="tool.eyebrow">Gratis check</span>
-      <h2 data-i18n="tool.title">Check je site</h2>
-      <p class="section-lead" data-i18n="tool.lead">
-        Twee stappen. Eerst een gratis technische check: direct en zonder
-        kosten. Daarna kun je één keer live laten checken of Claude jouw
-        bedrijf ook echt noemt.
-      </p>
+      <div class="section-head">
+        <span class="eyebrow" data-i18n="tool.eyebrow">AI-zichtbaarheidsscan</span>
+        <h2 data-i18n="tool.title">Hoe zichtbaar bent u nu?</h2>
+        <p class="section-lead" data-i18n="tool.lead">
+          Begin met een momentopname. De eerste stap controleert of
+          AI-systemen uw website kunnen lezen. De tweede laat zien of een
+          AI-assistent uw bedrijf daadwerkelijk noemt.
+        </p>
+      </div>
 
       <!-- STEP 1: technical check -->
       <div class="tool-card" id="step-audit">
         <div class="tool-card-head">
-          <span class="tool-step-label" data-i18n="tool.step1.label">Stap 1 · gratis en direct</span>
-          <h3 data-i18n="tool.step1.title">Kunnen AI's je site überhaupt lezen?</h3>
+          <span class="tool-step-label" data-i18n="tool.step1.label">Stap 1 · direct en gratis</span>
+          <h3 data-i18n="tool.step1.title">Kan een AI-systeem uw site lezen?</h3>
         </div>
         <form id="audit-form" class="tool-form">
           <label for="audit-url" class="sr-only" data-i18n="tool.step1.inputLabel">Website URL</label>
-          <input type="text" id="audit-url" name="url" placeholder="jouwbedrijf.nl"
-                 data-i18n-placeholder="tool.step1.placeholder" required autocomplete="off">
-          <button type="submit" class="btn btn-primary" id="audit-submit" data-i18n="tool.step1.submit">Check mijn site</button>
+          <input type="text" id="audit-url" name="url" placeholder="uwbedrijf.nl"
+                 data-i18n-placeholder="tool.step1.placeholder" required autocomplete="off" inputmode="url">
+          <button type="submit" class="btn btn-primary" id="audit-submit" data-i18n="tool.step1.submit">Controleer mijn site</button>
         </form>
         <p class="tool-hint" id="audit-hint" role="status"></p>
 
@@ -213,29 +358,29 @@
         </div>
       </div>
 
-      <!-- STEP 2: spotcheck -->
+      <!-- STEP 2: live spotcheck -->
       <div class="tool-card tool-card-locked" id="step-spotcheck">
         <div class="tool-card-head">
           <span class="tool-step-label" data-i18n="tool.step2.label">Stap 2 · één gratis check</span>
-          <h3 data-i18n="tool.step2.title">Noemt Claude jouw bedrijf ook echt?</h3>
+          <h3 data-i18n="tool.step2.title">Wordt uw bedrijf genoemd?</h3>
         </div>
         <p class="tool-hint" data-i18n="tool.step2.hint">
-          We vragen het aan Claude, zoals een klant dat zou doen, inclusief
-          live websearch. Dit werkt één keer gratis per bezoek.
+          We stellen de vraag zoals een klant dat zou doen, met live websearch
+          erbij. Dit werkt één keer gratis per bezoek.
         </p>
         <form id="spotcheck-form" class="tool-form tool-form-3">
           <label for="sc-name" class="sr-only" data-i18n="tool.step2.nameLabel">Bedrijfsnaam</label>
           <input type="text" id="sc-name" name="name" placeholder="Bedrijfsnaam"
-                 data-i18n-placeholder="tool.step2.namePlaceholder" required autocomplete="off">
+                 data-i18n-placeholder="tool.step2.namePlaceholder" required autocomplete="organization">
           <label for="sc-industry" class="sr-only" data-i18n="tool.step2.industryLabel">Branche</label>
-          <input type="text" id="sc-industry" name="industry" placeholder="Branche, bv. loodgieter"
+          <input type="text" id="sc-industry" name="industry" placeholder="Branche, bijvoorbeeld installateur"
                  data-i18n-placeholder="tool.step2.industryPlaceholder" required autocomplete="off">
           <label for="sc-city" class="sr-only" data-i18n="tool.step2.cityLabel">Plaats</label>
           <input type="text" id="sc-city" name="city" placeholder="Plaats"
-                 data-i18n-placeholder="tool.step2.cityPlaceholder" required autocomplete="off">
+                 data-i18n-placeholder="tool.step2.cityPlaceholder" required autocomplete="address-level2">
           <!-- honeypot -->
           <input type="text" id="sc-website" name="website" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
-          <button type="submit" class="btn btn-primary" id="spotcheck-submit" data-i18n="tool.step2.submit" disabled>Vraag het aan Claude</button>
+          <button type="submit" class="btn btn-primary" id="spotcheck-submit" data-i18n="tool.step2.submit" disabled>Stel de vraag</button>
         </form>
 
         <div class="tool-result" id="spotcheck-result" hidden>
@@ -244,75 +389,112 @@
         </div>
       </div>
 
+      <p class="tool-note" data-i18n="tool.note">
+        Deze scan is een momentopname op één platform. De volledige
+        zichtbaarheidsscan meet tientallen koopvragen over meerdere
+        AI-platforms, inclusief uw concurrenten.
+      </p>
+
       <div class="tool-cta" id="tool-cta" hidden>
-        <p data-i18n-html="tool.cta.text"><strong>Niet zichtbaar?</strong> Dat is precies wat we oplossen.</p>
-        <a href="#contact" class="btn btn-invert" data-i18n="tool.cta.button">Neem contact op</a>
+        <p data-i18n-html="tool.cta.text"><strong>Nog niet zichtbaar?</strong> Daar begint ons werk.</p>
+        <a href="#contact" class="btn btn-invert" data-i18n="tool.cta.button">Plan een gesprek</a>
       </div>
     </div>
   </section>
 
-  <!-- ================= DIENSTEN ================= -->
-  <section id="diensten" class="section">
+  <!-- ================= WERKWIJZE ================= -->
+  <section id="werkwijze" class="section">
     <div class="wrap">
-      <span class="eyebrow" data-i18n="services.eyebrow">Diensten</span>
-      <h2 data-i18n="services.title">Wat we doen</h2>
-      <p class="section-lead" data-i18n="services.lead">
-        De gratis check hierboven is een momentopname. Ons werk is
-        structureel: we zorgen dat je zichtbaar blijft, niet één keer maar
-        doorlopend.
-      </p>
+      <div class="section-head">
+        <span class="eyebrow" data-i18n="method.eyebrow">Werkwijze</span>
+        <h2 data-i18n="method.title">Hoe wij werken</h2>
+        <p class="section-lead" data-i18n="method.lead">
+          Vier stappen, in deze volgorde. We beginnen nooit met schrijven
+          voordat we weten wat er gemeten is.
+        </p>
+      </div>
+
+      <ol class="steps">
+        <li class="step">
+          <span class="step-num" aria-hidden="true">01</span>
+          <h3 data-i18n="method.s1.title">Analyse</h3>
+          <p data-i18n="method.s1.body">We meten hoe AI-systemen uw markt beschrijven, en wie er nu genoemd wordt.</p>
+        </li>
+        <li class="step">
+          <span class="step-num" aria-hidden="true">02</span>
+          <h3 data-i18n="method.s2.title">Strategie</h3>
+          <p data-i18n="method.s2.body">We bepalen welke onderwerpen, bronnen en pagina's het meeste effect hebben.</p>
+        </li>
+        <li class="step">
+          <span class="step-num" aria-hidden="true">03</span>
+          <h3 data-i18n="method.s3.title">Optimalisatie</h3>
+          <p data-i18n="method.s3.body">We verbeteren uw content, de structuur van uw informatie en uw aanwezigheid op bronnen die AI gebruikt.</p>
+        </li>
+        <li class="step">
+          <span class="step-num" aria-hidden="true">04</span>
+          <h3 data-i18n="method.s4.title">Monitoring</h3>
+          <p data-i18n="method.s4.body">We meten elke maand opnieuw, want wat AI aanbeveelt verschuift continu.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ================= DIENSTEN ================= -->
+  <section id="diensten" class="section section-alt">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow" data-i18n="services.eyebrow">Diensten</span>
+        <h2 data-i18n="services.title">Wat wij doen</h2>
+        <p class="section-lead" data-i18n="services.lead">
+          Vier onderdelen die op elkaar aansluiten. U kunt ermee beginnen bij
+          de meting en later uitbreiden.
+        </p>
+      </div>
 
       <div class="service-grid">
         <div class="service">
           <span class="service-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M4 19V9M10 19V5M16 19v-7M22 19H2"></path>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19V9.5M10 19V5M16 19v-6.5M22 19H2"></path>
             </svg>
           </span>
-          <h3 data-i18n="services.s1.title">Volledige meting</h3>
-          <p class="service-lead" data-i18n="services.s1.lead">Tientallen echte koopvragen, getest op
-            ChatGPT, Perplexity, Gemini en Claude.</p>
-          <p data-i18n="services.s1.body">Je concurrenten meten we mee, zodat je precies ziet
-            waar je staat.</p>
+          <h3 data-i18n="services.s1.title">AI-zichtbaarheid</h3>
+          <p class="service-lead" data-i18n="services.s1.lead">Meten hoe vaak en hoe u nu in AI-antwoorden voorkomt.</p>
+          <p data-i18n="services.s1.body">Over meerdere platforms, met uw concurrenten ernaast, zodat u weet waar u staat.</p>
         </div>
         <div class="service">
           <span class="service-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 3l7.5 4v6c0 4.2-3.1 7-7.5 8-4.4-1-7.5-3.8-7.5-8V7z"></path>
-              <path d="M9 12l2.2 2.2L15.5 10"></path>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3.5v4M12 16.5v4M3.5 12h4M16.5 12h4"></path>
+              <circle cx="12" cy="12" r="4.3"></circle>
             </svg>
           </span>
-          <h3 data-i18n="services.s2.title">Technisch fundament</h3>
-          <p class="service-lead" data-i18n="services.s2.lead">Robots.txt, sitemap, structured data
-            en laadsnelheid.</p>
-          <p data-i18n="services.s2.body">Dit heeft een AI-crawler nodig om je site te kunnen
-            lezen. Vaak zit hier de blokkade.</p>
+          <h3 data-i18n="services.s2.title">GEO-strategie</h3>
+          <p class="service-lead" data-i18n="services.s2.lead">Bepalen waar de winst zit, en in welke volgorde.</p>
+          <p data-i18n="services.s2.body">Een plan op basis van de meting, niet op basis van aannames.</p>
         </div>
         <div class="service">
           <span class="service-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M4 5h16v11H8l-4 3.5z"></path>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 5.5h16v11H8.5L4 20z"></path>
               <path d="M8.5 9.5h7M8.5 12.5h4"></path>
             </svg>
           </span>
-          <h3 data-i18n="services.s3.title">Content die AI overneemt</h3>
-          <p class="service-lead" data-i18n="services.s3.lead">Korte antwoorden, heldere koppen,
-            een goede FAQ.</p>
-          <p data-i18n="services.s3.body">Precies de vorm die AI-modellen citeren in plaats van
-            overslaan.</p>
+          <h3 data-i18n="services.s3.title">Content en autoriteit</h3>
+          <p class="service-lead" data-i18n="services.s3.lead">De informatie verbeteren waar AI-systemen op afgaan.</p>
+          <p data-i18n="services.s3.body">Op uw eigen site en op de externe bronnen die in uw branche geciteerd worden.</p>
         </div>
         <div class="service">
           <span class="service-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
               <path d="M20.5 12a8.5 8.5 0 10-2.6 6.1"></path>
               <path d="M20.8 6.4v5h-5"></path>
               <path d="M12 7.6V12l2.8 1.7"></path>
             </svg>
           </span>
-          <h3 data-i18n="services.s4.title">Maandelijkse herijking</h3>
-          <p class="service-lead" data-i18n="services.s4.lead">Wat AI aanbeveelt verschuift in dagen,
-            niet in maanden.</p>
-          <p data-i18n="services.s4.body">We blijven meten en sturen bij zodra dat nodig is.</p>
+          <h3 data-i18n="services.s4.title">Monitoring</h3>
+          <p class="service-lead" data-i18n="services.s4.lead">Volgen hoe uw zichtbaarheid zich ontwikkelt.</p>
+          <p data-i18n="services.s4.body">Maandelijks, inclusief wat er bij concurrenten verandert.</p>
         </div>
       </div>
 
@@ -328,16 +510,16 @@
           <span class="setup-step" data-i18n="packages.setup.step">Stap 1 · eenmalig</span>
           <h4 class="setup-title" data-i18n="packages.setup.title">De opstart</h4>
           <p class="setup-line" data-i18n="packages.setup.line">
-            Voor elke nieuwe klant. We brengen je hele aanwezigheid in kaart en
-            richten hem op AI-zichtbaarheid, zodat het maandelijkse werk
-            daarna op een fundament staat.
+            Voor elke nieuwe opdrachtgever. We brengen uw hele aanwezigheid in
+            kaart en richten die op AI-zichtbaarheid, zodat het maandelijkse
+            werk daarna op een fundament staat.
           </p>
           <ul class="setup-list">
             <li data-i18n="packages.setup.b1">Volledige nulmeting: tientallen koopvragen over vijf categorieën, op meerdere AI-platforms</li>
-            <li data-i18n="packages.setup.b2">Technische check: robots.txt, server-side rendering, schema markup en sitemap</li>
-            <li data-i18n="packages.setup.b3">Concurrentieanalyse: wie wordt er in jouw regio wél genoemd, en waarom</li>
-            <li data-i18n="packages.setup.b4">Bronnenanalyse: welke externe platforms AI citeert in jouw branche</li>
-            <li data-i18n="packages.setup.b5">Je bestaande content (website en waar relevant je social profielen) doorgelicht en op AI-zichtbaarheid gericht</li>
+            <li data-i18n="packages.setup.b2">Technische controle: robots.txt, server-side rendering, schema markup en sitemap</li>
+            <li data-i18n="packages.setup.b3">Concurrentieanalyse: wie er in uw regio wel genoemd wordt, en waarom</li>
+            <li data-i18n="packages.setup.b4">Bronnenanalyse: welke externe platforms AI in uw branche citeert</li>
+            <li data-i18n="packages.setup.b5">Uw bestaande content (website en waar relevant uw social profielen) doorgelicht en op AI-zichtbaarheid gericht</li>
             <li data-i18n="packages.setup.b6">Contentfundament: de kernpagina's die de grootste gaten dichten</li>
             <li data-i18n="packages.setup.b7">Strategisch rapport met prioriteiten voor de zes maanden erna</li>
           </ul>
@@ -347,80 +529,145 @@
         <span class="packages-step" data-i18n="packages.tiers.step">Stap 2 · maandelijks</span>
         <p class="packages-steplead" data-i18n="packages.tiers.lead">
           Zichtbaarheid in AI verschuift continu, dus na de opstart houden we
-          het bij. Je kiest per maand hoeveel we uit handen nemen.
+          het bij. U kiest per maand hoeveel wij uit handen nemen.
         </p>
 
         <div class="tiers">
           <div class="tier">
             <span class="tier-name" data-i18n="packages.t1.name">Monitor</span>
             <span class="tier-cadence" data-i18n="packages.cadence">per maand</span>
-            <p class="tier-line" data-i18n="packages.t1.line">Weten waar je staat.</p>
+            <p class="tier-line" data-i18n="packages.t1.line">Weten waar u staat.</p>
             <ul class="tier-list">
               <li data-i18n="packages.t1.b1">Maandelijkse meting over de grote AI-platforms</li>
               <li data-i18n="packages.t1.b2">Rapport met score, ontwikkeling en marktverschuivingen</li>
               <li data-i18n="packages.t1.b3">Signalering zodra een concurrent terrein wint</li>
             </ul>
-            <p class="tier-foot" data-i18n="packages.t1.foot">Jij krijgt het inzicht. De uitvoering doe je zelf.</p>
+            <p class="tier-foot" data-i18n="packages.t1.foot">U krijgt het inzicht. De uitvoering doet u zelf.</p>
           </div>
 
           <div class="tier tier-featured">
             <span class="tier-flag" data-i18n="packages.featured">Meest gekozen</span>
             <span class="tier-name" data-i18n="packages.t2.name">Groei</span>
             <span class="tier-cadence" data-i18n="packages.cadence">per maand</span>
-            <p class="tier-line" data-i18n="packages.t2.line">Zichtbaar worden, zonder dat het jouw tijd kost.</p>
+            <p class="tier-line" data-i18n="packages.t2.line">Zichtbaar worden, zonder dat het uw tijd kost.</p>
             <ul class="tier-list">
               <li data-i18n="packages.t2.b1">Alles uit Monitor</li>
               <li data-i18n="packages.t2.b2">Wij schrijven de content, gericht op de gaten die de meting laat zien</li>
-              <li data-i18n="packages.t2.b3">Autoriteit-opbouw op de externe platforms die AI daadwerkelijk citeert</li>
-              <li data-i18n="packages.t2.b4">Strategiecall per kwartaal</li>
+              <li data-i18n="packages.t2.b3">Autoriteit opbouwen op de externe bronnen die AI daadwerkelijk citeert</li>
+              <li data-i18n="packages.t2.b4">Strategiegesprek per kwartaal</li>
             </ul>
-            <p class="tier-foot" data-i18n="packages.t2.foot">Wij leveren aan. Jij zet het live.</p>
+            <p class="tier-foot" data-i18n="packages.t2.foot">Wij leveren aan. U zet het live.</p>
           </div>
 
           <div class="tier">
-            <span class="tier-name" data-i18n="packages.t3.name">Dominantie</span>
+            <span class="tier-name" data-i18n="packages.t3.name">Volledig</span>
             <span class="tier-cadence" data-i18n="packages.cadence">per maand</span>
-            <p class="tier-line" data-i18n="packages.t3.line">Wij doen het. Jij ziet de aanvragen binnenkomen.</p>
+            <p class="tier-line" data-i18n="packages.t3.line">Wij voeren uit. U ziet de aanvragen binnenkomen.</p>
             <ul class="tier-list">
               <li data-i18n="packages.t3.b1">Alles uit Groei</li>
               <li data-i18n="packages.t3.b2">Volledige uitvoering: wij plaatsen de content en regelen de technische aanpassingen</li>
-              <li data-i18n="packages.t3.b3">Uitgebreidere meting over meer AI-platforms en meerdere regio's of diensten</li>
-              <li data-i18n="packages.t3.b4">Actieve concurrent-monitoring en maandelijkse strategiecall</li>
+              <li data-i18n="packages.t3.b3">Uitgebreidere meting over meer platforms en meerdere regio's of diensten</li>
+              <li data-i18n="packages.t3.b4">Actieve concurrentiemonitoring en maandelijks strategiegesprek</li>
             </ul>
-            <p class="tier-foot" data-i18n="packages.t3.foot">Jij hoeft niets te doen.</p>
+            <p class="tier-foot" data-i18n="packages.t3.foot">U hoeft niets te doen.</p>
           </div>
         </div>
 
         <p class="packages-note" data-i18n-html="packages.note">
-          Welk pakket past, hangt af van je branche, je regio en hoeveel je zelf wilt
-          oppakken. Dat bespreken we, inclusief de kosten, in een vrijblijvend
-          kennismakingsgesprek. <a href="#contact">Neem contact op</a>.
+          Welk pakket past, hangt af van uw branche, uw regio en hoeveel u zelf
+          wilt oppakken. Dat bespreken we, inclusief de kosten, in een
+          vrijblijvend kennismakingsgesprek. <a href="#contact">Neem contact op</a>.
         </p>
       </div>
     </div>
   </section>
 
+  <!-- ================= OVER FIRSTFOUND ================= -->
+  <section id="over" class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow" data-i18n="about.eyebrow">Over FirstFound</span>
+        <h2 data-i18n="about.title">Waarom FirstFound</h2>
+        <p class="section-lead" data-i18n="about.lead">
+          Wij zijn geen algemeen marketingbureau dat er AI bij doet. Dit is
+          waar wij ons op richten, en waar u ons op mag afrekenen.
+        </p>
+      </div>
+
+      <div class="points">
+        <div class="point">
+          <h3 data-i18n="about.p1.title">Gespecialiseerd in AI-zichtbaarheid</h3>
+          <p data-i18n="about.p1.body">Eén vakgebied, geen bijzaak naast tien andere diensten.</p>
+        </div>
+        <div class="point">
+          <h3 data-i18n="about.p2.title">Meetbaar, geen aannames</h3>
+          <p data-i18n="about.p2.body">Elk advies komt voort uit een meting die we met u doornemen.</p>
+        </div>
+        <div class="point">
+          <h3 data-i18n="about.p3.title">Technisch onderlegd</h3>
+          <p data-i18n="about.p3.body">We weten hoe crawlers, structured data en bronvermelding in de praktijk werken.</p>
+        </div>
+        <div class="point">
+          <h3 data-i18n="about.p4.title">Transparant</h3>
+          <p data-i18n="about.p4.body">U ziet wat we meten en wat het oplevert. Ook wanneer een resultaat tegenvalt.</p>
+        </div>
+      </div>
+
+      <div class="local">
+        <span class="local-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 21s7-4.9 7-10.2A7 7 0 005 10.8C5 16.1 12 21 12 21z"></path>
+            <circle cx="12" cy="10.5" r="2.5"></circle>
+          </svg>
+        </span>
+        <div>
+          <h3 data-i18n="about.localTitle">AI-marketing vanuit Noord-Nederland</h3>
+          <p data-i18n="about.localBody">
+            We werken vanuit Groningen, met opdrachtgevers in Groningen,
+            Friesland en Drenthe en daarbuiten. De regio kennen we. Het werk
+            zelf is niet aan een plaats gebonden.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SLOT-CTA ================= -->
+  <section class="section cta-band">
+    <div class="wrap cta-inner">
+      <h2 data-i18n="cta.title">Weet u wat AI over uw bedrijf zegt?</h2>
+      <p data-i18n="cta.lead">
+        Ontdek hoe zichtbaar uw organisatie nu is binnen de belangrijkste
+        AI-platforms, en wat er nodig is om dat te verbeteren.
+      </p>
+      <div class="cta-actions">
+        <a href="#contact" class="btn btn-invert btn-lg" data-i18n="cta.button">Laat mijn zichtbaarheid analyseren</a>
+        <a href="#scan" class="cta-link" data-i18n="cta.secondary">Of probeer eerst de gratis scan</a>
+      </div>
+    </div>
+  </section>
+
   <!-- ================= CONTACT ================= -->
-  <section id="contact" class="section section-contact">
+  <section id="contact" class="section section-alt">
     <div class="wrap contact-grid">
       <div class="contact-intro">
         <span class="eyebrow" data-i18n="contact.eyebrow">Contact</span>
-        <h2 data-i18n="contact.title">Praat met ons</h2>
+        <h2 data-i18n="contact.title">Neem contact op</h2>
         <p data-i18n="contact.lead">
-          Vertel kort over je bedrijf en wat je opviel bij de check
-          hierboven. We reageren binnen één werkdag.
+          Vertel kort wat u doet en wat u opviel bij de scan. We reageren
+          binnen één werkdag.
         </p>
         <dl class="contact-details">
           <div>
             <dt data-i18n="contact.emailLabel">E-mail</dt>
-            <dd><a href="mailto:hallo@firstfound.nl">hallo@firstfound.nl</a></dd>
+            <dd><a href="mailto:info@firstfound.nl">info@firstfound.nl</a></dd>
           </div>
           <div>
             <dt data-i18n="contact.phoneLabel">Telefoon</dt>
             <dd><a href="tel:+31000000000">+31 (0)0 000 00 00</a></dd>
           </div>
           <div>
-            <dt data-i18n="contact.baseLabel">Basis</dt>
+            <dt data-i18n="contact.baseLabel">Vestiging</dt>
             <dd data-i18n="contact.baseValue">Groningen, actief in heel Nederland</dd>
           </div>
         </dl>
@@ -454,10 +701,42 @@
 </main>
 
 <footer class="site-footer">
-  <div class="wrap footer-inner">
-    <span data-i18n="footer.base">First Found · Groningen, Nederland</span>
-    <span class="footer-sep" aria-hidden="true">·</span>
-    <a href="mailto:hallo@firstfound.nl">hallo@firstfound.nl</a>
+  <div class="wrap footer-grid">
+    <div class="footer-brand">
+      <span class="wordmark wordmark-footer">
+        <span class="wordmark-mark" aria-hidden="true">
+          <svg viewBox="0 0 28 28" fill="none" aria-hidden="true">
+            <circle cx="12.5" cy="12.5" r="7.5" stroke="currentColor" stroke-width="2"></circle>
+            <path d="M18.4 18.4L24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+            <circle cx="12.5" cy="12.5" r="2.4" fill="currentColor"></circle>
+          </svg>
+        </span>
+        <span class="wordmark-text">First<span class="wordmark-accent">Found</span></span>
+      </span>
+      <p class="footer-tagline" data-i18n="footer.tagline">
+        AI-zichtbaarheid en GEO vanuit Noord-Nederland.
+      </p>
+    </div>
+
+    <nav class="footer-col" aria-label="Footer">
+      <h2 class="footer-head" data-i18n="footer.navTitle">Navigatie</h2>
+      <a href="#geo" data-i18n="nav.geo">GEO</a>
+      <a href="#werkwijze" data-i18n="nav.method">Werkwijze</a>
+      <a href="#diensten" data-i18n="nav.services">Diensten</a>
+      <a href="#over" data-i18n="nav.about">Over ons</a>
+    </nav>
+
+    <div class="footer-col">
+      <h2 class="footer-head" data-i18n="footer.contactTitle">Contact</h2>
+      <a href="mailto:info@firstfound.nl">info@firstfound.nl</a>
+      <a href="tel:+31000000000">+31 (0)0 000 00 00</a>
+      <span data-i18n="footer.base">Groningen, Nederland</span>
+    </div>
+  </div>
+
+  <div class="wrap footer-bottom">
+    <span>&copy; <span id="footer-year">2026</span> FirstFound</span>
+    <span data-i18n="footer.rights">Alle rechten voorbehouden.</span>
   </div>
 </footer>
 

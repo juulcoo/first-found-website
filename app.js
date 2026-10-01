@@ -73,6 +73,11 @@
     btn.addEventListener("click", () => setLang(btn.dataset.lang));
   });
 
+  // ---------- footer year ----------
+  // Set from the clock so the copyright line can't quietly go stale.
+  const yearEl = document.getElementById("footer-year");
+  if (yearEl) yearEl.textContent = String(new Date().getFullYear());
+
   // ---------- mobile nav ----------
 
   const navToggle = document.getElementById("nav-toggle");
@@ -102,7 +107,9 @@
 
   // ---------- scroll reveal ----------
 
-  const revealTargets = document.querySelectorAll(".step, .service, .tool-card, .chat-mock");
+  const revealTargets = document.querySelectorAll(
+    ".demo-card, .shift-col, .pillar, .versus-card, .tool-card, .step, .service, .setup, .tier, .point, .local"
+  );
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) {
     revealTargets.forEach((el) => el.classList.add("is-visible"));
   } else {
