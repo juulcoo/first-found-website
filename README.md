@@ -241,23 +241,56 @@ for a year by the `Cache-Control` rule in `netlify.toml`.
 
 ## Homepage structure
 
-The page walks a visitor from problem to proof to offer, in this order:
+The page is art-directed rather than stacked: sections differ in
+composition on purpose, and structure comes from hairline rules and
+negative space rather than from a grid of cards.
 
-| Section | id | What it does |
+| Section | id | Composition |
 |---|---|---|
-| Hero | | The claim, the primary CTA, and a conceptual AI answer |
-| De verschuiving | `#verschuiving` | Why search behaviour is changing |
-| Wat is GEO | `#geo` | Plain explanation, plus GEO versus SEO |
-| Zichtbaarheidsscan | `#scan` | The two free tools, the main lead magnet |
-| Werkwijze | `#werkwijze` | Four steps, in order |
-| Diensten | `#diensten` | Four services, then the packages |
-| Over FirstFound | `#over` | Differentiators and the regional line |
-| Slot-CTA | | Dark band, single action |
-| Contact | `#contact` | Details and the Netlify form |
+| Hero | | Oversized statement left, AI canvas offset lower-right |
+| De verschuiving | `#verschuiving` | Huge `Zoeken` to `Antwoord` type contrast |
+| Wat GEO is | `#geo` | Design statement, then signals wiring into one answer |
+| AI Visibility Index | `#index` | Report panel with meters, then the two live tools |
+| Diensten | `#diensten` | Full-width editorial rows 01 to 04, not cards |
+| Werkwijze | `#werkwijze` | Sticky aside beside a numbered sequence |
+| Pakketten | `#pakketten` | Rule-divided columns, featured tier washed in accent |
+| Over | `#over` | Display statement, credibility columns, serif local line |
+| Contact | `#contact` | Statement, hairline details, underline-only form |
+| Footer | | Closing statement at hero scale |
 
-The hero's AI answer is a **conceptual illustration**, labelled as such in
-the markup and in a visible caption. It must never be presented as real
-model output, and it names only FirstFound, never a third party.
+### The visual language
+
+Three things recur and should keep recurring in anything added later:
+
+- **Index marks.** Every label, number and coordinate is IBM Plex Mono,
+  uppercase, wide-tracked (`.idx`). `[01]`-style numbering appears on
+  sources, signals, services, phases and credibility points.
+- **One accent, used as a highlight.** Brass, never blue. It marks an
+  entity the way a highlighter marks a name in a document, which is
+  what the product does.
+- **Hairlines, not cards.** Only two elements are given a surface: the
+  hero canvas and the index report, because both genuinely are
+  interfaces. Everything else sits on open page.
+
+The hero canvas is a **conceptual illustration**, labelled in the markup
+and in a visible caption. It must never be presented as real model
+output, and it names only FirstFound, never a third party.
+
+### Motion
+
+Reveals and line-drawing are added by `app.js` and are skipped entirely
+under `prefers-reduced-motion`. Two safeguards matter:
+
+- Anything already on screen at load is revealed directly instead of
+  waiting for an IntersectionObserver callback, so a page opened in a
+  background tab does not sit at `opacity: 0`.
+- A timeout reveals everything after 8 seconds regardless. Content must
+  never stay invisible because a callback did not arrive.
+
+Index meter values live in `data-v` on each `.meter` and are applied by
+`app.js` through `setProperty`. They cannot be inline `style` attributes:
+our own CSP sets `style-src 'self'` with no `unsafe-inline`, which blocks
+parser-inserted style attributes.
 
 ## Project structure
 

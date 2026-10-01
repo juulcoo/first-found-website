@@ -108,7 +108,10 @@
   // ---------- scroll reveal ----------
 
   const revealTargets = document.querySelectorAll(
-    ".demo-card, .shift-col, .pillar, .versus-card, .tool-card, .step, .service, .setup, .tier, .point, .local"
+    ".hero-lede, .canvas, .shift-type, .shift-col, .pull, .statement, .geo-body," +
+    " .wiring, .index-head, .report, .scan-head, .step-block, .row, .phase," +
+    " .setup, .tiers-head, .tier, .about-statement, .about-body, .creds li," +
+    " .local, .contact-aside, .form, .foot-statement"
   );
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) {
     revealTargets.forEach((el) => el.classList.add("is-visible"));
@@ -123,10 +126,88 @@
       },
       { rootMargin: "0px 0px -8% 0px", threshold: 0.08 }
     );
-    revealTargets.forEach((el) => {
-      el.classList.add("reveal");
-      observer.observe(el);
-    });
+
+    revealTargets.forEach((el) => el.classList.add("reveal"));
+
+    // Anything already on screen is revealed directly rather than waiting
+    // for a callback. An observer only fires once the page is actually
+    // rendered, so in a background tab the first screen would otherwise
+    // sit at opacity 0 until the visitor looked at it.
+    setTimeout(() => {
+      revealTargets.forEach((el) => {
+        const box = el.getBoundingClientRect();
+        if (box.top < window.innerHeight && box.bottom > 0) {
+          el.classList.add("is-visible");
+        } else {
+          observer.observe(el);
+        }
+      });
+    }, 0);
+
+    // Last resort: content must never stay invisible because a callback
+    // did not arrive. Well after any legitimate reveal, show everything.
+    setTimeout(() => {
+      revealTargets.forEach((el) => el.classList.add("is-visible"));
+      observer.disconnect();
+    }, 8000);
+  }
+
+  // ---------- art direction: scroll-driven detail ----------
+  // The rules that draw themselves (the shift arrow, the signal mesh) and
+  // the index meters key off their own section arriving, not off a global
+  // scroll position, so each lands when it is actually looked at.
+
+  const motionOK = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const lightUp = document.querySelectorAll(".shift, .geo, .report");
+  if (!motionOK || !("IntersectionObserver" in window)) {
+    lightUp.forEach((el) => el.classList.add("is-visible"));
+  } else {
+    const lineObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (!e.isIntersecting) return;
+          e.target.classList.add("is-visible");
+          lineObserver.unobserve(e.target);
+        });
+      },
+      { rootMargin: "0px 0px -12% 0px", threshold: 0.12 }
+    );
+    lightUp.forEach((el) => lineObserver.observe(el));
+    setTimeout(() => {
+      lightUp.forEach((el) => el.classList.add("is-visible"));
+      lineObserver.disconnect();
+    }, 8000);
+  }
+
+  // The hero canvas assembles itself: question, then answer, then the
+  // sources it leaned on. Without motion it is simply there already.
+  const canvas = document.getElementById("canvas");
+  if (canvas) {
+    const stages = canvas.querySelectorAll("[data-stage]");
+    if (!motionOK) {
+      canvas.classList.add("lit");
+    } else {
+      canvas.classList.add("staged");
+      stages.forEach((el, i) => {
+        setTimeout(() => el.classList.add("on"), 420 + i * 520);
+      });
+      setTimeout(() => canvas.classList.add("lit"), 420 + stages.length * 520);
+    }
+  }
+
+  // Index meters carry their value in data-v. Applying it through CSSOM
+  // rather than a style attribute keeps the CSP free of 'unsafe-inline'.
+  document.querySelectorAll(".meter[data-v]").forEach((el) => {
+    el.style.setProperty("--v", el.dataset.v);
+  });
+
+  // The masthead only becomes a surface once you have left the hero.
+  const masthead = document.getElementById("masthead");
+  if (masthead) {
+    const onScroll = () => masthead.classList.toggle("is-stuck", window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
   }
 
   // ---------- step 1: technical audit ----------
@@ -161,7 +242,7 @@
     auditChecksEl.innerHTML = "";
     data.checks.forEach((c) => {
       const li = document.createElement("li");
-      li.className = "check-item " + (c.pass ? "ok" : "fail");
+      li.className = c.pass ? "ok" : "fail";
 
       const icon = document.createElement("span");
       icon.className = "check-icon";
@@ -259,11 +340,11 @@
 
   function renderSpot(spot) {
     if (spot.state === "error") {
-      spotVerdict.className = "spot-verdict fail";
+      spotVerdict.className = "verdict fail";
       spotVerdict.textContent = t("spot.failed");
       spotAnswer.textContent = spot.errorKey ? t("error." + spot.errorKey) : t("error.server_error");
     } else {
-      spotVerdict.className = "spot-verdict " + (spot.mentioned ? "ok" : "fail");
+      spotVerdict.className = "verdict " + (spot.mentioned ? "ok" : "fail");
       spotVerdict.textContent = spot.mentioned
         ? t("spot.mentioned", { name: spot.name })
         : t("spot.notMentioned", { name: spot.name });

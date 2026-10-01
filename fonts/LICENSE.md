@@ -9,10 +9,14 @@ website — including self-hosting, which is exactly what we do here.
 | Archivo       | 500–800       | https://fonts.google.com/specimen/Archivo         |
 | Inter         | 400–600       | https://fonts.google.com/specimen/Inter           |
 | IBM Plex Mono | 400, 500      | https://fonts.google.com/specimen/IBM+Plex+Mono   |
+| Instrument Serif | 400 roman + italic | https://fonts.google.com/specimen/Instrument+Serif |
 
 Archivo and Inter are variable fonts: each family ships one file per
 subset, and the separate `@font-face` blocks in `fonts.css` pin the
 weight axis. That's why there are 18 blocks but only 8 files.
+
+Instrument Serif is used only for editorial moments (pull quotes, the
+SEARCH/ANSWER statement, selected display lines), not for body text.
 
 Subsets are limited to `latin` and `latin-ext` — enough for Dutch and
 English, and it keeps the payload small.
