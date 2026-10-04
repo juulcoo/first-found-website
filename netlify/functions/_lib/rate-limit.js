@@ -10,9 +10,8 @@
 // handler (event.headers) as it would anywhere else.
 // ============================================================
 
-// One map per named bucket, so the cheap endpoint and the paid one
-// can't eat into each other's budget: buckets.get("spotcheck") is
-// separate from buckets.get("audit").
+// One map per named bucket, so separate endpoints cannot eat into
+// each other's budget: buckets.get("audit") is its own counter.
 const buckets = new Map(); // bucket -> Map(ip -> [timestamps])
 
 const DEFAULT_WINDOW_MS = 24 * 60 * 60 * 1000; // 24 hours

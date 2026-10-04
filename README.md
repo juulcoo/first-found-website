@@ -2,11 +2,19 @@
 
 A static marketing site with two small serverless functions:
 
-- `/api/audit`: free, unlimited technical checker (robots.txt, rendering,
-  sitemap, schema). No API costs, no secrets involved.
-- `/api/spotcheck`: one-time-per-visitor live check that asks Claude a
-  real buying question and checks if the business is mentioned. Costs a
-  small amount of API usage per call, so it's rate-limited.
+- `/api/audit`: the only endpoint. A free technical scan across four
+  dimensions (accessibility, structure, entity clarity, answer
+  readiness), built from four plain HTTP fetches. No LLM calls, no API
+  keys, no per-visitor cost.
+
+**There is deliberately no live "does AI mention you" check.** It was
+removed on purpose. It was the only thing on the site that cost money
+per visitor, and it gave away the single question we get paid to
+answer: a visitor told "yes, you are mentioned" has just been told they
+do not need us. The free scan now goes deeper on everything that can be
+measured for nothing, and the two dimensions that need real model
+queries (brand presence, competitor visibility) stay in the
+conversation. If it is ever reinstated, set a provider spend cap first.
 
 No build step, no framework, no database. Plain HTML/CSS/JS + two Netlify
 Functions.
@@ -30,20 +38,17 @@ without calling the API again.
 
 ## Before you deploy: two things to fill in, one to switch on after
 
-1. **Phone number is still a placeholder.** `+31 (0)0 000 00 00` appears
-   twice in `index.html` (contact block and footer), each time in both
-   the link text and the `tel:` href beside it. Replace both before the
-   site goes public: a real site with a fake number reads as a template.
-
-   The email address is set to `info@firstfound.nl` and appears in
-   `index.html` (contact block, footer, and the JSON-LD block in
-   `<head>`) and in each language's `contact.fail` message in `i18n.js`.
-   Change it in all of those if it ever moves.
+1. **Contact details are set.** Phone is `+31 6 11164609` (twice in
+   `index.html`, plus `telephone` in the JSON-LD) and email is
+   `info@firstfound.nl` (twice in `index.html`, plus the JSON-LD and
+   each language's `contact.fail` in `i18n.js`). Change them in all of
+   those places if they ever move.
 
    The canonical URL, `og:url` and `og:image` in `<head>` point at
    `https://firstfound.nl/`. Change them if the domain differs, since
    OpenGraph needs absolute URLs and would otherwise point shared links
    at the wrong site.
+
 2. **Domain**: decide what you're deploying to (e.g. `firstfound.nl`).
 3. **After your first deploy**, turn on email notifications for the
    contact form. Netlify stores submissions in its dashboard by default,
@@ -63,10 +68,8 @@ apply here). Automatic HTTPS, a global CDN, and serverless functions for
 2. Go to [app.netlify.com](https://app.netlify.com) → **Add new site** →
    **Import an existing project** → connect that repo. Netlify reads
    `netlify.toml` automatically, so no build command is needed.
-3. Before the first deploy, add the environment variable:
-   - **Site configuration → Environment variables** → `ANTHROPIC_API_KEY`
-     → your key from [console.anthropic.com](https://console.anthropic.com)
-4. Deploy.
+3. Deploy. No environment variables are required; `ALLOWED_ORIGINS` is
+   optional and only matters once a custom domain is live.
 5. **Domain settings → Add a domain** → follow the DNS instructions
    (usually one A record or CNAME at your registrar).
 
@@ -97,10 +100,6 @@ anything unexpected. Set it and forget it.
   so without a limit the endpoint is a request amplifier pointed at
   someone else's server, and it burns Netlify invocations. The limit is
   generous enough that a real person checking a few sites never sees it.
-- **`/api/spotcheck`** is rate-limited to 3 requests per IP per 24 hours
-  (`_lib/rate-limit.js`, using Netlify's `x-nf-client-connection-ip`
-  header for the real visitor IP), has a honeypot field to deter simple
-  bots, and caps `max_tokens` to keep any single call cheap.
 - **Both endpoints are origin-locked** (`_lib/origin-check.js`). A call
   whose `Origin` isn't one of our own is refused with a 403 before any
   work happens, so neither endpoint can be wired into someone else's
@@ -125,7 +124,7 @@ anything unexpected. Set it and forget it.
   only look at the first few KB anyway, so the reader stops early and
   cancels the rest. Request bodies are capped at 4KB for the same reason.
 - **`/api/*` routing**: `netlify.toml` redirects `/api/audit` and
-  `/api/spotcheck` to Netlify's actual function URLs
+  Netlify's actual function URL
   (`/.netlify/functions/...`), so the front-end code never needs to know
   the difference.
 - **Security headers** are set site-wide in `netlify.toml`: a strict
@@ -164,12 +163,12 @@ anything unexpected. Set it and forget it.
 Neither function returns human-readable text, so that neither one has to
 know which language the visitor is reading:
 
-- `/api/audit` → `{ score, gradeKey, checks: [{ key, pass, params? }] }`.
-  `params` carries values to interpolate into the sentence (e.g. which
-  crawlers are blocked); the front-end resolves `audit.check.<key>`.
-- `/api/spotcheck` → `{ mentioned, snippet }`. The snippet is Claude's
-  own answer, passed through as-is. `lang` in the request body decides
-  which language the buying question is asked in.
+- `/api/audit` → `{ score, gradeKey, dimensions, checks }`.
+  `dimensions` is `{ access, structure, entity, answer }`, each 0-100,
+  and drives the live meters. Each check carries `{ key, pass, group,
+  params? }`; `group` is the dimension it belongs to and `params`
+  carries values to interpolate (word counts, blocked crawlers). The
+  front-end resolves `audit.check.<key>` and `audit.dim.<group>`.
 - Errors from either → `{ errorKey }`, resolved against `error.*`.
 
 Adding a new rejection reason means adding its `error.<key>` to **both**
@@ -306,7 +305,6 @@ fonts/                         self-hosted webfonts (see fonts/LICENSE.md)
   fonts.css                    @font-face rules pointing at the local .woff2 files
 netlify/functions/
   audit.js                     free technical checker
-  spotcheck.js                  one-time live AI check
   _lib/
     ssrf-guard.js               safeFetch(): validates every redirect hop
     rate-limit.js                per-endpoint request caps, keyed by visitor IP

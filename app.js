@@ -1,10 +1,11 @@
 // ============================================================
 // First Found :: front-end logic
 // Talks to two serverless endpoints:
-//   POST /api/audit       { url }                          -> free, unlimited
-//   POST /api/spotcheck   { name, industry, city }          -> one-time, guarded
-// Both endpoints keep all API keys server-side. Nothing secret
-// ever lives in this file.
+//   POST /api/audit  { url }   -> free, rate-limited, no LLM calls
+//
+// The scan is deliberately technical only. Whether a model actually
+// names a business is the question we get paid to answer, so it is
+// not given away here.
 //
 // The endpoints return language-neutral keys (gradeKey, check
 // keys, errorKey); every user-facing string is resolved here
@@ -202,6 +203,49 @@
     el.style.setProperty("--v", el.dataset.v);
   });
 
+  // Which section you are in, shown in the masthead on narrow screens.
+  // Driven by the same observer idea as everything else, and it falls
+  // back to simply staying empty if nothing matches.
+  const hereNum = document.getElementById("here-num");
+  const hereName = document.getElementById("here-name");
+  if (hereNum && hereName) {
+    const marked = [...document.querySelectorAll("main > section[id]")];
+    const labelFor = (sec) => {
+      const mark = sec.querySelector(".band-mark, .idx");
+      return mark ? mark.textContent.trim() : "";
+    };
+
+    const setHere = (sec) => {
+      const i = marked.indexOf(sec);
+      if (i < 0) return;
+      hereNum.textContent = String(i + 1).padStart(2, "0");
+      hereName.textContent = labelFor(sec);
+    };
+
+    if ("IntersectionObserver" in window) {
+      const hereObserver = new IntersectionObserver(
+        (entries) => {
+          // the section covering the top of the viewport wins
+          const top = entries
+            .filter((e) => e.isIntersecting)
+            .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+          if (top) setHere(top.target);
+        },
+        { rootMargin: "-20% 0px -70% 0px", threshold: 0 }
+      );
+      marked.forEach((sec) => hereObserver.observe(sec));
+    }
+
+    // Labels are translated, so refresh on a language change.
+    onLangChange(() => {
+      const current = marked.find((sec) => {
+        const r = sec.getBoundingClientRect();
+        return r.top <= window.innerHeight * 0.3 && r.bottom > window.innerHeight * 0.3;
+      });
+      if (current) setHere(current);
+    });
+  }
+
   // The masthead only becomes a surface once you have left the hero.
   const masthead = document.getElementById("masthead");
   if (masthead) {
@@ -220,6 +264,8 @@
   const auditScoreEl = document.getElementById("audit-score");
   const auditGradeEl = document.getElementById("audit-grade");
   const auditChecksEl = document.getElementById("audit-checks");
+  const auditDimsEl = document.getElementById("audit-dimensions");
+  const toolCta = document.getElementById("tool-cta");
 
   // Last successful audit payload, kept so a language switch can re-render it.
   let lastAudit = null;
@@ -231,29 +277,80 @@
     return v;
   }
 
+  const DIMENSION_ORDER = ["access", "structure", "entity", "answer"];
+
   function renderAudit(data) {
     auditScoreEl.textContent = data.score;
     auditDial.style.setProperty("--pct", String(data.score));
-    auditDial.classList.toggle("is-good", data.score >= 80);
-    auditDial.classList.toggle("is-mid", data.score >= 50 && data.score < 80);
-    auditDial.classList.toggle("is-bad", data.score < 50);
+    auditDial.classList.toggle("is-good", data.score >= 75);
+    auditDial.classList.toggle("is-mid", data.score >= 45 && data.score < 75);
+    auditDial.classList.toggle("is-bad", data.score < 45);
     auditGradeEl.textContent = t("audit.grade." + data.gradeKey);
 
-    auditChecksEl.innerHTML = "";
-    data.checks.forEach((c) => {
+    // Real dimension scores, in the same meter shape as the illustrative
+    // index above, so the two read as one instrument.
+    auditDimsEl.innerHTML = "";
+    DIMENSION_ORDER.forEach((dim) => {
+      const value = data.dimensions ? data.dimensions[dim] : null;
+      if (value == null) return;
+
       const li = document.createElement("li");
-      li.className = c.pass ? "ok" : "fail";
+      li.className = "meter";
+      li.style.setProperty("--v", String(value));
 
-      const icon = document.createElement("span");
-      icon.className = "check-icon";
-      icon.setAttribute("aria-hidden", "true");
-      icon.textContent = c.pass ? "✓" : "✕";
+      const name = document.createElement("span");
+      name.className = "meter-name";
+      name.textContent = t("audit.dim." + dim);
 
-      const label = document.createElement("span");
-      label.textContent = t("audit.check." + c.key, c.params);
+      const track = document.createElement("span");
+      track.className = "meter-track";
+      track.setAttribute("aria-hidden", "true");
+      track.appendChild(Object.assign(document.createElement("span"), { className: "meter-fill" }));
 
-      li.append(icon, label);
-      auditChecksEl.appendChild(li);
+      const val = document.createElement("span");
+      val.className = "meter-val idx";
+      val.textContent = value;
+
+      li.append(name, track, val);
+      auditDimsEl.appendChild(li);
+    });
+    // the fills are revealed by the same rule the illustrative meters use
+    auditDimsEl.classList.add("is-visible");
+
+    // Findings, grouped under the dimension they belong to.
+    auditChecksEl.innerHTML = "";
+    DIMENSION_ORDER.forEach((dim) => {
+      const inGroup = data.checks.filter((c) => (c.group || "access") === dim);
+      if (!inGroup.length) return;
+
+      const section = document.createElement("section");
+      section.className = "finding-group";
+
+      const head = document.createElement("h5");
+      head.className = "idx";
+      head.textContent = t("audit.dim." + dim);
+      section.appendChild(head);
+
+      const ul = document.createElement("ul");
+      ul.className = "checks";
+      inGroup.forEach((c) => {
+        const li = document.createElement("li");
+        li.className = c.pass ? "ok" : "fail";
+
+        const icon = document.createElement("span");
+        icon.className = "check-icon";
+        icon.setAttribute("aria-hidden", "true");
+        icon.textContent = c.pass ? "+" : "\u2013";
+
+        const label = document.createElement("span");
+        label.textContent = t("audit.check." + c.key, c.params);
+
+        li.append(icon, label);
+        ul.appendChild(li);
+      });
+
+      section.appendChild(ul);
+      auditChecksEl.appendChild(section);
     });
 
     auditResult.hidden = false;
@@ -285,7 +382,7 @@
 
       lastAudit = data;
       renderAudit(data);
-      unlockSpotcheck();
+      toolCta.hidden = false;
     } catch {
       // No errorKey means the request never landed (offline, DNS, CORS).
       lastAuditErrorKey = lastAuditErrorKey || "network";
@@ -294,114 +391,6 @@
     } finally {
       auditSubmit.disabled = false;
       auditSubmit.textContent = t("tool.step1.submit");
-    }
-  });
-
-  // ---------- step 2: live spotcheck ----------
-
-  const spotcheckStep = document.getElementById("step-spotcheck");
-  const spotcheckForm = document.getElementById("spotcheck-form");
-  const spotcheckSubmit = document.getElementById("spotcheck-submit");
-  const spotResult = document.getElementById("spotcheck-result");
-  const spotVerdict = document.getElementById("spot-verdict");
-  const spotAnswer = document.getElementById("spot-answer");
-  const toolCta = document.getElementById("tool-cta");
-
-  const SPOTCHECK_DONE_KEY = "ff_spotcheck_done";
-
-  // Last spotcheck outcome, kept so a language switch can re-render it.
-  let lastSpot = null;
-
-  function spotcheckUsed() {
-    try {
-      return Boolean(sessionStorage.getItem(SPOTCHECK_DONE_KEY));
-    } catch {
-      return false;
-    }
-  }
-
-  function markSpotcheckUsed() {
-    try {
-      sessionStorage.setItem(SPOTCHECK_DONE_KEY, "1");
-    } catch {
-      /* private mode. The server-side rate limit is the real guard anyway */
-    }
-  }
-
-  function unlockSpotcheck() {
-    spotcheckStep.classList.add("unlocked");
-    if (spotcheckUsed()) {
-      spotcheckSubmit.disabled = true;
-      spotcheckSubmit.textContent = t("tool.step2.used");
-    } else {
-      spotcheckSubmit.disabled = false;
-    }
-  }
-
-  function renderSpot(spot) {
-    if (spot.state === "error") {
-      spotVerdict.className = "verdict fail";
-      spotVerdict.textContent = t("spot.failed");
-      spotAnswer.textContent = spot.errorKey ? t("error." + spot.errorKey) : t("error.server_error");
-    } else {
-      spotVerdict.className = "verdict " + (spot.mentioned ? "ok" : "fail");
-      spotVerdict.textContent = spot.mentioned
-        ? t("spot.mentioned", { name: spot.name })
-        : t("spot.notMentioned", { name: spot.name });
-      spotAnswer.textContent = spot.snippet || t("spot.noAnswer");
-    }
-    spotResult.hidden = false;
-  }
-
-  spotcheckForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    // honeypot: if filled, silently do nothing
-    if (document.getElementById("sc-website").value) return;
-
-    const payload = {
-      name: document.getElementById("sc-name").value.trim(),
-      industry: document.getElementById("sc-industry").value.trim(),
-      city: document.getElementById("sc-city").value.trim(),
-      // Ask Claude in the visitor's own language, because the question has to read
-      // like something a real customer would type.
-      lang: getLang(),
-    };
-
-    spotcheckSubmit.disabled = true;
-    spotcheckSubmit.textContent = t("tool.step2.submitting");
-    spotResult.hidden = true;
-
-    try {
-      const res = await fetch("/api/spotcheck", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const data = await res.json();
-
-      if (!res.ok) {
-        const err = new Error();
-        err.errorKey = data.errorKey || "server_error";
-        throw err;
-      }
-
-      lastSpot = {
-        state: "ok",
-        name: payload.name,
-        mentioned: data.mentioned,
-        snippet: data.snippet,
-      };
-      renderSpot(lastSpot);
-
-      toolCta.hidden = false;
-      markSpotcheckUsed();
-      spotcheckSubmit.textContent = t("tool.step2.used");
-    } catch (err) {
-      lastSpot = { state: "error", errorKey: err.errorKey || "network" };
-      renderSpot(lastSpot);
-      spotcheckSubmit.disabled = false;
-      spotcheckSubmit.textContent = t("tool.step2.submit");
     }
   });
 
@@ -454,16 +443,8 @@
   onLangChange(() => {
     if (lastAudit) renderAudit(lastAudit);
     if (lastAuditErrorKey) auditHint.textContent = t("error." + lastAuditErrorKey);
-    if (lastSpot) renderSpot(lastSpot);
     if (lastContactStatusKey) contactStatus.textContent = t(lastContactStatusKey);
-
-    // Button labels depend on state, so they can't be plain data-i18n targets.
-    if (spotcheckUsed() && spotcheckStep.classList.contains("unlocked")) {
-      spotcheckSubmit.textContent = t("tool.step2.used");
-    }
+    auditSubmit.textContent = t("tool.step1.submit");
   });
-
-  // A visitor who already used their check in this session sees step 2 as spent.
-  if (spotcheckUsed()) unlockSpotcheck();
 
 })();

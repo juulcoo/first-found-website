@@ -40,6 +40,7 @@
   "name": "FirstFound",
   "url": "https://firstfound.nl/",
   "email": "info@firstfound.nl",
+  "telephone": "+31611164609",
   "description": "FirstFound meet en verbetert hoe zichtbaar bedrijven zijn in antwoorden van AI-systemen zoals ChatGPT, Gemini, Perplexity en Claude.",
   "knowsAbout": ["Generative Engine Optimization", "AI-zichtbaarheid", "LLM-monitoring", "Zoekmachineoptimalisatie"],
   "address": { "@type": "PostalAddress", "addressLocality": "Groningen", "addressCountry": "NL" },
@@ -86,6 +87,13 @@
       </span>
       <span class="mark-word">FirstFound</span>
     </a>
+
+    <!-- Current section, shown on narrow screens once the hero is behind
+         you. aria-hidden: it mirrors state the page already conveys. -->
+    <span class="here idx" id="here" aria-hidden="true">
+      <span class="here-num" id="here-num"></span>
+      <span class="here-name" id="here-name"></span>
+    </span>
 
     <nav class="nav" id="main-nav" aria-label="Hoofdmenu" data-i18n-aria-label="nav.label">
       <a href="#geo" data-i18n="nav.geo">GEO</a>
@@ -283,7 +291,7 @@
   </section>
 
   <!-- ===================== AI VISIBILITY INDEX =====================
-       Element ids below are wired to app.js (audit + spotcheck).
+       Element ids below are wired to app.js (the audit).
        Rename nothing without updating app.js alongside it. -->
   <section class="index" id="index">
     <div class="index-head">
@@ -328,14 +336,14 @@
       <div class="scan-head">
         <h3 class="scan-title" data-i18n="index.scanTitle">Begin met een momentopname</h3>
         <p data-i18n="index.scanLead">
-          Twee stappen, nu meteen. Eerst of AI-systemen uw site kunnen lezen.
-          Daarna of een AI-assistent uw bedrijf noemt.
+          Vier dimensies, nu meteen gemeten op uw eigen site. Geen account,
+          geen wachttijd.
         </p>
       </div>
 
       <div class="step-block" id="step-audit">
-        <span class="idx" data-i18n="tool.step1.label">01 · Technische controle</span>
-        <h4 data-i18n="tool.step1.title">Kan een AI-systeem uw site lezen?</h4>
+        <span class="idx" data-i18n="tool.step1.label">Directe scan</span>
+        <h4 data-i18n="tool.step1.title">Wat kan een AI-systeem van uw site maken?</h4>
         <form id="audit-form" class="field-row">
           <label for="audit-url" class="sr-only" data-i18n="tool.step1.inputLabel">Website URL</label>
           <input type="text" id="audit-url" name="url" placeholder="uwbedrijf.nl"
@@ -352,44 +360,28 @@
               <span class="idx" data-i18n="tool.step1.scoreSub">technisch fundament, op 100</span>
             </div>
           </div>
-          <ul class="checks" id="audit-checks"></ul>
-        </div>
-      </div>
 
-      <div class="step-block locked" id="step-spotcheck">
-        <span class="idx" data-i18n="tool.step2.label">02 · Live check</span>
-        <h4 data-i18n="tool.step2.title">Wordt uw bedrijf genoemd?</h4>
-        <p class="hint" data-i18n="tool.step2.hint">
-          We stellen de vraag zoals een klant dat zou doen, met live websearch.
-          Eén keer per bezoek.
-        </p>
-        <form id="spotcheck-form" class="field-row field-row-3">
-          <label for="sc-name" class="sr-only" data-i18n="tool.step2.nameLabel">Bedrijfsnaam</label>
-          <input type="text" id="sc-name" name="name" placeholder="Bedrijfsnaam"
-                 data-i18n-placeholder="tool.step2.namePlaceholder" required autocomplete="organization">
-          <label for="sc-industry" class="sr-only" data-i18n="tool.step2.industryLabel">Branche</label>
-          <input type="text" id="sc-industry" name="industry" placeholder="Branche"
-                 data-i18n-placeholder="tool.step2.industryPlaceholder" required autocomplete="off">
-          <label for="sc-city" class="sr-only" data-i18n="tool.step2.cityLabel">Plaats</label>
-          <input type="text" id="sc-city" name="city" placeholder="Plaats"
-                 data-i18n-placeholder="tool.step2.cityPlaceholder" required autocomplete="address-level2">
-          <input type="text" id="sc-website" name="website" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
-          <button type="submit" class="pill pill-solid" id="spotcheck-submit" data-i18n="tool.step2.submit" disabled>Stel de vraag</button>
-        </form>
+          <!-- The visitor's real numbers, rendered in the same shape as the
+               illustrative index above. Filled by app.js. -->
+          <ul class="meters meters-live" id="audit-dimensions"></ul>
 
-        <div class="result" id="spotcheck-result" hidden>
-          <div class="verdict" id="spot-verdict"></div>
-          <p class="verdict-body" id="spot-answer"></p>
+          <div class="findings" id="audit-checks"></div>
+
+          <p class="locked-note" data-i18n="tool.lockedNote">
+            Twee dimensies van de index staan hier niet in: of een AI-systeem
+            u daadwerkelijk noemt, en hoe uw concurrenten ervoor staan. Die
+            komen uit echte modelbevragingen en nemen we door in een gesprek.
+          </p>
         </div>
       </div>
 
       <p class="scan-note" data-i18n="tool.note">
-        Deze scan dekt één platform. De volledige index meet tientallen
-        koopvragen over meerdere AI-systemen, inclusief uw concurrenten.
+        Deze scan leest uw site zoals een AI-crawler dat doet. Wat modellen
+        vervolgens over u zeggen, meten we in de volledige index.
       </p>
 
       <div class="scan-cta" id="tool-cta" hidden>
-        <p data-i18n="tool.cta.text">Nog geen onderdeel van het antwoord?</p>
+        <p data-i18n="tool.cta.text">Benieuwd wat AI nu over u zegt?</p>
         <a href="#contact" class="pill pill-solid" data-i18n="tool.cta.button">Plan een gesprek</a>
       </div>
     </div>
@@ -536,6 +528,8 @@
       </div>
     </div>
 
+    <p class="tiers-hint idx" data-i18n="packages.swipe">Veeg om te vergelijken</p>
+
     <p class="packages-note" data-i18n-html="packages.note">
       Welk pakket past, hangt af van uw branche en regio. Dat bespreken we,
       inclusief kosten, in een vrijblijvend gesprek. <a href="#contact">Neem contact op</a>.
@@ -597,7 +591,7 @@
         </div>
         <div>
           <dt class="idx" data-i18n="contact.phoneLabel">Telefoon</dt>
-          <dd><a href="tel:+31000000000">+31 (0)0 000 00 00</a></dd>
+          <dd><a href="tel:+31611164609">+31 6 11164609</a></dd>
         </div>
         <div>
           <dt class="idx" data-i18n="contact.baseLabel">Vestiging</dt>
@@ -661,7 +655,7 @@
     <div class="foot-col">
       <h2 class="idx" data-i18n="footer.contactTitle">Contact</h2>
       <a href="mailto:info@firstfound.nl">info@firstfound.nl</a>
-      <a href="tel:+31000000000">+31 (0)0 000 00 00</a>
+      <a href="tel:+31611164609">+31 6 11164609</a>
     </div>
   </div>
 

@@ -2,7 +2,7 @@
 // Origin check :: "did this call come from our own site?"
 // ------------------------------------------------------------
 // Both endpoints cost us something: /api/audit makes three
-// outbound requests, /api/spotcheck spends Anthropic tokens. The
+// outbound requests against a third-party site. The
 // rate limiter caps how often one caller can do that; this caps
 // *who* can trigger it from a browser at all, so the endpoints
 // can't be wired into someone else's page and billed to us.

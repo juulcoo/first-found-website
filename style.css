@@ -920,6 +920,37 @@ p { margin: 0; }
 .score-meta { display: flex; flex-direction: column; gap: 5px; }
 .score-meta span:first-child { font-size: 1rem; color: var(--ink); }
 
+/* Live dimension meters: same component as the illustrative index, so a
+   visitor's real numbers land in a shape they have already read. */
+.meters-live {
+  margin: 0 0 clamp(24px, 3vw, 36px);
+  padding: clamp(20px, 2.4vw, 28px) 0 0;
+  border-top: 1px solid var(--hair);
+}
+.meters-live .meter-fill { width: 0; }
+.meters-live.is-visible .meter-fill { width: calc(var(--v) * 1%); }
+
+/* Findings, grouped by dimension rather than one long undifferentiated
+   list: the grouping is the diagnosis. */
+.findings { display: grid; gap: clamp(20px, 2.4vw, 30px); }
+.finding-group > .idx {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--accent);
+}
+
+/* What the free scan deliberately does not answer. */
+.locked-note {
+  margin-top: clamp(24px, 3vw, 34px);
+  padding: 18px 20px;
+  border-left: 2px solid var(--accent);
+  background: var(--accent-wash);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--ink-2);
+  max-width: 64ch;
+}
+
 .checks { list-style: none; margin: 0; padding: 0; }
 .checks li {
   display: flex;
@@ -1371,6 +1402,137 @@ p { margin: 0; }
   transition: opacity var(--slow) var(--ease), transform var(--slow) var(--ease);
 }
 .reveal.is-visible { opacity: 1; transform: none; }
+
+/* ---------- mobile: tighten the overview ----------
+   The desktop rhythm is built on generous bands. Carried straight to a
+   phone that became fifteen screens of scrolling, where the same page
+   has to be grasped through a 375px window. Everything below trims
+   vertical space without touching the type scale, so the page still
+   reads as the same design, just less of a hike. */
+
+@media (max-width: 760px) {
+  :root { --band-y: clamp(48px, 10vw, 68px); }
+
+  /* Section openers: the rule plus its mark took a lot of room. */
+  .band-mark { margin-bottom: 22px; padding-bottom: 11px; }
+
+  /* Long lists are where the scroll really accumulates. */
+  .row { padding: 22px 0; }
+  .phase { padding: 18px 0; }
+  .creds li { padding: 18px 0; }
+  .setup-list li { padding: 9px 0; }
+  .checks li { padding: 10px 0; }
+  .signals li { padding: 9px 0; }
+  .shift-col li { padding: 10px 0; }
+
+  /* Packages was the single heaviest block at over three screens. */
+  .setup { padding: 24px 0; margin-bottom: 30px; gap: 22px; }
+  .setup-line { margin-bottom: 1em; }
+  .tier { padding: 22px 0; }
+  .tier-lead { padding: 22px 18px; }
+  .tier-line { margin: 10px 0 12px; }
+  .tier li { padding: 5px 0 5px 16px; }
+  .tier ul { margin-bottom: 14px; }
+  .tier-foot { padding-top: 12px; }
+  .tiers-head { margin-bottom: 18px; }
+
+  /* The scan output is now sixteen findings in four groups. */
+  .findings { gap: 18px; }
+  .meters-live { margin-bottom: 20px; padding-top: 18px; }
+  .meters { gap: 16px; }
+  .step-block { padding: 22px 0; }
+  .result { margin-top: 22px; padding-top: 20px; }
+
+  .pull { margin-top: 32px; }
+  .local { padding-top: 22px; }
+  .foot { padding-top: clamp(40px, 9vw, 56px); }
+  .foot-statement { padding-bottom: 30px; }
+  .foot-grid { padding: 24px 0; gap: 24px 20px; }
+  .wiring { gap: 20px; }
+  .statement { margin-bottom: 24px; }
+  .geo-body { margin-bottom: 34px; }
+  .index-head, .scan-head, .packages-head, .services-head { margin-bottom: 28px; }
+  .about-statement { margin-bottom: 22px; }
+  .about-body { margin-bottom: 32px; }
+  .creds { margin-bottom: 30px; }
+  .shift-type { margin-bottom: 30px; }
+  .shift-cols { padding-top: 20px; gap: 24px; }
+  .contact .details { margin-top: 26px; }
+  .details > div { padding: 13px 0; }
+}
+
+/* Three stacked pricing cards were nearly two screens on their own.
+   As a snap carousel they occupy one, and comparing them becomes a
+   swipe instead of a scroll back and forth. */
+
+@media (max-width: 920px) {
+  .tiers {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: 80%;
+    gap: 12px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    /* bleed to the screen edge so it reads as swipeable */
+    margin-inline: calc(var(--pad) * -1);
+    padding-inline: var(--pad);
+    padding-bottom: 4px;
+    border-top: 0;
+  }
+  .tiers::-webkit-scrollbar { display: none; }
+
+  .tier {
+    scroll-snap-align: start;
+    border: 1px solid var(--hair);
+    border-bottom: 1px solid var(--hair);
+    padding: 24px 20px;
+  }
+  .tier:first-child, .tier:last-child { padding-left: 20px; padding-right: 20px; }
+  .tier-lead { border-color: var(--accent-hair); }
+
+  .tiers-hint { display: block; }
+}
+
+/* Only shown where the carousel exists. */
+.tiers-hint { display: none; margin-top: 12px; color: var(--muted); }
+
+/* Where you are, in the masthead, once the hero is behind you. Uses the
+   same index-mark language as the rest of the site. */
+.here {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  margin-left: 12px;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.35s var(--ease), transform 0.35s var(--ease);
+}
+.here-num { color: var(--accent); }
+.here-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--ink-2);
+}
+.masthead.is-stuck .here { opacity: 1; transform: none; }
+
+@media (max-width: 1000px) {
+  .here { display: flex; }
+}
+
+/* On a phone the masthead cannot hold the wordmark and the indicator at
+   once. Once you are past the hero the brand has already been read, so
+   the mark collapses to its glyph and the indicator takes the room. */
+@media (max-width: 620px) {
+  .masthead.is-stuck .mark-word { display: none; }
+  .here { margin-left: 4px; }
+}
+@media (max-width: 330px) {
+  .here { display: none; }
+}
 
 /* ---------- touch targets ---------- */
 
