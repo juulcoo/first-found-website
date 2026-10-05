@@ -70,6 +70,78 @@
   } catch (e) { /* private mode, so fall back to the markup defaults */ }
 })();
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Wat is GEO precies?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Generative Engine Optimization. Waar SEO zorgt dat u hoog in de zoekresultaten staat, zorgt GEO dat u genoemd wordt in het antwoord dat een AI-systeem zelf samenstelt. Het is hetzelfde doel, een ander mechanisme."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is dit niet gewoon SEO onder een nieuwe naam?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Nee, maar ze overlappen. Een site die technisch goed in elkaar zit, presteert in allebei beter. Het verschil zit in de uitkomst: SEO levert een positie in een lijst, GEO levert een vermelding in een antwoord."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Hoe meten jullie of AI mijn bedrijf noemt?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "We stellen de vragen die uw klanten ook stellen: ruim twintig koopvragen over vijf categorieën. Elke vraag herhalen we meerdere keren, omdat AI-antwoorden variëren."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Kunnen jullie garanderen dat ChatGPT mijn bedrijf noemt?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Nee. Niemand kan dat, en wie het wel belooft, meet het niet. Wij sturen de signalen bij waar een model op afgaat en laten u elke maand zien wat dat doet."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Hoe lang duurt het voordat ik iets merk?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "De opstart duurt twee tot drie weken. Daarna is het een kwestie van maanden, niet dagen: externe bronnen moeten opnieuw worden opgehaald en modellen moeten het nieuwe beeld oppikken."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Moet mijn website opnieuw gebouwd worden?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Bijna nooit. Meestal gaat het om dingen die bovenop uw bestaande site komen: leesbare structuur, gestructureerde data, duidelijke antwoorden op echte vragen."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Werken jullie alleen in Noord-Nederland?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "We zitten in Groningen en kennen die markt goed, maar het werk is niet aan een plaats gebonden. Een deel van onze opdrachtgevers zit buiten de regio."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Wat kost het?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Elk traject begint met een eenmalige opstart en loopt daarna maandelijks door. We nemen de kosten volledig door in een vrijblijvend gesprek, voordat er iets vastligt."
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -147,9 +219,10 @@
 
   <!-- ===================== HERO ===================== -->
   <section class="hero">
+    <div class="aurora" aria-hidden="true"></div>
     <div class="hero-rule" aria-hidden="true"></div>
 
-    <div class="hero-lede">
+    <div class="hero-lede intro">
       <span class="idx" data-i18n="hero.mark">GEO · AI-zichtbaarheid</span>
       <h1 class="display" data-i18n="hero.title">Word het antwoord.</h1>
       <p class="hero-sub" data-i18n="hero.sub">
@@ -309,22 +382,22 @@
         <span class="idx report-flag" data-i18n="index.illustrative">Voorbeeldwaarden</span>
       </div>
       <ul class="meters">
-        <li class="meter" data-v="62">
+        <li class="meter" data-dim="access" data-v="62">
           <span class="meter-name" data-i18n="index.m1">Merkaanwezigheid</span>
           <span class="meter-track" aria-hidden="true"><span class="meter-fill"></span></span>
           <span class="meter-val idx" aria-hidden="true">62</span>
         </li>
-        <li class="meter" data-v="88">
+        <li class="meter" data-dim="structure" data-v="88">
           <span class="meter-name" data-i18n="index.m2">Zichtbaarheid concurrenten</span>
           <span class="meter-track" aria-hidden="true"><span class="meter-fill"></span></span>
           <span class="meter-val idx" aria-hidden="true">88</span>
         </li>
-        <li class="meter" data-v="45">
+        <li class="meter" data-dim="entity" data-v="45">
           <span class="meter-name" data-i18n="index.m3">Bronautoriteit</span>
           <span class="meter-track" aria-hidden="true"><span class="meter-fill"></span></span>
           <span class="meter-val idx" aria-hidden="true">45</span>
         </li>
-        <li class="meter" data-v="71">
+        <li class="meter" data-dim="answer" data-v="71">
           <span class="meter-name" data-i18n="index.m4">Entiteitshelderheid</span>
           <span class="meter-track" aria-hidden="true"><span class="meter-fill"></span></span>
           <span class="meter-val idx" aria-hidden="true">71</span>
@@ -574,6 +647,83 @@
     <p class="local" data-i18n="about.localLine">
       Gevestigd in het noorden. Gebouwd voor wat na de zoekmachine komt.
     </p>
+  </section>
+
+  <!-- ===================== FAQ ===================== -->
+  <section class="faq" id="faq">
+    <div class="faq-aside">
+      <span class="idx band-mark" data-i18n="faq.mark">Veelgestelde vragen</span>
+      <h2 class="display-sm" data-i18n="faq.title">Wat mensen ons vragen.</h2>
+    </div>
+
+    <!-- <details name> makes these mutually exclusive natively, and the
+         whole block works with JavaScript switched off. -->
+    <div class="qas">
+      <details class="qa" name="faq">
+        <summary>
+          <span class="idx qa-num" aria-hidden="true">01</span>
+          <span class="qa-q" data-i18n="faq.q1">Wat is GEO precies?</span>
+          <span class="qa-sign" aria-hidden="true"></span>
+        </summary>
+        <div class="qa-a"><p data-i18n="faq.a1">Generative Engine Optimization. Waar SEO zorgt dat u hoog in de zoekresultaten staat, zorgt GEO dat u genoemd wordt in het antwoord dat een AI-systeem zelf samenstelt. Het is hetzelfde doel, een ander mechanisme.</p></div>
+      </details>
+      <details class="qa" name="faq">
+        <summary>
+          <span class="idx qa-num" aria-hidden="true">02</span>
+          <span class="qa-q" data-i18n="faq.q2">Is dit niet gewoon SEO onder een nieuwe naam?</span>
+          <span class="qa-sign" aria-hidden="true"></span>
+        </summary>
+        <div class="qa-a"><p data-i18n="faq.a2">Nee, maar ze overlappen. Een site die technisch goed in elkaar zit, presteert in allebei beter. Het verschil zit in de uitkomst: SEO levert een positie in een lijst, GEO levert een vermelding in een antwoord.</p></div>
+      </details>
+      <details class="qa" name="faq">
+        <summary>
+          <span class="idx qa-num" aria-hidden="true">03</span>
+          <span class="qa-q" data-i18n="faq.q3">Hoe meten jullie of AI mijn bedrijf noemt?</span>
+          <span class="qa-sign" aria-hidden="true"></span>
+        </summary>
+        <div class="qa-a"><p data-i18n="faq.a3">We stellen de vragen die uw klanten ook stellen: ruim twintig koopvragen over vijf categorieën. Elke vraag herhalen we meerdere keren, omdat AI-antwoorden variëren.</p></div>
+      </details>
+      <details class="qa" name="faq">
+        <summary>
+          <span class="idx qa-num" aria-hidden="true">04</span>
+          <span class="qa-q" data-i18n="faq.q4">Kunnen jullie garanderen dat ChatGPT mijn bedrijf noemt?</span>
+          <span class="qa-sign" aria-hidden="true"></span>
+        </summary>
+        <div class="qa-a"><p data-i18n="faq.a4">Nee. Niemand kan dat, en wie het wel belooft, meet het niet. Wij sturen de signalen bij waar een model op afgaat en laten u elke maand zien wat dat doet.</p></div>
+      </details>
+      <details class="qa" name="faq">
+        <summary>
+          <span class="idx qa-num" aria-hidden="true">05</span>
+          <span class="qa-q" data-i18n="faq.q5">Hoe lang duurt het voordat ik iets merk?</span>
+          <span class="qa-sign" aria-hidden="true"></span>
+        </summary>
+        <div class="qa-a"><p data-i18n="faq.a5">De opstart duurt twee tot drie weken. Daarna is het een kwestie van maanden, niet dagen: externe bronnen moeten opnieuw worden opgehaald en modellen moeten het nieuwe beeld oppikken.</p></div>
+      </details>
+      <details class="qa" name="faq">
+        <summary>
+          <span class="idx qa-num" aria-hidden="true">06</span>
+          <span class="qa-q" data-i18n="faq.q6">Moet mijn website opnieuw gebouwd worden?</span>
+          <span class="qa-sign" aria-hidden="true"></span>
+        </summary>
+        <div class="qa-a"><p data-i18n="faq.a6">Bijna nooit. Meestal gaat het om dingen die bovenop uw bestaande site komen: leesbare structuur, gestructureerde data, duidelijke antwoorden op echte vragen.</p></div>
+      </details>
+      <details class="qa" name="faq">
+        <summary>
+          <span class="idx qa-num" aria-hidden="true">07</span>
+          <span class="qa-q" data-i18n="faq.q7">Werken jullie alleen in Noord-Nederland?</span>
+          <span class="qa-sign" aria-hidden="true"></span>
+        </summary>
+        <div class="qa-a"><p data-i18n="faq.a7">We zitten in Groningen en kennen die markt goed, maar het werk is niet aan een plaats gebonden. Een deel van onze opdrachtgevers zit buiten de regio.</p></div>
+      </details>
+      <details class="qa" name="faq">
+        <summary>
+          <span class="idx qa-num" aria-hidden="true">08</span>
+          <span class="qa-q" data-i18n="faq.q8">Wat kost het?</span>
+          <span class="qa-sign" aria-hidden="true"></span>
+        </summary>
+        <div class="qa-a"><p data-i18n="faq.a8">Elk traject begint met een eenmalige opstart en loopt daarna maandelijks door. We nemen de kosten volledig door in een vrijblijvend gesprek, voordat er iets vastligt.</p></div>
+      </details>
+    </div>
   </section>
 
   <!-- ===================== CONTACT ===================== -->

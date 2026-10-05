@@ -42,6 +42,15 @@
   --accent-wash: rgba(138, 106, 47, 0.09);
   --accent-hair: rgba(138, 106, 47, 0.32);
 
+  /* Four dimension hues. Colour here is functional: each belongs to a
+     dimension of the index and reappears wherever that dimension does,
+     so the palette reads as a key rather than as decoration. Chosen to
+     sit beside brass without competing with it. */
+  --d-access: #8a6a2f;
+  --d-structure: #2f6a63;
+  --d-entity: #4f4a8c;
+  --d-answer: #9a5438;
+
   --good: #4a6b3f;
   --good-wash: rgba(74, 107, 63, 0.1);
   --bad: #8f3f2a;
@@ -84,6 +93,11 @@
   --accent-ink: #14130f;
   --accent-wash: rgba(214, 169, 92, 0.11);
   --accent-hair: rgba(214, 169, 92, 0.36);
+
+  --d-access: #d6a95c;
+  --d-structure: #6fc4b6;
+  --d-entity: #a3a0ec;
+  --d-answer: #e09a78;
 
   --good: #8fbf7a;
   --good-wash: rgba(143, 191, 122, 0.12);
@@ -435,6 +449,8 @@ p { margin: 0; }
 
 .hero {
   position: relative;
+  /* clips the aurora, which is deliberately wider than the section */
+  overflow: hidden;
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   column-gap: clamp(16px, 2.4vw, 32px);
@@ -483,6 +499,76 @@ p { margin: 0; }
   grid-row: 3;
   margin-top: clamp(20px, 2.4vw, 34px);
 }
+
+/* ---------- hero entrance ----------
+   Above the fold, so it plays on load rather than on an observer. Each
+   element gets its place in the sequence through --i. Under
+   prefers-reduced-motion the whole block is skipped and everything is
+   simply present (see the guard at the end of this file). */
+
+/* Sequence assigned here, not with inline style attributes: our own CSP
+   sets style-src 'self' with no unsafe-inline, which blocks those. */
+.intro > *:nth-child(1) { --i: 0; }
+.intro > *:nth-child(2) { --i: 1; }
+.intro > *:nth-child(3) { --i: 3; }
+.intro > *:nth-child(4) { --i: 4; }
+.hero-title span:nth-child(1) { --i: 0; }
+.hero-title span:nth-child(2) { --i: 1; }
+
+.intro > * {
+  --i: 0;
+  opacity: 0;
+  animation: intro-rise 1s var(--ease) forwards;
+  animation-delay: calc(140ms + var(--i) * 110ms);
+}
+
+@keyframes intro-rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* The headline reveals line by line from behind its own baseline, which
+   reads as typesetting rather than as a fade. */
+.hero-title span {
+  --i: 0;
+  display: block;
+  clip-path: inset(0 0 110% 0);
+  transform: translateY(0.22em);
+  animation: line-in 1.15s var(--ease) forwards;
+  animation-delay: calc(220ms + var(--i) * 130ms);
+}
+
+@keyframes line-in {
+  from { clip-path: inset(0 0 110% 0); transform: translateY(0.22em); }
+  to { clip-path: inset(-0.18em -0.08em -0.22em 0); transform: none; }
+}
+
+/* A slow wash built from the four dimension hues. Very low opacity: it
+   should register as warmth in the page, not as a gradient. */
+.aurora {
+  position: absolute;
+  inset: -22% -12% auto -12%;
+  height: 132%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.5;
+  background:
+    radial-gradient(38% 46% at 18% 30%, color-mix(in oklab, var(--d-access) 42%, transparent) 0%, transparent 70%),
+    radial-gradient(34% 42% at 76% 22%, color-mix(in oklab, var(--d-entity) 34%, transparent) 0%, transparent 70%),
+    radial-gradient(40% 44% at 62% 74%, color-mix(in oklab, var(--d-structure) 30%, transparent) 0%, transparent 72%),
+    radial-gradient(32% 38% at 30% 82%, color-mix(in oklab, var(--d-answer) 26%, transparent) 0%, transparent 72%);
+  filter: blur(26px);
+  animation: aurora-drift 34s ease-in-out infinite alternate;
+}
+[data-theme="dark"] .aurora { opacity: 0.42; }
+
+@keyframes aurora-drift {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  50%  { transform: translate3d(-2.5%, 1.5%, 0) scale(1.06); }
+  100% { transform: translate3d(2%, -1.5%, 0) scale(1.02); }
+}
+
+.hero > *:not(.aurora) { position: relative; z-index: 1; }
 
 /* ---------- the AI canvas ----------
    One of only two real "interface" objects on the page. */
@@ -822,6 +908,26 @@ p { margin: 0; }
   .meter { grid-template-columns: 1fr auto; gap: 8px 14px; }
   .meter-track { grid-column: 1 / -1; order: 3; }
 }
+
+/* ---------- dimension colour ----------
+   One source of truth: a [data-dim] attribute sets --hue, and every
+   component belonging to that dimension just uses it. */
+
+[data-dim="access"]    { --hue: var(--d-access); }
+[data-dim="structure"] { --hue: var(--d-structure); }
+[data-dim="entity"]    { --hue: var(--d-entity); }
+[data-dim="answer"]    { --hue: var(--d-answer); }
+
+.meter[data-dim] .meter-fill { background: var(--hue); }
+.meter[data-dim] .meter-val { color: var(--hue); }
+
+.finding-group[data-dim] {
+  padding-left: 16px;
+  border-left: 1px solid var(--hair);
+  transition: border-color 0.4s var(--ease);
+}
+.finding-group[data-dim] > .idx { color: var(--hue); }
+.finding-group[data-dim]:hover { border-left-color: var(--hue); }
 
 /* ---------- the scan ---------- */
 
@@ -1278,6 +1384,94 @@ p { margin: 0; }
   .creds li + li { border-top: 1px solid var(--hair); }
 }
 
+/* ---------- FAQ ----------
+   Native <details name="faq">, so one opens as another closes, it is
+   keyboard operable for free, and the answers are in the DOM for a
+   crawler even with JavaScript off. */
+
+.faq {
+  border-top: 1px solid var(--hair);
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: clamp(30px, 5vw, 80px);
+}
+.faq-aside { position: sticky; top: 120px; align-self: start; }
+
+.qas { border-top: 1px solid var(--hair); }
+
+.qa { border-bottom: 1px solid var(--hair); }
+
+.qa summary {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding: clamp(18px, 2.2vw, 26px) 0;
+  cursor: pointer;
+  list-style: none;
+  transition: color 0.3s var(--ease);
+}
+.qa summary::-webkit-details-marker { display: none; }
+.qa summary:hover { color: var(--accent); }
+.qa summary:focus-visible { outline: 1px solid var(--accent); outline-offset: 3px; }
+
+.qa-num { color: var(--accent); flex-shrink: 0; }
+
+.qa-q {
+  flex: 1;
+  font-family: var(--font-display);
+  font-size: clamp(1.02rem, 1.7vw, 1.22rem);
+  font-weight: 500;
+  letter-spacing: -0.024em;
+  line-height: 1.35;
+}
+
+/* A plus that becomes a minus. Two rules, no icon font. */
+.qa-sign {
+  position: relative;
+  width: 13px; height: 13px;
+  flex-shrink: 0;
+  align-self: center;
+}
+.qa-sign::before, .qa-sign::after {
+  content: "";
+  position: absolute;
+  inset: 50% 0 auto 0;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.7;
+  transition: transform 0.4s var(--ease), opacity 0.3s var(--ease);
+}
+.qa-sign::after { transform: rotate(90deg); }
+.qa[open] .qa-sign::after { transform: rotate(0deg); }
+.qa[open] .qa-sign::before { opacity: 0.35; }
+.qa[open] summary { color: var(--accent); }
+
+.qa-a {
+  overflow: hidden;
+  padding: 0 0 clamp(18px, 2.2vw, 26px) 45px;
+}
+.qa-a p {
+  max-width: 62ch;
+  font-size: 0.97rem;
+  line-height: 1.68;
+  color: var(--ink-2);
+}
+/* Opening slides the answer down rather than snapping it in. */
+.qa[open] .qa-a { animation: qa-open 0.45s var(--ease); }
+@keyframes qa-open {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (max-width: 900px) {
+  .faq { grid-template-columns: 1fr; }
+  .faq-aside { position: static; }
+}
+@media (max-width: 560px) {
+  .qa-a { padding-left: 0; }
+  .qa summary { gap: 12px; }
+}
+
 /* ---------- contact ---------- */
 
 .contact {
@@ -1403,6 +1597,20 @@ p { margin: 0; }
 }
 .reveal.is-visible { opacity: 1; transform: none; }
 
+/* Children of a revealed group come in one after another rather than
+   all at once. --i is set by app.js. */
+.stagger > * {
+  --i: 0;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+  transition-delay: calc(var(--i) * 70ms);
+}
+.stagger.is-visible > * { opacity: 1; transform: none; }
+
+/* Counting figures should not reflow their column as digits change. */
+.meter-val, .score-num { font-variant-numeric: tabular-nums; }
+
 /* ---------- mobile: tighten the overview ----------
    The desktop rhythm is built on generous bands. Carried straight to a
    phone that became fifteen screens of scrolling, where the same page
@@ -1412,6 +1620,12 @@ p { margin: 0; }
 
 @media (max-width: 760px) {
   :root { --band-y: clamp(48px, 10vw, 68px); }
+
+  /* The two hero actions did not fit side by side at 375px, which ran
+     the secondary link off the right edge. */
+  .hero-act { flex-direction: column; align-items: stretch; gap: 16px; }
+  .hero-act .pill { width: 100%; }
+  .hero-act .underline-link { align-self: flex-start; }
 
   /* Section openers: the rule plus its mark took a lot of room. */
   .band-mark { margin-bottom: 22px; padding-bottom: 11px; }
@@ -1541,4 +1755,21 @@ p { margin: 0; }
   .lang-btn { padding: 8px 4px; }
   .details a { display: inline-block; padding: 4px 0; }
   .underline-link { display: inline-block; padding: 6px 0; }
+}
+
+/* ---------- motion guard ----------
+   Everything above that moves is switched off here rather than at each
+   site, so a new animation cannot be added and quietly miss this. */
+
+@media (prefers-reduced-motion: reduce) {
+  .intro > *,
+  .hero-title span {
+    opacity: 1;
+    animation: none;
+    clip-path: none;
+    transform: none;
+  }
+  .aurora { animation: none; }
+  .stagger > * { opacity: 1; transform: none; transition: none; }
+  .qa[open] .qa-a { animation: none; }
 }

@@ -254,6 +254,7 @@ negative space rather than from a grid of cards.
 | Werkwijze | `#werkwijze` | Sticky aside beside a numbered sequence |
 | Pakketten | `#pakketten` | Rule-divided columns, featured tier washed in accent |
 | Over | `#over` | Display statement, credibility columns, serif local line |
+| FAQ | `#faq` | Sticky aside beside a native `<details>` accordion |
 | Contact | `#contact` | Statement, hairline details, underline-only form |
 | Footer | | Closing statement at hero scale |
 
@@ -270,6 +271,18 @@ Three things recur and should keep recurring in anything added later:
 - **Hairlines, not cards.** Only two elements are given a surface: the
   hero canvas and the index report, because both genuinely are
   interfaces. Everything else sits on open page.
+- **Colour is a key, not decoration.** Beyond brass there are four
+  dimension hues (`--d-access`, `--d-structure`, `--d-entity`,
+  `--d-answer`). Anything belonging to a dimension carries
+  `data-dim="..."`, which sets `--hue`; the meters and finding groups
+  just use it. Add a dimension and you add its token and nothing else.
+- **The aurora** behind the hero is built from those same four hues at
+  very low opacity. It should register as warmth, never as a gradient.
+
+The FAQ uses native `<details name="faq">`: one opens as another closes,
+it is keyboard operable for free, and every answer is in the DOM for a
+crawler with JavaScript off. It also carries **FAQPage** structured
+data, which is the same signal `/api/audit` checks other sites for.
 
 The hero canvas is a **conceptual illustration**, labelled in the markup
 and in a visible caption. It must never be presented as real model
@@ -285,6 +298,15 @@ under `prefers-reduced-motion`. Two safeguards matter:
   background tab does not sit at `opacity: 0`.
 - A timeout reveals everything after 8 seconds regardless. Content must
   never stay invisible because a callback did not arrive.
+
+Two rules keep motion from ever costing content:
+
+- A staggered container **must** also be a reveal target, or `.stagger`
+  hides its children and nothing un-hides them. `app.js` derives the
+  stagger list from `revealTargets` so that cannot drift apart.
+- `countTo()` writes the real figure **before** animating. A background
+  tab never runs `requestAnimationFrame`, and a number that never
+  arrives is far worse than one that did not count up.
 
 Index meter values live in `data-v` on each `.meter` and are applied by
 `app.js` through `setProperty`. They cannot be inline `style` attributes:

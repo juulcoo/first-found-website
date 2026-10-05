@@ -109,10 +109,10 @@
   // ---------- scroll reveal ----------
 
   const revealTargets = document.querySelectorAll(
-    ".hero-lede, .canvas, .shift-type, .shift-col, .pull, .statement, .geo-body," +
-    " .wiring, .index-head, .report, .scan-head, .step-block, .row, .phase," +
-    " .setup, .tiers-head, .tier, .about-statement, .about-body, .creds li," +
-    " .local, .contact-aside, .form, .foot-statement"
+    ".canvas, .shift-type, .shift-col, .pull, .statement, .geo-body," +
+    " .wiring, .index-head, .report, .scan-head, .step-block, .rows, .phases," +
+    " .setup, .setup-list, .signals, .tiers-head, .tier, .about-statement, .about-body, .creds," +
+    " .local, .contact-aside, .form, .foot-statement, .faq-aside, .qas"
   );
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) {
     revealTargets.forEach((el) => el.classList.add("is-visible"));
@@ -246,6 +246,67 @@
     });
   }
 
+  // Lists come in one child at a time. The index is set here so the CSS
+  // only has to express the delay, and so adding a list item needs no
+  // extra markup.
+  // A staggered container must also be a reveal target, otherwise its
+  // children are hidden by .stagger and nothing ever un-hides them.
+  // Deriving the list from revealTargets makes that impossible to get
+  // wrong when a selector changes.
+  if (motionOK) {
+    const STAGGER = ".rows, .phases, .creds, .signals, .setup-list, .qas";
+    [...revealTargets].filter((el) => el.matches(STAGGER)).forEach((group) => {
+      group.classList.add("stagger");
+      [...group.children].forEach((child, i) => child.style.setProperty("--i", String(i)));
+    });
+  }
+
+  // Figures count up to their value instead of appearing at it. Short
+  // and eased, so it reads as a measurement settling rather than a slot
+  // machine.
+  function countTo(el, target, ms) {
+    // Write the real value first. requestAnimationFrame does not run in a
+    // background tab, and a figure that never arrives is far worse than
+    // one that simply did not animate.
+    el.textContent = String(target);
+    if (!motionOK) return;
+    const start = performance.now();
+    const step = (now) => {
+      const p = Math.min(1, (now - start) / ms);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = String(Math.round(target * eased));
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+
+  // The illustrative index figures animate when the report arrives.
+  const report = document.querySelector(".report");
+  if (report) {
+    const runCounts = () => {
+      report.querySelectorAll(".meter[data-v]").forEach((m) => {
+        const val = m.querySelector(".meter-val");
+        if (val && !val.dataset.counted) {
+          val.dataset.counted = "1";
+          countTo(val, Number(m.dataset.v), 1400);
+        }
+      });
+    };
+    if (!motionOK || !("IntersectionObserver" in window)) {
+      runCounts();
+    } else {
+      const countObserver = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (!e.isIntersecting) return;
+          runCounts();
+          countObserver.disconnect();
+        });
+      }, { threshold: 0.25 });
+      countObserver.observe(report);
+      setTimeout(runCounts, 8000); // never leave the figures at zero
+    }
+  }
+
   // The masthead only becomes a surface once you have left the hero.
   const masthead = document.getElementById("masthead");
   if (masthead) {
@@ -280,7 +341,7 @@
   const DIMENSION_ORDER = ["access", "structure", "entity", "answer"];
 
   function renderAudit(data) {
-    auditScoreEl.textContent = data.score;
+    countTo(auditScoreEl, data.score, 1100);
     auditDial.style.setProperty("--pct", String(data.score));
     auditDial.classList.toggle("is-good", data.score >= 75);
     auditDial.classList.toggle("is-mid", data.score >= 45 && data.score < 75);
@@ -296,6 +357,7 @@
 
       const li = document.createElement("li");
       li.className = "meter";
+      li.dataset.dim = dim;
       li.style.setProperty("--v", String(value));
 
       const name = document.createElement("span");
@@ -309,7 +371,7 @@
 
       const val = document.createElement("span");
       val.className = "meter-val idx";
-      val.textContent = value;
+      countTo(val, value, 1200);
 
       li.append(name, track, val);
       auditDimsEl.appendChild(li);
@@ -325,6 +387,7 @@
 
       const section = document.createElement("section");
       section.className = "finding-group";
+      section.dataset.dim = dim;
 
       const head = document.createElement("h5");
       head.className = "idx";
