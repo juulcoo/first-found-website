@@ -759,6 +759,11 @@
 
     <form class="form" id="contact-form" name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field">
       <input type="hidden" name="form-name" value="contact">
+      <!-- Netlify uses a field named "subject" for the notification
+           email's subject line, and the field named "email" as its
+           reply-to. The recipient itself cannot be set from markup, by
+           design: see the deploy checklist in README.md. -->
+      <input type="hidden" name="subject" value="Nieuw bericht via firstfound.nl">
       <div class="field">
         <label for="c-name" data-i18n="contact.name">Naam</label>
         <input type="text" id="c-name" name="name" required autocomplete="name">

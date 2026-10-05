@@ -1709,6 +1709,86 @@ p { margin: 0; }
 /* Counting figures should not reflow their column as digits change. */
 .meter-val, .score-num { font-variant-numeric: tabular-nums; }
 
+/* ---------- hover language ----------
+   One vocabulary, applied to everything that was previously inert: a
+   hairline takes on colour, muted text steps up to ink, an index mark
+   brightens, and a row nudges a few pixels along its reading
+   direction. No scaling, no shadows jumping, nothing bounces. The
+   reduced-motion block near the top of this file already collapses
+   every transition duration, so these resolve instantly there. */
+
+/* Method steps */
+.phase { transition: border-color 0.4s var(--ease); }
+.phase:hover { border-top-color: var(--hair-2); }
+.phase h3 { transition: transform 0.4s var(--ease), color 0.3s var(--ease); }
+.phase:hover h3 { transform: translateX(5px); color: var(--accent); }
+.phase .idx { transition: color 0.3s var(--ease); }
+.phase:hover .idx { color: var(--accent-2); }
+
+/* Why FirstFound */
+.creds li { transition: border-color 0.4s var(--ease); }
+.creds li:hover { border-top-color: var(--accent-hair); }
+.creds li h3 { transition: color 0.3s var(--ease); }
+.creds li:hover h3 { color: var(--accent); }
+
+/* Pricing columns */
+.tier { transition: background-color 0.4s var(--ease), border-color 0.4s var(--ease); }
+.tier:hover { background: var(--accent-wash); }
+.tier:hover .tier-name { color: var(--accent); }
+.tier-name { transition: color 0.3s var(--ease); }
+
+/* Index rows, live and illustrative */
+.meter { transition: opacity 0.3s var(--ease); }
+.meter-name { transition: color 0.3s var(--ease); }
+.meter:hover .meter-name { color: var(--ink); }
+.meter-track { transition: background-color 0.3s var(--ease); }
+.meter:hover .meter-track { background: var(--hair-2); }
+
+/* Source chips on the hero canvas */
+.srcs li {
+  transition: border-color 0.35s var(--ease), color 0.3s var(--ease),
+              transform 0.35s var(--ease);
+}
+.srcs li:hover {
+  border-color: var(--accent-hair);
+  color: var(--ink);
+  transform: translateY(-1px);
+}
+
+/* The canvas itself lifts a little, like a card being picked up */
+.canvas { transition: box-shadow 0.5s var(--ease), border-color 0.5s var(--ease); }
+.canvas:hover { border-color: var(--hair-2); }
+
+/* Setup checklist */
+.setup-list li { transition: color 0.3s var(--ease); }
+.setup-list li:hover { color: var(--ink); }
+.setup-list li .idx { transition: color 0.3s var(--ease); }
+.setup-list li:hover .idx { color: var(--accent-2); }
+
+/* The two columns of the shift */
+.shift-col li { transition: color 0.3s var(--ease), padding-left 0.35s var(--ease); }
+.shift-col li:hover { color: var(--ink); padding-left: 5px; }
+
+/* Scan findings */
+.checks li { transition: color 0.3s var(--ease); }
+.checks li:hover { color: var(--ink); }
+
+/* The output node of the signals diagram */
+.node { transition: border-color 0.4s var(--ease), color 0.3s var(--ease); }
+.node:hover { border-color: var(--accent); }
+
+/* Contact details rows */
+.details > div { transition: border-color 0.4s var(--ease); }
+.details > div:hover { border-top-color: var(--accent-hair); }
+
+/* The wordmark glyph turns a few degrees, like a dial being read */
+.mark-glyph { transition: transform 0.6s var(--ease), color 0.3s var(--ease); }
+.mark:hover .mark-glyph { transform: rotate(45deg); }
+
+/* FAQ numbers follow their question */
+.qa summary .qa-num { transition: color 0.3s var(--ease); }
+.qa summary:hover .qa-num { color: var(--accent-2); }
+
 /* ---------- mobile: tighten the overview ----------
    The desktop rhythm is built on generous bands. Carried straight to a
    phone that became fifteen screens of scrolling, where the same page

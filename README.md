@@ -50,12 +50,27 @@ without calling the API again.
    at the wrong site.
 
 2. **Domain**: decide what you're deploying to (e.g. `firstfound.nl`).
-3. **After your first deploy**, turn on email notifications for the
-   contact form. Netlify stores submissions in its dashboard by default,
-   but does *not* email them to you until you ask it to:
+3. **Point the contact form at info@firstfound.nl.** This is the one
+   step that cannot be done from this repository, and the site is not
+   finished without it.
+
+   Netlify deliberately does not let the recipient be set in markup,
+   because otherwise anyone could edit the HTML and redirect your form
+   mail. It is a dashboard setting:
+
    **Site configuration → Forms → Form notifications → Add notification
-   → Email notification** → point it at `info@firstfound.nl`.
-   Without this step, messages arrive but nothing tells you they did.
+   → Email notification** → recipient `info@firstfound.nl`, form
+   `contact`.
+
+   Until you do this, submissions are still captured (Netlify → Forms →
+   contact) but nothing emails you to say so, which in practice means
+   missed leads.
+
+   The markup already does everything it can from this side: the hidden
+   `subject` field sets the notification's subject line to "Nieuw
+   bericht via firstfound.nl", and the field named `email` is picked up
+   by Netlify as the reply-to, so replying to the notification goes
+   straight back to the sender.
 
 ## Deploying (Netlify)
 
