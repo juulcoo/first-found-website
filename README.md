@@ -278,6 +278,16 @@ Three things recur and should keep recurring in anything added later:
   just use it. Add a dimension and you add its token and nothing else.
 - **The aurora** behind the hero is built from those same four hues at
   very low opacity. It should register as warmth, never as a gradient.
+  It lives at page level (`.aurora-wrap` as the first element in
+  `<body>`), not inside the hero: inside the hero it was clipped to the
+  1340px shell and drew two hard vertical seams down the page, and it
+  stopped at the hero's top edge leaving a third seam under the
+  masthead. The wrapper clips and a `mask-image` fades the layer out, so
+  its bottom edge never shows as a line either.
+- **The signals wiring** cycles the four hues across the connector
+  lines and index marks, and the output node carries all four, because
+  that is literally what the diagram says: several kinds of signal
+  resolving into one answer.
 
 The FAQ uses native `<details name="faq">`: one opens as another closes,
 it is keyboard operable for free, and every answer is in the DOM for a
@@ -299,11 +309,21 @@ under `prefers-reduced-motion`. Two safeguards matter:
 - A timeout reveals everything after 8 seconds regardless. Content must
   never stay invisible because a callback did not arrive.
 
-Two rules keep motion from ever costing content:
+Every section belongs in **three** selector lists: the shell
+constraint, the `padding-block` rhythm, and (if it has a mark) nothing
+else. The FAQ was added to neither at first and ran flush to the window
+edge with no band padding. If a new section looks unlike the others,
+check those two lists first.
+
+Three rules keep motion from ever costing content:
 
 - A staggered container **must** also be a reveal target, or `.stagger`
   hides its children and nothing un-hides them. `app.js` derives the
   stagger list from `revealTargets` so that cannot drift apart.
+- The hero answer types itself out. A language switch bumps a token
+  that cancels any in-flight typing, so it cannot overwrite the text
+  i18n has just replaced, and a timeout shows the full sentence if the
+  typing never finishes.
 - `countTo()` writes the real figure **before** animating. A background
   tab never runs `requestAnimationFrame`, and a number that never
   arrives is far worse than one that did not count up.

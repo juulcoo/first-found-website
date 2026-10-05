@@ -186,6 +186,45 @@
   const canvas = document.getElementById("canvas");
   if (canvas) {
     const stages = canvas.querySelectorAll("[data-stage]");
+    // The three spans the answer is built from. Typing across them in
+    // order reads as one sentence being written.
+    const answerParts = [...canvas.querySelectorAll(".canvas-a [data-i18n]")];
+
+    // Bumped on a language switch so any in-flight typing stops instead
+    // of overwriting the text i18n has just replaced.
+    let typeToken = 0;
+
+    const showAnswerInFull = () => {
+      typeToken++;
+      canvas.classList.remove("typing");
+      answerParts.forEach((el) => { el.textContent = t(el.dataset.i18n); });
+    };
+
+    function typeAnswer() {
+      const token = ++typeToken;
+      const texts = answerParts.map((el) => t(el.dataset.i18n));
+      answerParts.forEach((el) => { el.textContent = ""; });
+      canvas.classList.add("typing");
+
+      let part = 0;
+      let char = 0;
+      const tick = () => {
+        if (token !== typeToken) return;           // cancelled
+        if (part >= answerParts.length) {
+          canvas.classList.remove("typing");
+          canvas.classList.add("lit");             // then the highlight sweeps in
+          return;
+        }
+        const full = texts[part];
+        char += 1;
+        answerParts[part].textContent = full.slice(0, char);
+        if (char >= full.length) { part += 1; char = 0; }
+        // a touch of jitter so it does not read as a metronome
+        setTimeout(tick, 11 + Math.random() * 16);
+      };
+      tick();
+    }
+
     if (!motionOK) {
       canvas.classList.add("lit");
     } else {
@@ -193,8 +232,16 @@
       stages.forEach((el, i) => {
         setTimeout(() => el.classList.add("on"), 420 + i * 520);
       });
-      setTimeout(() => canvas.classList.add("lit"), 420 + stages.length * 520);
+      // Starts once the answer row itself has arrived.
+      setTimeout(typeAnswer, 420 + 520);
+      // Safety: if the typing never completes, show the sentence anyway.
+      setTimeout(() => {
+        if (canvas.classList.contains("typing")) showAnswerInFull();
+        canvas.classList.add("lit");
+      }, 12000);
     }
+
+    onLangChange(showAnswerInFull);
   }
 
   // Index meters carry their value in data-v. Applying it through CSSOM
@@ -310,7 +357,14 @@
   // The masthead only becomes a surface once you have left the hero.
   const masthead = document.getElementById("masthead");
   if (masthead) {
-    const onScroll = () => masthead.classList.toggle("is-stuck", window.scrollY > 24);
+    const progress = document.getElementById("progress");
+    const onScroll = () => {
+      masthead.classList.toggle("is-stuck", window.scrollY > 24);
+      if (!progress) return;
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const p = max > 0 ? Math.min(1, window.scrollY / max) : 0;
+      progress.style.setProperty("--p", p.toFixed(4));
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
   }

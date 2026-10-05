@@ -133,6 +133,11 @@ body {
 
 body.nav-open { overflow: hidden; }
 
+/* The aurora is a page-level layer at z-index 0; everything else is
+   above it. The masthead already carries its own higher z-index. */
+main { position: relative; z-index: 1; }
+.site-footer, .foot { position: relative; z-index: 1; }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after {
@@ -216,13 +221,13 @@ p { margin: 0; }
 
 /* ---------- shell ---------- */
 
-.hero, .shift, .geo, .index, .services, .method, .packages, .about, .contact {
+.hero-inner, .shift, .geo, .index, .services, .method, .packages, .about, .faq, .contact {
   max-width: var(--shell);
   margin: 0 auto;
   padding-inline: var(--pad);
 }
 
-.shift, .geo, .index, .services, .method, .packages, .about, .contact {
+.shift, .geo, .index, .services, .method, .packages, .about, .faq, .contact {
   padding-block: var(--band-y);
 }
 
@@ -447,10 +452,15 @@ p { margin: 0; }
    rule, so the composition reads as layered rather than as two
    columns sitting politely side by side. */
 
-.hero {
+/* The hero is full-bleed so the aurora can reach the window edges. The
+   shell constraint lives on .hero-inner instead: when both sat on the
+   same element, overflow:hidden clipped the wash at the 1340px column
+   and left two hard vertical seams down the page. */
+.hero { position: relative; }
+
+.hero-inner {
   position: relative;
-  /* clips the aurora, which is deliberately wider than the section */
-  overflow: hidden;
+  z-index: 1;
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   column-gap: clamp(16px, 2.4vw, 32px);
@@ -545,12 +555,27 @@ p { margin: 0; }
 
 /* A slow wash built from the four dimension hues. Very low opacity: it
    should register as warmth in the page, not as a gradient. */
-.aurora {
+/* The wrapper clips; the wash inside it is oversized so its blur never
+   reaches an edge. Clipping here rather than on body, because the layer
+   is positioned against the initial containing block and body's
+   overflow-x would not catch it. */
+.aurora-wrap {
   position: absolute;
-  inset: -22% -12% auto -12%;
-  height: 132%;
+  top: 0; left: 0; right: 0;
+  height: min(1180px, 130svh);
+  overflow: hidden;
   pointer-events: none;
   z-index: 0;
+  /* Fade the layer out before the clip reaches it. Without this the
+     wrapper's bottom edge shows as a hard horizontal line across the
+     page once you scroll past the hero. */
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 48%, transparent 92%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 48%, transparent 92%);
+}
+
+.aurora {
+  position: absolute;
+  inset: -18% -14%;
   opacity: 0.5;
   background:
     radial-gradient(38% 46% at 18% 30%, color-mix(in oklab, var(--d-access) 42%, transparent) 0%, transparent 70%),
@@ -568,7 +593,7 @@ p { margin: 0; }
   100% { transform: translate3d(2%, -1.5%, 0) scale(1.02); }
 }
 
-.hero > *:not(.aurora) { position: relative; z-index: 1; }
+
 
 /* ---------- the AI canvas ----------
    One of only two real "interface" objects on the page. */
@@ -675,7 +700,7 @@ p { margin: 0; }
 .canvas.staged [data-stage].on { opacity: 1; transform: none; }
 
 @media (max-width: 1000px) {
-  .hero { grid-template-columns: 1fr; min-height: 0; }
+  .hero-inner { grid-template-columns: 1fr; min-height: 0; }
   .hero-lede, .canvas, .hero-coords, .hero-rule { grid-column: 1 / -1; grid-row: auto; }
   .hero-rule { margin: clamp(30px, 6vw, 48px) 0 0; }
   .canvas { margin-top: clamp(30px, 6vw, 48px); align-self: auto; }
@@ -688,6 +713,72 @@ p { margin: 0; }
   .canvas-row { grid-template-columns: 1fr; gap: 9px; }
   .canvas-tag { padding-top: 0; }
 }
+
+/* A caret while the answer writes itself. Sits after the last span so
+   it follows the text, and disappears the moment typing finishes. */
+.canvas-a p::after {
+  content: "";
+  display: none;
+  width: 2px;
+  height: 1.05em;
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  background: var(--accent);
+  animation: caret 1s steps(1) infinite;
+}
+.canvas.typing .canvas-a p::after { display: inline-block; }
+
+@keyframes caret { 0%, 50% { opacity: 1; } 50.01%, 100% { opacity: 0; } }
+
+/* Signals carry the dimension palette, cycling through it, so the wiring
+   reads as several different kinds of input resolving into one answer. */
+.signals li:nth-child(4n+1) .idx { color: var(--d-access); }
+.signals li:nth-child(4n+2) .idx { color: var(--d-structure); }
+.signals li:nth-child(4n+3) .idx { color: var(--d-entity); }
+.signals li:nth-child(4n+4) .idx { color: var(--d-answer); }
+.signals li:nth-child(4n+1):hover { color: var(--d-access); }
+.signals li:nth-child(4n+2):hover { color: var(--d-structure); }
+.signals li:nth-child(4n+3):hover { color: var(--d-entity); }
+.signals li:nth-child(4n+4):hover { color: var(--d-answer); }
+
+.wiring-mesh path:nth-child(4n+1) { stroke: var(--d-access); opacity: 0.55; }
+.wiring-mesh path:nth-child(4n+2) { stroke: var(--d-structure); opacity: 0.55; }
+.wiring-mesh path:nth-child(4n+3) { stroke: var(--d-entity); opacity: 0.55; }
+.wiring-mesh path:nth-child(4n+4) { stroke: var(--d-answer); opacity: 0.55; }
+
+/* The output node is where the four converge, so it carries all four. */
+.node {
+  position: relative;
+  overflow: hidden;
+}
+/* z-index below the text, so the wash cannot sit on top of the label. */
+.node::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(100deg,
+    color-mix(in oklab, var(--d-access) 18%, transparent),
+    color-mix(in oklab, var(--d-structure) 16%, transparent),
+    color-mix(in oklab, var(--d-entity) 16%, transparent),
+    color-mix(in oklab, var(--d-answer) 18%, transparent));
+}
+
+/* A hairline progress line across the masthead. Long page, and it reads
+   as instrumentation rather than decoration. */
+.progress {
+  position: absolute;
+  left: 0; bottom: -1px;
+  height: 1px;
+  width: 100%;
+  transform: scaleX(var(--p, 0));
+  transform-origin: left;
+  background: linear-gradient(90deg, var(--d-access), var(--d-structure), var(--d-entity), var(--d-answer));
+  opacity: 0;
+  transition: opacity 0.4s var(--ease);
+  pointer-events: none;
+}
+.masthead.is-stuck .progress { opacity: 1; }
 
 /* ---------- the shift ---------- */
 
@@ -1392,12 +1483,13 @@ p { margin: 0; }
 .faq {
   border-top: 1px solid var(--hair);
   display: grid;
-  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
   gap: clamp(30px, 5vw, 80px);
 }
 .faq-aside { position: sticky; top: 120px; align-self: start; }
 
 .qas { border-top: 1px solid var(--hair); }
+.qa:first-child summary { padding-top: 0; }
 
 .qa { border-bottom: 1px solid var(--hair); }
 
@@ -1534,9 +1626,15 @@ p { margin: 0; }
 .foot {
   border-top: 1px solid var(--hair);
   background: var(--paper-2);
-  padding: clamp(56px, 7vw, 110px) var(--pad) 32px;
+  padding: clamp(56px, 7vw, 110px) 0 32px;
 }
-.foot > * { max-width: var(--shell); margin-inline: auto; }
+/* Gutter on the inner blocks, not on .foot: with the padding outside the
+   max-width the footer content sat wider than every section above it. */
+.foot > * {
+  max-width: var(--shell);
+  margin-inline: auto;
+  padding-inline: var(--pad);
+}
 
 /* The closing line is the largest type on the page after the hero. */
 .foot-statement {
@@ -1772,4 +1870,5 @@ p { margin: 0; }
   .aurora { animation: none; }
   .stagger > * { opacity: 1; transform: none; transition: none; }
   .qa[open] .qa-a { animation: none; }
+  .canvas-a p::after { display: none !important; }
 }

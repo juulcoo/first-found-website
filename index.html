@@ -147,6 +147,10 @@
 
 <a class="skip-link" href="#main" data-i18n="nav.skip">Naar hoofdinhoud</a>
 
+<!-- Page-level so the wash also sits behind the masthead; inside the
+     hero it stopped at the hero's top edge and left a seam there. -->
+<div class="aurora-wrap" aria-hidden="true"><div class="aurora"></div></div>
+
 <header class="masthead" id="masthead">
   <div class="masthead-inner">
     <a href="#top" class="mark" aria-label="FirstFound">
@@ -204,6 +208,8 @@
     </div>
   </div>
 
+  <div class="progress" id="progress" aria-hidden="true"></div>
+
   <nav class="drawer" id="mobile-nav" aria-label="Hoofdmenu" data-i18n-aria-label="nav.label" hidden>
     <a href="#geo"><span class="drawer-num" aria-hidden="true">01</span><span data-i18n="nav.geo">GEO</span></a>
     <a href="#index"><span class="drawer-num" aria-hidden="true">02</span><span data-i18n="nav.visibility">Zichtbaarheid</span></a>
@@ -219,60 +225,61 @@
 
   <!-- ===================== HERO ===================== -->
   <section class="hero">
-    <div class="aurora" aria-hidden="true"></div>
-    <div class="hero-rule" aria-hidden="true"></div>
+    <div class="hero-inner">
+      <div class="hero-rule" aria-hidden="true"></div>
 
-    <div class="hero-lede intro">
-      <span class="idx" data-i18n="hero.mark">GEO · AI-zichtbaarheid</span>
-      <h1 class="display" data-i18n="hero.title">Word het antwoord.</h1>
-      <p class="hero-sub" data-i18n="hero.sub">
-        AI-systemen bepalen steeds vaker welke bedrijven mensen ontdekken.
-        FirstFound helpt merken onderdeel te worden van dat antwoord.
-      </p>
-      <div class="hero-act">
-        <a href="#index" class="pill pill-solid" data-i18n="hero.cta">Ontdek uw zichtbaarheid</a>
-        <a href="#geo" class="underline-link" data-i18n="hero.secondary">Hoe GEO werkt</a>
-      </div>
-    </div>
-
-    <!-- Conceptual rendering of an AI answer. Labelled in the markup and in
-         a visible caption, so it can never read as a real transcript. The
-         staged reveal is driven by app.js and skipped under reduced motion. -->
-    <figure class="canvas" id="canvas">
-      <div class="canvas-top">
-        <span class="canvas-dot" aria-hidden="true"></span>
-        <span class="idx canvas-label" data-i18n="canvas.label">Conceptuele weergave</span>
-      </div>
-
-      <div class="canvas-row canvas-q" data-stage="1">
-        <span class="idx canvas-tag" data-i18n="canvas.prompt">Vraag</span>
-        <p data-i18n="canvas.question">Welke specialist helpt bedrijven beter zichtbaar te worden in AI?</p>
-      </div>
-
-      <div class="canvas-row canvas-a" data-stage="2">
-        <span class="idx canvas-tag" data-i18n="canvas.answerLabel">Antwoord</span>
-        <p>
-          <span data-i18n="canvas.a1">Voor AI-zichtbaarheid in Nederland wordt</span>
-          <mark class="entity" data-i18n="canvas.brand">FirstFound</mark>
-          <span data-i18n="canvas.a2">genoemd, een bureau dat zich uitsluitend richt op hoe merken in gegenereerde antwoorden verschijnen.</span>
+      <div class="hero-lede intro">
+        <span class="idx" data-i18n="hero.mark">GEO · AI-zichtbaarheid</span>
+        <h1 class="display" data-i18n="hero.title">Word het antwoord.</h1>
+        <p class="hero-sub" data-i18n="hero.sub">
+          AI-systemen bepalen steeds vaker welke bedrijven mensen ontdekken.
+          FirstFound helpt merken onderdeel te worden van dat antwoord.
         </p>
+        <div class="hero-act">
+          <a href="#index" class="pill pill-solid" data-i18n="hero.cta">Ontdek uw zichtbaarheid</a>
+          <a href="#geo" class="underline-link" data-i18n="hero.secondary">Hoe GEO werkt</a>
+        </div>
       </div>
 
-      <div class="canvas-row canvas-src" data-stage="3">
-        <span class="idx canvas-tag" data-i18n="canvas.sourcesLabel">Bronnen</span>
-        <ul class="srcs">
-          <li><span class="idx" aria-hidden="true">01</span><span data-i18n="canvas.s1">firstfound.nl</span></li>
-          <li><span class="idx" aria-hidden="true">02</span><span data-i18n="canvas.s2">branchegids</span></li>
-          <li><span class="idx" aria-hidden="true">03</span><span data-i18n="canvas.s3">vakpublicatie</span></li>
-        </ul>
-      </div>
+      <!-- Conceptual rendering of an AI answer. Labelled in the markup and in
+           a visible caption, so it can never read as a real transcript. The
+           staged reveal is driven by app.js and skipped under reduced motion. -->
+      <figure class="canvas" id="canvas">
+        <div class="canvas-top">
+          <span class="canvas-dot" aria-hidden="true"></span>
+          <span class="idx canvas-label" data-i18n="canvas.label">Conceptuele weergave</span>
+        </div>
 
-      <figcaption class="canvas-cap" data-i18n="canvas.caption">
-        Geen echte uitvoer van een AI-systeem.
-      </figcaption>
-    </figure>
+        <div class="canvas-row canvas-q" data-stage="1">
+          <span class="idx canvas-tag" data-i18n="canvas.prompt">Vraag</span>
+          <p data-i18n="canvas.question">Welke specialist helpt bedrijven beter zichtbaar te worden in AI?</p>
+        </div>
 
-    <span class="hero-coords idx" data-i18n="hero.coords">Groningen · 53.2194° N</span>
+        <div class="canvas-row canvas-a" data-stage="2">
+          <span class="idx canvas-tag" data-i18n="canvas.answerLabel">Antwoord</span>
+          <p>
+            <span data-i18n="canvas.a1">Voor AI-zichtbaarheid in Nederland wordt</span>
+            <mark class="entity" data-i18n="canvas.brand">FirstFound</mark>
+            <span data-i18n="canvas.a2">genoemd, een bureau dat zich uitsluitend richt op hoe merken in gegenereerde antwoorden verschijnen.</span>
+          </p>
+        </div>
+
+        <div class="canvas-row canvas-src" data-stage="3">
+          <span class="idx canvas-tag" data-i18n="canvas.sourcesLabel">Bronnen</span>
+          <ul class="srcs">
+            <li><span class="idx" aria-hidden="true">01</span><span data-i18n="canvas.s1">firstfound.nl</span></li>
+            <li><span class="idx" aria-hidden="true">02</span><span data-i18n="canvas.s2">branchegids</span></li>
+            <li><span class="idx" aria-hidden="true">03</span><span data-i18n="canvas.s3">vakpublicatie</span></li>
+          </ul>
+        </div>
+
+        <figcaption class="canvas-cap" data-i18n="canvas.caption">
+          Geen echte uitvoer van een AI-systeem.
+        </figcaption>
+      </figure>
+
+      <span class="hero-coords idx" data-i18n="hero.coords">Groningen · 53.2194° N</span>
+    </div>
   </section>
 
   <!-- ===================== THE SHIFT ===================== -->
