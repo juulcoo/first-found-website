@@ -1612,6 +1612,15 @@ p { margin: 0; }
 .form .pill { justify-self: start; }
 
 .form-status { font-size: 0.86rem; color: var(--muted); min-height: 1.2em; }
+
+/* Shown only when a submission could not be delivered. */
+.form-fallback {
+  justify-self: start;
+  margin-top: -8px;
+  font-size: 0.88rem;
+  color: var(--accent);
+}
+.form-fallback[hidden] { display: none; }
 .form-status.ok { color: var(--good); }
 .form-status.fail { color: var(--bad); }
 

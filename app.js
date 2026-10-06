@@ -543,13 +543,45 @@
       if (!res.ok) throw new Error();
 
       contactForm.reset();
+      const stale = document.getElementById("contact-fallback");
+      if (stale) stale.hidden = true;
       lastContactStatusKey = "contact.ok";
       contactStatus.textContent = t("contact.ok");
       contactStatus.className = "form-status ok";
     } catch {
+      // A failed POST here means a lost enquiry, so offer a route that
+      // does not depend on the form backend at all: a prefilled mail to
+      // us, composed in the visitor's own client. encodeURIComponent on
+      // every part keeps the values out of the mailto's own syntax.
       lastContactStatusKey = "contact.fail";
       contactStatus.textContent = t("contact.fail");
       contactStatus.className = "form-status fail";
+
+      const field = (id) => (document.getElementById(id) || {}).value || "";
+      const line = (key, id) => (field(id) ? t(key) + ": " + field(id) : "");
+      const details = [
+        line("contact.mailName", "c-name"),
+        line("contact.mailCompany", "c-company"),
+        line("contact.mailEmail", "c-email"),
+      ].filter(Boolean).join("\n");
+      // blank line between the details and the message itself
+      const body = [details, field("c-message")].filter(Boolean).join("\n\n");
+
+      const href =
+        "mailto:info@firstfound.nl" +
+        "?subject=" + encodeURIComponent(t("contact.mailSubject")) +
+        "&body=" + encodeURIComponent(body);
+
+      let link = document.getElementById("contact-fallback");
+      if (!link) {
+        link = document.createElement("a");
+        link.id = "contact-fallback";
+        link.className = "underline-link form-fallback";
+        contactStatus.insertAdjacentElement("afterend", link);
+      }
+      link.href = href;
+      link.textContent = t("contact.failMail");
+      link.hidden = false;
     } finally {
       submitBtn.disabled = false;
     }
@@ -561,6 +593,8 @@
     if (lastAudit) renderAudit(lastAudit);
     if (lastAuditErrorKey) auditHint.textContent = t("error." + lastAuditErrorKey);
     if (lastContactStatusKey) contactStatus.textContent = t(lastContactStatusKey);
+    const fb = document.getElementById("contact-fallback");
+    if (fb && !fb.hidden) fb.textContent = t("contact.failMail");
     auditSubmit.textContent = t("tool.step1.submit");
   });
 
