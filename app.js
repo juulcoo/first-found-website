@@ -199,14 +199,13 @@
     const form = document.getElementById("chat-form");
     const input = document.getElementById("chat-input");
     const suggest = document.getElementById("chat-suggest");
-    const replay = document.getElementById("chat-replay");
 
     const SCRIPT = ["1", "2", "3"].map((n) => ({
       q: "chat.q" + n,
       a: "chat.a" + n,
     }));
 
-    // Bumped by anything that interrupts: a new question, a replay, a
+    // Bumped by anything that interrupts: a new question or a
     // language switch. Every async step checks it before touching the DOM.
     let run = 0;
     const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -264,9 +263,16 @@
     function addMentions(parent) {
       const wrap = el("div", "mentions");
       wrap.appendChild(el("span", "idx mentions-label", t("chat.mentioned")));
-      wrap.appendChild(el("span", "mention", t("chat.exampleA")));
-      wrap.appendChild(el("span", "mention", t("chat.exampleB")));
-      wrap.appendChild(el("span", "mention mention-you", t("chat.yourCompany")));
+      // --i drives the stagger from CSS; set through the CSSOM because
+      // our CSP has no unsafe-inline for style attributes.
+      [
+        el("span", "mention", t("chat.exampleA")),
+        el("span", "mention", t("chat.exampleB")),
+        el("span", "mention mention-you", t("chat.yourCompany")),
+      ].forEach((chip, i) => {
+        chip.style.setProperty("--i", String(i));
+        wrap.appendChild(chip);
+      });
       parent.appendChild(wrap);
     }
 
@@ -381,20 +387,15 @@
       if (text) ask(text);
     });
 
-    replay.addEventListener("click", () => {
-      reset();
-      const token = run;
-      play(token);
-      input.focus({ preventScroll: true });
-    });
-
     // Suggested questions, rebuilt on a language change.
     function buildSuggestions() {
       [...suggest.querySelectorAll("button")].forEach((b) => b.remove());
-      SCRIPT.forEach((step) => {
-        const b = el("button", "chip", t(step.q));
+      // The chip shows a short topic; the full question is what gets
+      // asked. Three whole sentences here ran to four cramped lines.
+      SCRIPT.forEach((step, i) => {
+        const b = el("button", "chip", t("chat.c" + (i + 1)));
         b.type = "button";
-        // Appends, like a typed question: only Replay starts over.
+        b.title = t(step.q);
         b.addEventListener("click", () => {
           ask(t(step.q));
           input.focus({ preventScroll: true });

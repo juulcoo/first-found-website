@@ -205,6 +205,17 @@ main { position: relative; z-index: 1; }
 }
 .skip-link:focus { top: 16px; text-decoration: none; }
 
+/* The <defs>/<symbol> sprite. Inline SVG still generates a line box even
+   at width=0, which pushed the hero down by a line-height and showed a
+   strip of page background above it. Taken out of flow rather than
+   display:none, which breaks <use> references in some engines. */
+.sprite {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
 a { color: inherit; text-decoration: none; }
 
 :focus-visible {
@@ -501,6 +512,15 @@ p { margin: 0; }
    the hero and the index: the moments meant to feel like the product
    rather than the brochure. */
 .on-dark { background: var(--paper); }
+
+/* .index sits inside the shell measure, so painting the band on the
+   element itself stopped the dark at 1340px. The shadow spreads the
+   colour sideways and the clip keeps it off the sections above and
+   below. 100vmax rather than 100vw: vw counts the scrollbar. */
+.index {
+  box-shadow: 0 0 0 100vmax var(--paper);
+  clip-path: inset(0 -100vmax);
+}
 .index.on-dark { border-top-color: rgba(220, 235, 255, 0.12); }
 
 .hero-inner {
@@ -619,9 +639,9 @@ p { margin: 0; }
   position: absolute;
   inset: -22% -12%;
   background:
-    radial-gradient(44% 50% at 10% 78%, rgba(18, 99, 241, 0.46) 0%, transparent 66%),
-    radial-gradient(38% 42% at 88% 10%, rgba(53, 139, 255, 0.30) 0%, transparent 68%),
-    radial-gradient(52% 38% at 54% 108%, rgba(14, 64, 160, 0.34) 0%, transparent 70%);
+    radial-gradient(44% 50% at 10% 78%, rgba(18, 99, 241, 0.32) 0%, transparent 66%),
+    radial-gradient(38% 42% at 88% 10%, rgba(53, 139, 255, 0.20) 0%, transparent 68%),
+    radial-gradient(52% 38% at 54% 108%, rgba(14, 64, 160, 0.24) 0%, transparent 70%);
   filter: blur(44px);
   animation: hero-drift 40s ease-in-out infinite alternate;
 }
@@ -644,13 +664,12 @@ p { margin: 0; }
   stroke-dasharray: 3200;
   stroke-dashoffset: 3200;
   animation: rim-draw 2.8s var(--ease) forwards;
-  filter: drop-shadow(0 0 13px rgba(110, 172, 255, 0.55));
+  filter: drop-shadow(0 0 10px rgba(110, 172, 255, 0.38));
 }
 .rim-2 { animation-delay: 0.3s; }
 .rim-3 { animation-delay: 0.5s; opacity: 0.5; }
 
 @keyframes rim-draw { to { stroke-dashoffset: 0; } }
-
 
 /* ---------- hero chat ----------
    Built to read as a real product surface rather than a marketing
@@ -773,10 +792,42 @@ p { margin: 0; }
   color: var(--ink-2);
 }
 .mention-you {
+  position: relative;
   border-style: dashed;
   border-color: var(--accent);
   color: var(--accent);
   background: var(--accent-wash);
+}
+
+/* The named companies land one after another, so the empty slot at the
+   end arrives last and reads as the point being made. */
+.mention {
+  opacity: 0;
+  animation: mention-in 0.5s var(--ease) forwards;
+  animation-delay: calc(var(--i, 0) * 130ms);
+}
+
+@keyframes mention-in {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* One ring on your own slot as it lands, then nothing. A loop here
+   would sit in the corner of the eye for the whole visit. */
+.mention-you::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  border: 1px solid var(--accent);
+  opacity: 0;
+  animation: mention-ring 1.1s var(--ease) forwards;
+  animation-delay: calc(var(--i, 0) * 130ms + 260ms);
+}
+
+@keyframes mention-ring {
+  0%   { opacity: 0.9; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.45); }
 }
 
 .chat-caption {
@@ -856,29 +907,12 @@ p { margin: 0; }
 .chat-send:active { transform: translateY(1px); }
 
 .chat-foot {
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-  flex-wrap: wrap;
   padding: 11px 16px 13px;
   border-top: 1px solid var(--hair);
   font-size: 0.72rem;
   line-height: 1.45;
   color: var(--muted);
 }
-.chat-replay {
-  margin-left: auto;
-  font-family: var(--font-body);
-  font-size: 0.72rem;
-  border: 0;
-  background: transparent;
-  color: var(--accent);
-  cursor: pointer;
-  padding: 2px 0;
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.3s var(--ease);
-}
-.chat-replay:hover { border-bottom-color: var(--accent); }
 
 @media (max-width: 1000px) {
   /* One column. Rows are set explicitly because the source order puts
@@ -2074,6 +2108,8 @@ p { margin: 0; }
   .hero-glow { animation: none; }
   .rim { animation: none; stroke-dashoffset: 0; }
   .vol { animation: none; opacity: 1; }
+  .mention { opacity: 1; animation: none; transform: none; }
+  .mention-you::after { animation: none; opacity: 0; }
   .stagger > * { opacity: 1; transform: none; transition: none; }
   .qa[open] .qa-a { animation: none; }
 }
