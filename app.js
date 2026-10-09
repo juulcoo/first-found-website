@@ -109,7 +109,7 @@
   // ---------- scroll reveal ----------
 
   const revealTargets = document.querySelectorAll(
-    ".canvas, .shift-type, .shift-col, .pull, .statement, .geo-body," +
+    ".chat, .shift-type, .shift-col, .pull, .statement, .geo-body," +
     " .wiring, .index-head, .report, .scan-head, .step-block, .rows, .phases," +
     " .setup, .setup-list, .signals, .tiers-head, .tier, .about-statement, .about-body, .creds," +
     " .local, .contact-aside, .form, .foot-statement, .faq-aside, .qas"
@@ -181,67 +181,259 @@
     }, 8000);
   }
 
-  // The hero canvas assembles itself: question, then answer, then the
-  // sources it leaned on. Without motion it is simply there already.
-  const canvas = document.getElementById("canvas");
-  if (canvas) {
-    const stages = canvas.querySelectorAll("[data-stage]");
-    // The three spans the answer is built from. Typing across them in
-    // order reads as one sentence being written.
-    const answerParts = [...canvas.querySelectorAll(".canvas-a [data-i18n]")];
+  // ---------- hero chat demonstration ----------
+  // A scripted conversation that plays once the hero is seen, and stays
+  // usable afterwards. Three rules it must not break:
+  //   1. It never claims to have queried a real model. The panel is
+  //      labelled a demonstration in its header, footnote and
+  //      accessible name.
+  //   2. It invents no rankings. The worked answers give generic buying
+  //      criteria and then name obvious placeholders, with the slot the
+  //      visitor cares about left deliberately empty.
+  //   3. An off-script question gets an honest "no sample answer for
+  //      that" and a pointer to the real scan, never a made-up one.
 
-    // Bumped on a language switch so any in-flight typing stops instead
-    // of overwriting the text i18n has just replaced.
-    let typeToken = 0;
+  const chat = document.getElementById("chat");
+  if (chat) {
+    const thread = document.getElementById("chat-thread");
+    const form = document.getElementById("chat-form");
+    const input = document.getElementById("chat-input");
+    const suggest = document.getElementById("chat-suggest");
+    const replay = document.getElementById("chat-replay");
 
-    const showAnswerInFull = () => {
-      typeToken++;
-      canvas.classList.remove("typing");
-      answerParts.forEach((el) => { el.textContent = t(el.dataset.i18n); });
+    const SCRIPT = ["1", "2", "3"].map((n) => ({
+      q: "chat.q" + n,
+      a: "chat.a" + n,
+    }));
+
+    // Bumped by anything that interrupts: a new question, a replay, a
+    // language switch. Every async step checks it before touching the DOM.
+    let run = 0;
+    const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+    const el = (tag, cls, text) => {
+      const n = document.createElement(tag);
+      if (cls) n.className = cls;
+      if (text != null) n.textContent = text;
+      return n;
     };
 
-    function typeAnswer() {
-      const token = ++typeToken;
-      const texts = answerParts.map((el) => t(el.dataset.i18n));
-      answerParts.forEach((el) => { el.textContent = ""; });
-      canvas.classList.add("typing");
+    function addUser(text) {
+      clearResting();
+      const row = el("div", "msg msg-user");
+      row.appendChild(el("p", "bubble", text));
+      thread.appendChild(row);
+      thread.scrollTop = thread.scrollHeight;
+      return row;
+    }
 
-      let part = 0;
-      let char = 0;
-      const tick = () => {
-        if (token !== typeToken) return;           // cancelled
-        if (part >= answerParts.length) {
-          canvas.classList.remove("typing");
-          canvas.classList.add("lit");             // then the highlight sweeps in
-          return;
+    function addThinking() {
+      clearResting();
+      const row = el("div", "msg msg-ai thinking");
+      row.setAttribute("aria-label", t("chat.thinking"));
+      const dots = el("span", "dots");
+      dots.appendChild(el("i")); dots.appendChild(el("i")); dots.appendChild(el("i"));
+      row.appendChild(dots);
+      thread.appendChild(row);
+      thread.scrollTop = thread.scrollHeight;
+      return row;
+    }
+
+    // Streams text in. aria-hidden while it writes, so a screen reader
+    // gets one clean announcement at the end instead of every keystroke.
+    async function stream(parent, text, token, speed) {
+      const p = el("p", "answer");
+      p.setAttribute("aria-hidden", "true");
+      parent.appendChild(p);
+      if (!motionOK) {
+        p.textContent = text;
+      } else {
+        for (let i = 1; i <= text.length; i++) {
+          if (token !== run) return null;
+          p.textContent = text.slice(0, i);
+          thread.scrollTop = thread.scrollHeight;
+          if (i % 2 === 0) await sleep(speed + Math.random() * 10);
         }
-        const full = texts[part];
-        char += 1;
-        answerParts[part].textContent = full.slice(0, char);
-        if (char >= full.length) { part += 1; char = 0; }
-        // a touch of jitter so it does not read as a metronome
-        setTimeout(tick, 11 + Math.random() * 16);
-      };
-      tick();
+      }
+      p.removeAttribute("aria-hidden");
+      return p;
     }
 
-    if (!motionOK) {
-      canvas.classList.add("lit");
-    } else {
-      canvas.classList.add("staged");
-      stages.forEach((el, i) => {
-        setTimeout(() => el.classList.add("on"), 420 + i * 520);
+    // The point of the whole demonstration: two placeholders named, and
+    // the visitor's own slot sitting empty next to them.
+    function addMentions(parent) {
+      const wrap = el("div", "mentions");
+      wrap.appendChild(el("span", "idx mentions-label", t("chat.mentioned")));
+      wrap.appendChild(el("span", "mention", t("chat.exampleA")));
+      wrap.appendChild(el("span", "mention", t("chat.exampleB")));
+      wrap.appendChild(el("span", "mention mention-you", t("chat.yourCompany")));
+      parent.appendChild(wrap);
+    }
+
+    function addCaption(parent) {
+      parent.appendChild(el("p", "chat-caption", t("chat.caption")));
+    }
+
+    async function answer(step, token) {
+      const thinking = addThinking();
+      await sleep(motionOK ? 700 + Math.random() * 400 : 0);
+      if (token !== run) return;
+      thinking.remove();
+
+      const row = el("div", "msg msg-ai");
+      thread.appendChild(row);
+
+      const written = await stream(row, t(step.a), token, 9);
+      if (!written || token !== run) return;
+
+      await sleep(motionOK ? 240 : 0);
+      if (token !== run) return;
+      addMentions(row);
+
+      await sleep(motionOK ? 420 : 0);
+      if (token !== run) return;
+      addCaption(row);
+      thread.scrollTop = thread.scrollHeight;
+    }
+
+    async function offScript(token) {
+      const thinking = addThinking();
+      await sleep(motionOK ? 600 : 0);
+      if (token !== run) return;
+      thinking.remove();
+      const row = el("div", "msg msg-ai");
+      thread.appendChild(row);
+      await stream(row, t("chat.offscript"), token, 9);
+      thread.scrollTop = thread.scrollHeight;
+    }
+
+    // Types the question into the real input, so the demonstration uses
+    // the same control the visitor does.
+    async function typeInto(text, token) {
+      input.value = "";
+      if (!motionOK) { input.value = text; return true; }
+      for (let i = 1; i <= text.length; i++) {
+        if (token !== run) return false;
+        input.value = text.slice(0, i);
+        await sleep(26 + Math.random() * 38);
+      }
+      return true;
+    }
+
+    async function play(token) {
+      const step = SCRIPT[0];
+      await sleep(motionOK ? 500 : 0);
+      if (token !== run) return;
+      if (!(await typeInto(t(step.q), token))) return;
+      await sleep(motionOK ? 320 : 0);
+      if (token !== run) return;
+      addUser(input.value);
+      input.value = "";
+      await answer(step, token);
+    }
+
+    // The thread holds a fixed height, so an empty one is a visible gap
+    // for the couple of seconds before the first bubble lands. It rests
+    // on a quiet line instead, cleared by whatever is appended first.
+    function showResting() {
+      thread.innerHTML = "";
+      thread.appendChild(el("p", "chat-resting", t("chat.resting")));
+    }
+
+    function clearResting() {
+      const r = thread.querySelector(".chat-resting");
+      if (r) r.remove();
+    }
+
+    function reset() {
+      run++;
+      input.value = "";
+      showResting();
+    }
+
+    // Loose match so "beste badkamerzaken zwolle" still finds the worked
+    // example; anything else is answered honestly rather than invented.
+    function findStep(text) {
+      const norm = (x) => x.toLowerCase().replace(/[^a-z0-9 ]/g, " ").split(/\s+/).filter(Boolean);
+      const asked = norm(text);
+      let best = null, bestScore = 0;
+      SCRIPT.forEach((step) => {
+        const words = norm(t(step.q));
+        const hits = words.filter((w) => w.length > 3 && asked.includes(w)).length;
+        const score = hits / Math.max(1, words.filter((w) => w.length > 3).length);
+        if (score > bestScore) { bestScore = score; best = step; }
       });
-      // Starts once the answer row itself has arrived.
-      setTimeout(typeAnswer, 420 + 520);
-      // Safety: if the typing never completes, show the sentence anyway.
-      setTimeout(() => {
-        if (canvas.classList.contains("typing")) showAnswerInFull();
-        canvas.classList.add("lit");
-      }, 12000);
+      return bestScore >= 0.5 ? best : null;
     }
 
-    onLangChange(showAnswerInFull);
+    async function ask(text) {
+      const token = ++run;
+      addUser(text);
+      input.value = "";
+      const step = findStep(text);
+      if (step) await answer(step, token);
+      else await offScript(token);
+    }
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const text = input.value.trim();
+      if (text) ask(text);
+    });
+
+    replay.addEventListener("click", () => {
+      reset();
+      const token = run;
+      play(token);
+      input.focus({ preventScroll: true });
+    });
+
+    // Suggested questions, rebuilt on a language change.
+    function buildSuggestions() {
+      [...suggest.querySelectorAll("button")].forEach((b) => b.remove());
+      SCRIPT.forEach((step) => {
+        const b = el("button", "chip", t(step.q));
+        b.type = "button";
+        // Appends, like a typed question: only Replay starts over.
+        b.addEventListener("click", () => {
+          ask(t(step.q));
+          input.focus({ preventScroll: true });
+        });
+        suggest.appendChild(b);
+      });
+    }
+    buildSuggestions();
+    showResting();
+
+    // Plays once, when the hero is actually looked at.
+    let started = false;
+    const begin = () => {
+      if (started) return;
+      started = true;
+      reset();
+      play(run);
+    };
+    if (!motionOK || !("IntersectionObserver" in window)) {
+      begin();
+    } else {
+      const chatObserver = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (!e.isIntersecting) return;
+          chatObserver.disconnect();
+          begin();
+        });
+      }, { threshold: 0.3 });
+      chatObserver.observe(chat);
+      setTimeout(begin, 6000); // never leave the panel empty
+    }
+
+    // A language switch invalidates everything on screen.
+    onLangChange(() => {
+      buildSuggestions();
+      reset();
+      started = false;
+      begin();
+    });
   }
 
   // Index meters carry their value in data-v. Applying it through CSSOM

@@ -25,41 +25,48 @@
 :root {
   color-scheme: light;
 
-  --paper: #f4f2ed;
-  --paper-2: #ebe8e1;
-  --raised: #faf9f6;
+  /* Light bands: a cool off-white, so the dark bands read as the same
+     material turned down rather than as a different site. */
+  --paper: #f7f9fc;
+  --paper-2: #eef3fa;
+  --raised: #ffffff;
 
-  --ink: #131210;
-  --ink-2: #4a4740;
-  --muted: #8c887e;
+  --ink: #091326;
+  --ink-2: #41506b;
+  /* #8F9AAF from the brand palette reads well on the dark bands but only
+     reaches 2.7:1 on this off-white, so the light theme carries its own
+     muted. 4.85:1 against --paper, 4.5:1 against --paper-2. */
+  --muted: #656f83;
 
-  --hair: rgba(19, 18, 16, 0.13);
-  --hair-2: rgba(19, 18, 16, 0.26);
+  --hair: rgba(9, 19, 38, 0.11);
+  --hair-2: rgba(9, 19, 38, 0.22);
 
-  --accent: #8a6a2f;
-  --accent-2: #a37d38;
-  --accent-ink: #faf9f6;
-  --accent-wash: rgba(138, 106, 47, 0.09);
-  --accent-hair: rgba(138, 106, 47, 0.32);
+  /* #1263F1 on off-white clears AA for text; the lighter #358BFF is kept
+     for dark bands, where the darker one would sink into the navy. */
+  --accent: #1263f1;
+  --accent-2: #358bff;
+  --accent-ink: #ffffff;
+  --accent-wash: rgba(18, 99, 241, 0.07);
+  --accent-hair: rgba(18, 99, 241, 0.26);
 
-  /* Four dimension hues. Colour here is functional: each belongs to a
-     dimension of the index and reappears wherever that dimension does,
-     so the palette reads as a key rather than as decoration. Chosen to
-     sit beside brass without competing with it. */
-  --d-access: #8a6a2f;
-  --d-structure: #2f6a63;
-  --d-entity: #4f4a8c;
-  --d-answer: #9a5438;
+  /* Four dimension hues, functional rather than decorative: each belongs
+     to a dimension of the index and reappears wherever that dimension
+     does. Kept inside the cool half of the wheel so they read as one
+     family with the brand blue. No purple, by direction. */
+  --d-access: #1263f1;
+  --d-structure: #0e8fd4;
+  --d-entity: #0fa3a3;
+  --d-answer: #5a7fd0;
 
-  --good: #4a6b3f;
-  --good-wash: rgba(74, 107, 63, 0.1);
-  --bad: #8f3f2a;
-  --bad-wash: rgba(143, 63, 42, 0.09);
+  --good: #0f7a5a;
+  --good-wash: rgba(15, 122, 90, 0.1);
+  --bad: #c0392b;
+  --bad-wash: rgba(192, 57, 43, 0.08);
 
-  --invert-bg: #131210;
-  --invert-ink: #f4f2ed;
-  --invert-2: rgba(244, 242, 237, 0.62);
-  --invert-hair: rgba(244, 242, 237, 0.16);
+  --invert-bg: #050b18;
+  --invert-ink: #f7f9fc;
+  --invert-2: rgba(247, 249, 252, 0.66);
+  --invert-hair: rgba(247, 249, 252, 0.14);
 
   --font-display: "Archivo", system-ui, sans-serif;
   --font-serif: "Instrument Serif", Georgia, serif;
@@ -77,37 +84,66 @@
 [data-theme="dark"] {
   color-scheme: dark;
 
-  --paper: #0d0d0b;
-  --paper-2: #111110;
-  --raised: #171714;
+  --paper: #050b18;
+  --paper-2: #030711;
+  --raised: #08162c;
 
-  --ink: #f2f0ea;
-  --ink-2: #a8a49a;
-  --muted: #76736b;
+  --ink: #f7f9fc;
+  --ink-2: #aab6cc;
+  --muted: #8f9aaf;
 
-  --hair: rgba(242, 240, 234, 0.14);
-  --hair-2: rgba(242, 240, 234, 0.28);
+  --hair: rgba(220, 235, 255, 0.11);
+  --hair-2: rgba(220, 235, 255, 0.22);
 
-  --accent: #d6a95c;
-  --accent-2: #e8c083;
-  --accent-ink: #14130f;
-  --accent-wash: rgba(214, 169, 92, 0.11);
-  --accent-hair: rgba(214, 169, 92, 0.36);
+  --accent: #358bff;
+  --accent-2: #6aa9ff;
+  --accent-ink: #050b18;
+  --accent-wash: rgba(53, 139, 255, 0.1);
+  --accent-hair: rgba(53, 139, 255, 0.3);
 
-  --d-access: #d6a95c;
-  --d-structure: #6fc4b6;
-  --d-entity: #a3a0ec;
-  --d-answer: #e09a78;
+  --d-access: #358bff;
+  --d-structure: #2bb3ef;
+  --d-entity: #2fd0c4;
+  --d-answer: #8aa7e8;
 
-  --good: #8fbf7a;
-  --good-wash: rgba(143, 191, 122, 0.12);
-  --bad: #dd8a68;
-  --bad-wash: rgba(221, 138, 104, 0.12);
+  --good: #35c08c;
+  --good-wash: rgba(53, 192, 140, 0.12);
+  --bad: #ff8a72;
+  --bad-wash: rgba(255, 138, 114, 0.12);
 
-  --invert-bg: #f2f0ea;
-  --invert-ink: #0d0d0b;
-  --invert-2: rgba(13, 13, 11, 0.66);
-  --invert-hair: rgba(13, 13, 11, 0.18);
+  --invert-bg: #f7f9fc;
+  --invert-ink: #050b18;
+  --invert-2: rgba(5, 11, 24, 0.68);
+  --invert-hair: rgba(5, 11, 24, 0.16);
+}
+
+/* The hero and the closing band stay dark in both themes. The banner the
+   brand is built on is a dark, lit room; losing that in light mode would
+   lose the identity. Anything inside a .on-dark band reads from these. */
+.on-dark {
+  --paper: #050b18;
+  --paper-2: #030711;
+  --raised: #08162c;
+  --ink: #f7f9fc;
+  --ink-2: #aab6cc;
+  --muted: #8f9aaf;
+  --hair: rgba(220, 235, 255, 0.11);
+  --hair-2: rgba(220, 235, 255, 0.22);
+  --accent: #358bff;
+  --accent-2: #6aa9ff;
+  --accent-ink: #050b18;
+  --accent-wash: rgba(53, 139, 255, 0.1);
+  --accent-hair: rgba(53, 139, 255, 0.3);
+  --d-access: #358bff;
+  --d-structure: #2bb3ef;
+  --d-entity: #2fd0c4;
+  --d-answer: #8aa7e8;
+  --invert-bg: #f7f9fc;
+  --invert-ink: #050b18;
+  --invert-2: rgba(5, 11, 24, 0.68);
+  --invert-hair: rgba(5, 11, 24, 0.16);
+  color: var(--ink);
+  background: var(--paper);
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -133,8 +169,8 @@ body {
 
 body.nav-open { overflow: hidden; }
 
-/* The aurora is a page-level layer at z-index 0; everything else is
-   above it. The masthead already carries its own higher z-index. */
+/* The hero field sits at z-index 0 inside its own section; everything
+   else on the page is above it. */
 main { position: relative; z-index: 1; }
 .site-footer, .foot { position: relative; z-index: 1; }
 
@@ -307,9 +343,12 @@ p { margin: 0; }
 
 /* ---------- masthead ---------- */
 
+/* Fixed rather than sticky, so the hero's dark field starts at the very
+   top of the page and the header sits inside it. scroll-padding-top
+   keeps anchor targets clear of it. */
 .masthead {
-  position: sticky;
-  top: 0;
+  position: fixed;
+  top: 0; left: 0; right: 0;
   z-index: 60;
   border-bottom: 1px solid transparent;
   transition: background-color 0.4s var(--ease), border-color 0.4s var(--ease),
@@ -452,11 +491,17 @@ p { margin: 0; }
    rule, so the composition reads as layered rather than as two
    columns sitting politely side by side. */
 
-/* The hero is full-bleed so the aurora can reach the window edges. The
+/* The hero is full-bleed so the field can reach the window edges. The
    shell constraint lives on .hero-inner instead: when both sat on the
    same element, overflow:hidden clipped the wash at the 1340px column
    and left two hard vertical seams down the page. */
-.hero { position: relative; }
+.hero { position: relative; overflow: hidden; }
+
+/* Dark and light bands alternate down the page. The two dark ones are
+   the hero and the index: the moments meant to feel like the product
+   rather than the brochure. */
+.on-dark { background: var(--paper); }
+.index.on-dark { border-top-color: rgba(220, 235, 255, 0.12); }
 
 .hero-inner {
   position: relative;
@@ -465,8 +510,8 @@ p { margin: 0; }
   grid-template-columns: repeat(12, 1fr);
   column-gap: clamp(16px, 2.4vw, 32px);
   align-content: center;
-  min-height: calc(100svh - 74px);
-  padding-top: clamp(40px, 6vh, 72px);
+  min-height: 100svh;
+  padding-top: clamp(116px, 16vh, 176px);
   padding-bottom: clamp(44px, 6vw, 80px);
 }
 
@@ -553,232 +598,304 @@ p { margin: 0; }
   to { clip-path: inset(-0.18em -0.08em -0.22em 0); transform: none; }
 }
 
-/* A slow wash built from the four dimension hues. Very low opacity: it
-   should register as warmth in the page, not as a gradient. */
-/* The wrapper clips; the wash inside it is oversized so its blur never
-   reaches an edge. Clipping here rather than on body, because the layer
-   is positioned against the initial containing block and body's
-   overflow-x would not catch it. */
-.aurora-wrap {
+/* ---------- the field ----------
+   The hero's background: lit volumes with bright leading edges, taken
+   from the brand banner and turned down so the headline and the chat
+   stay the subject. Decorative only. */
+
+.hero-field {
   position: absolute;
-  top: 0; left: 0; right: 0;
-  height: min(1180px, 130svh);
+  inset: 0;
   overflow: hidden;
   pointer-events: none;
   z-index: 0;
-  /* Fade the layer out before the clip reaches it. Without this the
-     wrapper's bottom edge shows as a hard horizontal line across the
-     page once you scroll past the hero. */
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 48%, transparent 92%);
-  mask-image: linear-gradient(to bottom, #000 0%, #000 48%, transparent 92%);
-}
-
-.aurora {
-  position: absolute;
-  inset: -18% -14%;
-  opacity: 0.5;
   background:
-    radial-gradient(38% 46% at 18% 30%, color-mix(in oklab, var(--d-access) 42%, transparent) 0%, transparent 70%),
-    radial-gradient(34% 42% at 76% 22%, color-mix(in oklab, var(--d-entity) 34%, transparent) 0%, transparent 70%),
-    radial-gradient(40% 44% at 62% 74%, color-mix(in oklab, var(--d-structure) 30%, transparent) 0%, transparent 72%),
-    radial-gradient(32% 38% at 30% 82%, color-mix(in oklab, var(--d-answer) 26%, transparent) 0%, transparent 72%);
-  filter: blur(26px);
-  animation: aurora-drift 34s ease-in-out infinite alternate;
+    radial-gradient(130% 95% at 76% 4%, #0c1f3e 0%, transparent 62%),
+    linear-gradient(180deg, #06101f 0%, #050b18 58%, #04091400 100%),
+    #050b18;
 }
-[data-theme="dark"] .aurora { opacity: 0.42; }
 
-@keyframes aurora-drift {
+.hero-glow {
+  position: absolute;
+  inset: -22% -12%;
+  background:
+    radial-gradient(44% 50% at 10% 78%, rgba(18, 99, 241, 0.46) 0%, transparent 66%),
+    radial-gradient(38% 42% at 88% 10%, rgba(53, 139, 255, 0.30) 0%, transparent 68%),
+    radial-gradient(52% 38% at 54% 108%, rgba(14, 64, 160, 0.34) 0%, transparent 70%);
+  filter: blur(44px);
+  animation: hero-drift 40s ease-in-out infinite alternate;
+}
+
+@keyframes hero-drift {
   0%   { transform: translate3d(0, 0, 0) scale(1); }
-  50%  { transform: translate3d(-2.5%, 1.5%, 0) scale(1.06); }
-  100% { transform: translate3d(2%, -1.5%, 0) scale(1.02); }
+  100% { transform: translate3d(2.2%, -1.6%, 0) scale(1.06); }
 }
 
+.hero-sweep { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+/* The volumes fade up; the rims draw themselves once and then rest. */
+.vol {
+  opacity: 0;
+  animation: vol-in 1.9s var(--ease) 0.15s forwards;
+}
+@keyframes vol-in { to { opacity: 1; } }
+
+.rim {
+  stroke-dasharray: 3200;
+  stroke-dashoffset: 3200;
+  animation: rim-draw 2.8s var(--ease) forwards;
+  filter: drop-shadow(0 0 13px rgba(110, 172, 255, 0.55));
+}
+.rim-2 { animation-delay: 0.3s; }
+.rim-3 { animation-delay: 0.5s; opacity: 0.5; }
+
+@keyframes rim-draw { to { stroke-dashoffset: 0; } }
 
 
-/* ---------- the AI canvas ----------
-   One of only two real "interface" objects on the page. */
+/* ---------- hero chat ----------
+   Built to read as a real product surface rather than a marketing
+   mockup: a header with an avatar, a scrolling thread, message bubbles,
+   a typing indicator and a working input. The "Demonstratie" tag is
+   part of the chrome, not a disclaimer bolted on underneath. */
 
-.canvas {
+.chat {
   grid-column: 8 / -1;
   grid-row: 1;
   align-self: end;
   margin: 0;
-  padding: clamp(20px, 2vw, 28px);
-  background: var(--raised);
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg,
+    color-mix(in oklab, var(--raised) 94%, transparent),
+    color-mix(in oklab, var(--raised) 99%, transparent));
   border: 1px solid var(--hair);
-  box-shadow: 0 1px 1px rgba(19, 18, 16, 0.02), 0 18px 50px -28px rgba(19, 18, 16, 0.26);
+  border-radius: 14px;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.04) inset,
+    0 30px 80px -40px rgba(3, 10, 26, 0.75);
+  overflow: hidden;
 }
-[data-theme="dark"] .canvas { box-shadow: 0 24px 60px -30px rgba(0, 0, 0, 0.8); }
 
-.canvas-top {
+.chat-top {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding-bottom: 16px;
-  margin-bottom: 20px;
+  padding: 13px 16px;
   border-bottom: 1px solid var(--hair);
+  background: color-mix(in oklab, var(--paper) 40%, transparent);
 }
-.canvas-dot {
+.chat-avatar { display: inline-flex; width: 19px; height: 19px; color: var(--accent); }
+.chat-avatar svg { width: 100%; height: 100%; }
+.chat-title { font-size: 0.86rem; font-weight: 500; color: var(--ink); }
+.chat-tag {
+  margin-left: auto;
+  padding: 3px 9px;
+  border: 1px solid var(--accent-hair);
+  border-radius: 100px;
+  color: var(--accent);
+  font-size: 0.6rem;
+}
+
+.chat-thread {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 18px 16px;
+  min-height: 232px;
+  max-height: 340px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+.chat-thread::-webkit-scrollbar { width: 6px; }
+.chat-thread::-webkit-scrollbar-thumb { background: var(--hair-2); border-radius: 100px; }
+
+/* What the thread rests on before the first message, so the panel does
+   not open as a blank box of its own height. */
+.chat-resting {
+  margin: auto;
+  max-width: 28ch;
+  text-align: center;
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: var(--muted);
+  animation: msg-in 0.6s var(--ease);
+}
+
+.msg { display: flex; animation: msg-in 0.45s var(--ease); }
+.msg-user { justify-content: flex-end; }
+.msg-ai { flex-direction: column; gap: 10px; }
+
+@keyframes msg-in {
+  from { opacity: 0; transform: translateY(7px); }
+  to { opacity: 1; transform: none; }
+}
+
+.bubble {
+  max-width: 82%;
+  padding: 9px 14px;
+  border-radius: 14px 14px 4px 14px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-size: 0.89rem;
+  line-height: 1.5;
+}
+
+.answer {
+  font-size: 0.89rem;
+  line-height: 1.62;
+  color: var(--ink-2);
+  max-width: none;
+}
+
+/* Typing indicator */
+.thinking .dots { display: inline-flex; gap: 4px; padding: 6px 2px; }
+.thinking i {
   width: 5px; height: 5px;
   border-radius: 50%;
-  background: var(--accent);
+  background: var(--muted);
+  animation: dot 1.25s ease-in-out infinite;
 }
-.canvas-label { margin-left: auto; }
+.thinking i:nth-child(2) { animation-delay: 0.16s; }
+.thinking i:nth-child(3) { animation-delay: 0.32s; }
+@keyframes dot {
+  0%, 60%, 100% { opacity: 0.3; transform: translateY(0); }
+  30% { opacity: 1; transform: translateY(-3px); }
+}
 
-.canvas-row { display: grid; grid-template-columns: 84px 1fr; gap: 16px; align-items: start; }
-.canvas-row + .canvas-row { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--hair); }
-.canvas-tag { padding-top: 3px; }
-
-.canvas-q p {
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-  line-height: 1.6;
+/* The named companies, and the gap where the visitor is not */
+.mentions { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.mentions-label { width: 100%; color: var(--muted); margin-bottom: 2px; }
+.mention {
+  padding: 4px 10px;
+  border: 1px solid var(--hair);
+  border-radius: 100px;
+  font-size: 0.78rem;
   color: var(--ink-2);
 }
-
-.canvas-a p { font-size: 0.97rem; line-height: 1.72; color: var(--ink); }
-
-/* The brand highlight. The wash sweeps in from the left, the way a
-   highlighter is drawn across a word. */
-.entity {
-  position: relative;
-  background: none;
+.mention-you {
+  border-style: dashed;
+  border-color: var(--accent);
   color: var(--accent);
-  font-weight: 500;
-  padding: 0.06em 0.26em;
-  margin: 0 -0.06em;
-}
-.entity::before {
-  content: "";
-  position: absolute;
-  inset: 0;
   background: var(--accent-wash);
-  border-bottom: 1px solid var(--accent-hair);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.7s var(--ease) 0.15s;
 }
-.canvas.lit .entity::before { transform: scaleX(1); }
 
-/* align-content keeps wrapped lines from stretching to fill the row. */
-.srcs {
-  list-style: none;
-  margin: 0; padding: 0;
+.chat-caption {
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--muted);
+  padding-top: 10px;
+  border-top: 1px solid var(--hair);
+}
+
+.chat-suggest {
   display: flex;
   flex-wrap: wrap;
-  align-content: flex-start;
+  align-items: center;
   gap: 6px;
+  padding: 0 16px 12px;
 }
-.srcs li {
-  display: inline-flex;
-  align-items: baseline;
-  align-self: flex-start;
-  gap: 6px;
-  padding: 4px 9px;
-  border: 1px solid var(--hair);
-  font-size: 0.73rem;
-  white-space: nowrap;
-  color: var(--ink-2);
-}
-.srcs .idx { font-size: 0.6rem; color: var(--accent); }
-
-.canvas-cap {
-  margin-top: 20px;
-  padding-top: 16px;
-  border-top: 1px solid var(--hair);
+.chat-suggest-label { color: var(--muted); margin-right: 2px; }
+.chip {
+  font-family: var(--font-body);
   font-size: 0.74rem;
+  padding: 5px 11px;
+  border: 1px solid var(--hair);
+  border-radius: 100px;
+  background: transparent;
+  color: var(--ink-2);
+  cursor: pointer;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: border-color 0.3s var(--ease), color 0.3s var(--ease);
+}
+.chip:hover { border-color: var(--accent-hair); color: var(--accent); }
+
+.chat-form {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 12px;
+  border-top: 1px solid var(--hair);
+  background: color-mix(in oklab, var(--paper) 40%, transparent);
+}
+.chat-form input {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  padding: 9px 12px;
+  border: 1px solid var(--hair);
+  border-radius: 100px;
+  background: var(--raised);
+  color: var(--ink);
+  transition: border-color 0.25s var(--ease), box-shadow 0.25s var(--ease);
+}
+.chat-form input::placeholder { color: var(--muted); }
+.chat-form input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-wash);
+}
+.chat-send {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px; height: 34px;
+  flex-shrink: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--accent-ink);
+  cursor: pointer;
+  transition: background-color 0.25s var(--ease), transform 0.25s var(--ease);
+}
+.chat-send svg { width: 16px; height: 16px; }
+.chat-send:hover { background: var(--accent-2); }
+.chat-send:active { transform: translateY(1px); }
+
+.chat-foot {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 11px 16px 13px;
+  border-top: 1px solid var(--hair);
+  font-size: 0.72rem;
+  line-height: 1.45;
   color: var(--muted);
 }
-
-/* Staged reveal, driven by app.js. Reduced motion never gets .staged,
-   so everything is simply visible from the start. */
-.canvas.staged [data-stage] {
-  opacity: 0;
-  transform: translateY(8px);
-  transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+.chat-replay {
+  margin-left: auto;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  border: 0;
+  background: transparent;
+  color: var(--accent);
+  cursor: pointer;
+  padding: 2px 0;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s var(--ease);
 }
-.canvas.staged [data-stage].on { opacity: 1; transform: none; }
+.chat-replay:hover { border-bottom-color: var(--accent); }
 
 @media (max-width: 1000px) {
-  .hero-inner { grid-template-columns: 1fr; min-height: 0; }
-  .hero-lede, .canvas, .hero-coords, .hero-rule { grid-column: 1 / -1; grid-row: auto; }
-  .hero-rule { margin: clamp(30px, 6vw, 48px) 0 0; }
-  .canvas { margin-top: clamp(30px, 6vw, 48px); align-self: auto; }
-  .hero-coords { margin-top: clamp(26px, 5vw, 40px); }
+  /* One column. Rows are set explicitly because the source order puts
+     the rule first, where it would otherwise land above the headline. */
+  .hero-inner { min-height: 0; }
+  .hero-lede   { grid-column: 1 / -1; grid-row: 1; }
+  .chat        { grid-column: 1 / -1; grid-row: 2; align-self: auto;
+                 margin-top: clamp(34px, 6vw, 56px); }
+  .hero-rule   { grid-column: 1 / -1; grid-row: 3; }
+  .hero-coords { grid-column: 1 / -1; grid-row: 4; }
 }
-
-/* Phone: the 84px label column took a third of the canvas, so the labels
-   move above their content and the answer gets the full measure. */
-@media (max-width: 620px) {
-  .canvas-row { grid-template-columns: 1fr; gap: 9px; }
-  .canvas-tag { padding-top: 0; }
+@media (max-width: 560px) {
+  .chat-thread { min-height: 200px; max-height: 300px; padding: 15px 13px; }
+  .chat-suggest { padding: 0 13px 11px; }
+  .chip { max-width: 100%; }
+  .bubble { max-width: 88%; }
 }
-
-/* A caret while the answer writes itself. Sits after the last span so
-   it follows the text, and disappears the moment typing finishes. */
-.canvas-a p::after {
-  content: "";
-  display: none;
-  width: 2px;
-  height: 1.05em;
-  margin-left: 2px;
-  vertical-align: text-bottom;
-  background: var(--accent);
-  animation: caret 1s steps(1) infinite;
-}
-.canvas.typing .canvas-a p::after { display: inline-block; }
-
-@keyframes caret { 0%, 50% { opacity: 1; } 50.01%, 100% { opacity: 0; } }
-
-/* Signals carry the dimension palette, cycling through it, so the wiring
-   reads as several different kinds of input resolving into one answer. */
-.signals li:nth-child(4n+1) .idx { color: var(--d-access); }
-.signals li:nth-child(4n+2) .idx { color: var(--d-structure); }
-.signals li:nth-child(4n+3) .idx { color: var(--d-entity); }
-.signals li:nth-child(4n+4) .idx { color: var(--d-answer); }
-.signals li:nth-child(4n+1):hover { color: var(--d-access); }
-.signals li:nth-child(4n+2):hover { color: var(--d-structure); }
-.signals li:nth-child(4n+3):hover { color: var(--d-entity); }
-.signals li:nth-child(4n+4):hover { color: var(--d-answer); }
-
-.wiring-mesh path:nth-child(4n+1) { stroke: var(--d-access); opacity: 0.55; }
-.wiring-mesh path:nth-child(4n+2) { stroke: var(--d-structure); opacity: 0.55; }
-.wiring-mesh path:nth-child(4n+3) { stroke: var(--d-entity); opacity: 0.55; }
-.wiring-mesh path:nth-child(4n+4) { stroke: var(--d-answer); opacity: 0.55; }
-
-/* The output node is where the four converge, so it carries all four. */
-.node {
-  position: relative;
-  overflow: hidden;
-}
-/* z-index below the text, so the wash cannot sit on top of the label. */
-.node::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: linear-gradient(100deg,
-    color-mix(in oklab, var(--d-access) 18%, transparent),
-    color-mix(in oklab, var(--d-structure) 16%, transparent),
-    color-mix(in oklab, var(--d-entity) 16%, transparent),
-    color-mix(in oklab, var(--d-answer) 18%, transparent));
-}
-
-/* A hairline progress line across the masthead. Long page, and it reads
-   as instrumentation rather than decoration. */
-.progress {
-  position: absolute;
-  left: 0; bottom: -1px;
-  height: 1px;
-  width: 100%;
-  transform: scaleX(var(--p, 0));
-  transform-origin: left;
-  background: linear-gradient(90deg, var(--d-access), var(--d-structure), var(--d-entity), var(--d-answer));
-  opacity: 0;
-  transition: opacity 0.4s var(--ease);
-  pointer-events: none;
-}
-.masthead.is-stuck .progress { opacity: 1; }
 
 /* ---------- the shift ---------- */
 
@@ -1753,20 +1870,9 @@ p { margin: 0; }
 .meter-track { transition: background-color 0.3s var(--ease); }
 .meter:hover .meter-track { background: var(--hair-2); }
 
-/* Source chips on the hero canvas */
-.srcs li {
-  transition: border-color 0.35s var(--ease), color 0.3s var(--ease),
-              transform 0.35s var(--ease);
-}
-.srcs li:hover {
-  border-color: var(--accent-hair);
-  color: var(--ink);
-  transform: translateY(-1px);
-}
-
-/* The canvas itself lifts a little, like a card being picked up */
-.canvas { transition: box-shadow 0.5s var(--ease), border-color 0.5s var(--ease); }
-.canvas:hover { border-color: var(--hair-2); }
+/* The chat panel lifts a little, like a card being picked up */
+.chat { transition: box-shadow 0.5s var(--ease), border-color 0.5s var(--ease); }
+.chat:hover { border-color: var(--hair-2); }
 
 /* Setup checklist */
 .setup-list li { transition: color 0.3s var(--ease); }
@@ -1807,6 +1913,15 @@ p { margin: 0; }
 
 @media (max-width: 760px) {
   :root { --band-y: clamp(48px, 10vw, 68px); }
+
+  /* The masthead is shorter here, so the hero does not need a desktop
+     fold's worth of clearance above the headline. */
+  .hero-inner { padding-top: clamp(92px, 13vh, 120px); }
+
+  /* The sweep is cropped hard at this aspect, which drives the curves
+     straight through the lede. Keep them as atmosphere, not as lines. */
+  .rim { filter: none; opacity: 0.4; }
+  .rim-3 { opacity: 0.18; }
 
   /* The two hero actions did not fit side by side at 375px, which ran
      the secondary link off the right edge. */
@@ -1956,8 +2071,9 @@ p { margin: 0; }
     clip-path: none;
     transform: none;
   }
-  .aurora { animation: none; }
+  .hero-glow { animation: none; }
+  .rim { animation: none; stroke-dashoffset: 0; }
+  .vol { animation: none; opacity: 1; }
   .stagger > * { opacity: 1; transform: none; transition: none; }
   .qa[open] .qa-a { animation: none; }
-  .canvas-a p::after { display: none !important; }
 }
