@@ -25,10 +25,11 @@
 :root {
   color-scheme: light;
 
-  /* Light bands: a cool off-white, so the dark bands read as the same
-     material turned down rather than as a different site. */
-  --paper: #f7f9fc;
-  --paper-2: #eef3fa;
+  /* Light bands: a warm off-white. Cool grey next to the navy read as
+     two different sites; warming it lets the brass sit on it and makes
+     the dark bands feel like the same room with the lights down. */
+  --paper: #faf9f7;
+  --paper-2: #f4f2ee;
   --raised: #ffffff;
 
   --ink: #091326;
@@ -38,8 +39,8 @@
      muted. 4.85:1 against --paper, 4.5:1 against --paper-2. */
   --muted: #656f83;
 
-  --hair: rgba(9, 19, 38, 0.11);
-  --hair-2: rgba(9, 19, 38, 0.22);
+  --hair: rgba(32, 25, 14, 0.12);
+  --hair-2: rgba(32, 25, 14, 0.24);
 
   /* #1263F1 on off-white clears AA for text; the lighter #358BFF is kept
      for dark bands, where the darker one would sink into the navy. */
@@ -49,14 +50,27 @@
   --accent-wash: rgba(18, 99, 241, 0.07);
   --accent-hair: rgba(18, 99, 241, 0.26);
 
+  /* The second accent, and the one that does the talking. Blue is the
+     machine: links, the chat, the primary action. Brass is you, the
+     brand that should end up in the answer, so it carries every index
+     mark, every section opener and your own empty slot in the demo.
+     5.3:1 on --paper, 4.99:1 on --paper-2. */
+  --accent-warm: #8a6016;
+  /* Hover goes darker here and lighter on the dark bands, so a mark
+     always gains contrast on hover rather than losing it. 7.57:1. */
+  --accent-warm-2: #6d4a10;
+  --accent-warm-wash: rgba(138, 96, 22, 0.08);
+
   /* Four dimension hues, functional rather than decorative: each belongs
      to a dimension of the index and reappears wherever that dimension
-     does. Kept inside the cool half of the wheel so they read as one
-     family with the brand blue. No purple, by direction. */
+     does. Four blues made the index read as one bar repeated four
+     times, so the set now runs blue to brass across the warm/cool
+     divide the rest of the page is built on. No purple, by direction.
+     All four clear AA on both papers. */
   --d-access: #1263f1;
-  --d-structure: #0e8fd4;
-  --d-entity: #0fa3a3;
-  --d-answer: #5a7fd0;
+  --d-structure: #09718c;
+  --d-entity: #8f6315;
+  --d-answer: #b24f3a;
 
   --good: #0f7a5a;
   --good-wash: rgba(15, 122, 90, 0.1);
@@ -100,11 +114,14 @@
   --accent-ink: #050b18;
   --accent-wash: rgba(53, 139, 255, 0.1);
   --accent-hair: rgba(53, 139, 255, 0.3);
+  --accent-warm: #e3b068;
+  --accent-warm-2: #f0c88c;
+  --accent-warm-wash: rgba(227, 176, 104, 0.1);
 
   --d-access: #358bff;
-  --d-structure: #2bb3ef;
-  --d-entity: #2fd0c4;
-  --d-answer: #8aa7e8;
+  --d-structure: #2fb8e6;
+  --d-entity: #e0aa5a;
+  --d-answer: #ef8a6e;
 
   --good: #35c08c;
   --good-wash: rgba(53, 192, 140, 0.12);
@@ -119,8 +136,10 @@
 
 /* The hero and the closing band stay dark in both themes. The banner the
    brand is built on is a dark, lit room; losing that in light mode would
-   lose the identity. Anything inside a .on-dark band reads from these. */
-.on-dark {
+   lose the identity. Anything inside a .on-dark band reads from these,
+   and so does the masthead while one of them is behind it. */
+.on-dark,
+.masthead.over-dark {
   --paper: #050b18;
   --paper-2: #030711;
   --raised: #08162c;
@@ -134,14 +153,28 @@
   --accent-ink: #050b18;
   --accent-wash: rgba(53, 139, 255, 0.1);
   --accent-hair: rgba(53, 139, 255, 0.3);
+  --accent-warm: #e3b068;
+  --accent-warm-2: #f0c88c;
+  --accent-warm-wash: rgba(227, 176, 104, 0.1);
   --d-access: #358bff;
-  --d-structure: #2bb3ef;
-  --d-entity: #2fd0c4;
-  --d-answer: #8aa7e8;
+  --d-structure: #2fb8e6;
+  --d-entity: #e0aa5a;
+  --d-answer: #ef8a6e;
+  /* Without these the band fell back to the light theme's dark green
+     and red, which sat at 3.6:1 on the navy. The scan result lives in
+     here, so that was its pass/fail icons. */
+  --good: #35c08c;
+  --good-wash: rgba(53, 192, 140, 0.12);
+  --bad: #ff8a72;
+  --bad-wash: rgba(255, 138, 114, 0.12);
+
   --invert-bg: #f7f9fc;
   --invert-ink: #050b18;
   --invert-2: rgba(5, 11, 24, 0.68);
   --invert-hair: rgba(5, 11, 24, 0.16);
+}
+
+.on-dark {
   color: var(--ink);
   background: var(--paper);
 }
@@ -263,7 +296,7 @@ p { margin: 0; }
   margin-bottom: clamp(26px, 3.4vw, 46px);
   padding-bottom: 14px;
   border-bottom: 1px solid var(--hair);
-  color: var(--accent);
+  color: var(--accent-warm);
 }
 
 /* ---------- shell ---------- */
@@ -365,9 +398,12 @@ p { margin: 0; }
   transition: background-color 0.4s var(--ease), border-color 0.4s var(--ease),
               backdrop-filter 0.4s var(--ease);
 }
-/* Only becomes a surface once you have left the hero. */
+/* Only becomes a surface once you have left the top of the page. The
+   colour comes from --paper, which .over-dark below redefines, so the
+   bar is light over the light bands and dark over the dark ones
+   instead of laying a pale slab across the hero. */
 .masthead.is-stuck {
-  background: color-mix(in srgb, var(--paper) 78%, transparent);
+  background: color-mix(in srgb, var(--paper) 82%, transparent);
   backdrop-filter: saturate(150%) blur(16px);
   -webkit-backdrop-filter: saturate(150%) blur(16px);
   border-bottom-color: var(--hair);
@@ -511,8 +547,6 @@ p { margin: 0; }
 /* Dark and light bands alternate down the page. The two dark ones are
    the hero and the index: the moments meant to feel like the product
    rather than the brochure. */
-.on-dark { background: var(--paper); }
-
 /* .index sits inside the shell measure, so painting the band on the
    element itself stopped the dark at 1340px. The shadow spreads the
    colour sideways and the clip keeps it off the sections above and
@@ -552,7 +586,7 @@ p { margin: 0; }
 .hero .display { margin-bottom: clamp(26px, 3.2vw, 44px); }
 /* Scoped to the lede's own mark. `.hero .idx` would also hit every index
    mark inside the canvas, including the 01/02/03 on the source chips. */
-.hero-lede > .idx { display: block; margin-bottom: clamp(26px, 3.6vw, 50px); color: var(--accent); }
+.hero-lede > .idx { display: block; margin-bottom: clamp(26px, 3.6vw, 50px); color: var(--accent-warm); }
 
 .hero-sub {
   font-size: clamp(1.02rem, 1.25vw, 1.16rem);
@@ -794,9 +828,9 @@ p { margin: 0; }
 .mention-you {
   position: relative;
   border-style: dashed;
-  border-color: var(--accent);
-  color: var(--accent);
-  background: var(--accent-wash);
+  border-color: var(--accent-warm);
+  color: var(--accent-warm);
+  background: var(--accent-warm-wash);
 }
 
 /* The named companies land one after another, so the empty slot at the
@@ -819,7 +853,7 @@ p { margin: 0; }
   position: absolute;
   inset: -1px;
   border-radius: inherit;
-  border: 1px solid var(--accent);
+  border: 1px solid var(--accent-warm);
   opacity: 0;
   animation: mention-ring 1.1s var(--ease) forwards;
   animation-delay: calc(var(--i, 0) * 130ms + 260ms);
@@ -976,7 +1010,7 @@ p { margin: 0; }
   border-top: 1px solid var(--hair);
 }
 .shift-col .idx { display: block; margin-bottom: 20px; }
-.shift-col-now .idx { color: var(--accent); }
+.shift-col-now .idx { color: var(--accent-warm); }
 .shift-col ul { list-style: none; margin: 0; padding: 0; }
 .shift-col li {
   padding: 13px 0;
@@ -1058,7 +1092,7 @@ p { margin: 0; }
   transition: color 0.3s var(--ease), padding-left 0.4s var(--ease);
 }
 .signals li:hover { color: var(--accent); padding-left: 6px; }
-.signals .idx { color: var(--accent); font-size: 0.62rem; }
+.signals .idx { color: var(--accent-warm); font-size: 0.62rem; }
 
 .wiring-mesh { color: var(--hair-2); align-self: stretch; display: flex; }
 .wiring-mesh svg { width: 100%; height: 100%; min-height: 220px; }
@@ -1187,7 +1221,7 @@ p { margin: 0; }
   padding: clamp(26px, 3vw, 40px) 0;
   border-top: 1px solid var(--hair);
 }
-.step-block > .idx { display: block; color: var(--accent); margin-bottom: 14px; }
+.step-block > .idx { display: block; color: var(--accent-warm); margin-bottom: 14px; }
 .step-block h4 {
   font-family: var(--font-display);
   font-size: clamp(1.15rem, 1.9vw, 1.45rem);
@@ -1284,7 +1318,7 @@ p { margin: 0; }
 .finding-group > .idx {
   display: block;
   margin-bottom: 10px;
-  color: var(--accent);
+  color: var(--accent-warm);
 }
 
 /* What the free scan deliberately does not answer. */
@@ -1373,7 +1407,7 @@ p { margin: 0; }
   transition: background-color 0.5s var(--ease);
 }
 .row:last-child { border-bottom: 1px solid var(--hair); }
-.row-num { color: var(--accent); align-self: start; padding-top: 0.5em; }
+.row-num { color: var(--accent-warm); align-self: start; padding-top: 0.5em; }
 
 .row-title {
   font-family: var(--font-display);
@@ -1425,7 +1459,7 @@ p { margin: 0; }
   border-top: 1px solid var(--hair);
 }
 .phase:last-child { border-bottom: 1px solid var(--hair); }
-.phase .idx { color: var(--accent); padding-top: 0.35em; }
+.phase .idx { color: var(--accent-warm); padding-top: 0.35em; }
 .phase h3 {
   font-family: var(--font-display);
   font-size: 1.22rem;
@@ -1456,7 +1490,7 @@ p { margin: 0; }
   border-bottom: 1px solid var(--hair);
   margin-bottom: clamp(44px, 5vw, 76px);
 }
-.setup-aside .idx { display: block; color: var(--accent); margin-bottom: 14px; }
+.setup-aside .idx { display: block; color: var(--accent-warm); margin-bottom: 14px; }
 .setup-aside h3 {
   font-family: var(--font-display);
   font-size: clamp(1.4rem, 2.4vw, 1.9rem);
@@ -1478,7 +1512,7 @@ p { margin: 0; }
   color: var(--ink-2);
 }
 .setup-list li:first-child { border-top: 1px solid var(--hair); }
-.setup-list .idx { color: var(--accent); font-size: 0.62rem; padding-top: 0.3em; }
+.setup-list .idx { color: var(--accent-warm); font-size: 0.62rem; padding-top: 0.3em; }
 
 .tiers-head {
   display: flex;
@@ -1487,7 +1521,7 @@ p { margin: 0; }
   flex-wrap: wrap;
   margin-bottom: clamp(24px, 3vw, 36px);
 }
-.tiers-head .idx { color: var(--accent); }
+.tiers-head .idx { color: var(--accent-warm); }
 .tiers-head p { color: var(--ink-2); }
 
 .tiers {
@@ -1594,7 +1628,7 @@ p { margin: 0; }
   border-right: 1px solid var(--hair);
 }
 .creds li:last-child { border-right: 0; }
-.creds .idx { display: block; color: var(--accent); margin-bottom: 16px; }
+.creds .idx { display: block; color: var(--accent-warm); margin-bottom: 16px; }
 .creds h3 {
   font-family: var(--font-display);
   font-size: 1.05rem;
@@ -1657,7 +1691,7 @@ p { margin: 0; }
 .qa summary:hover { color: var(--accent); }
 .qa summary:focus-visible { outline: 1px solid var(--accent); outline-offset: 3px; }
 
-.qa-num { color: var(--accent); flex-shrink: 0; }
+.qa-num { color: var(--accent-warm); flex-shrink: 0; }
 
 .qa-q {
   flex: 1;
@@ -1883,7 +1917,7 @@ p { margin: 0; }
 .phase h3 { transition: transform 0.4s var(--ease), color 0.3s var(--ease); }
 .phase:hover h3 { transform: translateX(5px); color: var(--accent); }
 .phase .idx { transition: color 0.3s var(--ease); }
-.phase:hover .idx { color: var(--accent-2); }
+.phase:hover .idx { color: var(--accent-warm-2); }
 
 /* Why FirstFound */
 .creds li { transition: border-color 0.4s var(--ease); }
@@ -1912,7 +1946,7 @@ p { margin: 0; }
 .setup-list li { transition: color 0.3s var(--ease); }
 .setup-list li:hover { color: var(--ink); }
 .setup-list li .idx { transition: color 0.3s var(--ease); }
-.setup-list li:hover .idx { color: var(--accent-2); }
+.setup-list li:hover .idx { color: var(--accent-warm-2); }
 
 /* The two columns of the shift */
 .shift-col li { transition: color 0.3s var(--ease), padding-left 0.35s var(--ease); }
@@ -1936,7 +1970,7 @@ p { margin: 0; }
 
 /* FAQ numbers follow their question */
 .qa summary .qa-num { transition: color 0.3s var(--ease); }
-.qa summary:hover .qa-num { color: var(--accent-2); }
+.qa summary:hover .qa-num { color: var(--accent-warm-2); }
 
 /* ---------- mobile: tighten the overview ----------
    The desktop rhythm is built on generous bands. Carried straight to a
@@ -2060,7 +2094,7 @@ p { margin: 0; }
   transform: translateY(-4px);
   transition: opacity 0.35s var(--ease), transform 0.35s var(--ease);
 }
-.here-num { color: var(--accent); }
+.here-num { color: var(--accent-warm); }
 .here-name {
   overflow: hidden;
   text-overflow: ellipsis;
