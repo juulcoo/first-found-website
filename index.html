@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="nl" data-theme="light">
+<html lang="nl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title data-i18n="meta.title">FirstFound | Word het antwoord</title>
 <meta name="description" data-i18n-content="meta.description" content="AI-systemen bepalen steeds vaker welke bedrijven mensen ontdekken. FirstFound helpt merken onderdeel te worden van dat antwoord.">
-<meta name="theme-color" content="#faf9f7" data-theme-color-light="#faf9f7" data-theme-color-dark="#050b18">
+<meta name="theme-color" content="#050b18">
 <link rel="canonical" href="https://firstfound.nl/">
 
 <meta property="og:type" content="website">
@@ -53,15 +53,9 @@
 }
 </script>
 <script>
-/* Applied before first paint so the page never flashes the wrong theme/language. */
+/* Applied before first paint so the page never flashes the wrong language. */
 (function () {
   try {
-    var t = localStorage.getItem("ff_theme");
-    if (t !== "light" && t !== "dark") {
-      t = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-    }
-    document.documentElement.setAttribute("data-theme", t);
-
     var l = localStorage.getItem("ff_lang");
     if (l !== "nl" && l !== "en") {
       l = (navigator.language || "nl").toLowerCase().startsWith("nl") ? "nl" : "en";
@@ -163,7 +157,6 @@
   </defs>
 </svg>
 
-
 <header class="masthead" id="masthead">
   <div class="masthead-inner">
     <a href="#top" class="mark" aria-label="FirstFound">
@@ -193,17 +186,6 @@
         <button type="button" class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
       </div>
 
-      <button type="button" class="ghost-btn theme-toggle" id="theme-toggle"
-              aria-label="Wissel tussen licht en donker" data-i18n-aria-label="nav.theme">
-        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" aria-hidden="true">
-          <circle cx="12" cy="12" r="4"></circle>
-          <path d="M12 3v2.4M12 18.6V21M4.6 4.6l1.7 1.7M17.7 17.7l1.7 1.7M3 12h2.4M18.6 12H21M4.6 19.4l1.7-1.7M17.7 6.3l1.7-1.7"></path>
-        </svg>
-        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M20 14.2A8.2 8.2 0 019.8 4a8.2 8.2 0 1010.2 10.2z"></path>
-        </svg>
-      </button>
-
       <a href="#index" class="pill" data-i18n="nav.cta">Zichtbaarheidsscan</a>
 
       <button type="button" class="ghost-btn menu-btn" id="nav-toggle"
@@ -231,7 +213,7 @@
 <div id="top"></div>
 
   <!-- ===================== HERO ===================== -->
-  <section class="hero on-dark">
+  <section class="hero">
     <!-- The cinematic field. Two large lit volumes with bright leading
          edges, as in the brand banner, turned well down so the headline
          and the chat stay the subject. Decorative, so aria-hidden. -->
@@ -433,7 +415,7 @@
   <!-- ===================== AI VISIBILITY INDEX =====================
        Element ids below are wired to app.js (the audit).
        Rename nothing without updating app.js alongside it. -->
-  <section class="index on-dark" id="index">
+  <section class="index" id="index">
     <div class="index-head">
       <span class="idx band-mark" data-i18n="index.mark">AI Visibility Index</span>
       <h2 class="display-sm" data-i18n="index.title">Zichtbaarheid is meetbaar.</h2>

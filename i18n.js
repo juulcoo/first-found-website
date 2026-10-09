@@ -38,7 +38,6 @@
       "nav.contact": "Contact",
       "nav.cta": "Zichtbaarheidsscan",
       "nav.language": "Taal",
-      "nav.theme": "Wissel tussen licht en donker",
       "nav.menu": "Menu",
 
       "hero.mark": "GEO · AI-zichtbaarheid",
@@ -364,7 +363,6 @@
       "nav.contact": "Contact",
       "nav.cta": "Visibility scan",
       "nav.language": "Language",
-      "nav.theme": "Switch between light and dark",
       "nav.menu": "Menu",
 
       "hero.mark": "GEO · AI visibility",

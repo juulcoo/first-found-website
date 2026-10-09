@@ -20,77 +20,6 @@
 
   const { t, setLang, getLang, onLangChange } = window.FFI18n;
 
-  // ---------- theme ----------
-
-  const THEME_KEY = "ff_theme";
-  const themeToggle = document.getElementById("theme-toggle");
-  const themeColorMeta = document.querySelector('meta[name="theme-color"]');
-
-  function safeSet(key, value) {
-    try {
-      localStorage.setItem(key, value);
-    } catch {
-      /* private mode, so the choice just won't survive a reload */
-    }
-  }
-
-  function safeGet(key) {
-    try {
-      return localStorage.getItem(key);
-    } catch {
-      return null;
-    }
-  }
-
-  function applyTheme(theme) {
-    document.documentElement.setAttribute("data-theme", theme);
-    if (themeColorMeta) {
-      const color = themeColorMeta.dataset[theme === "dark" ? "themeColorDark" : "themeColorLight"];
-      if (color) themeColorMeta.setAttribute("content", color);
-    }
-  }
-
-  function currentTheme() {
-    return document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
-  }
-
-  // A theme change repaints every colour on the page, but only body
-  // carried a transition, so the background eased while every heading,
-  // rule, mark and panel snapped. .theme-shift lends the whole tree a
-  // colour transition for the length of the change and is taken off
-  // again afterwards: left on, it would slow every hover and override
-  // the transitions the elements declare for themselves.
-  const SHIFT_MS = 520;
-  let shiftTimer = 0;
-
-  function shiftTheme(theme) {
-    const root = document.documentElement;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      applyTheme(theme);
-      return;
-    }
-    root.classList.add("theme-shift");
-    applyTheme(theme);
-    clearTimeout(shiftTimer);
-    shiftTimer = setTimeout(() => root.classList.remove("theme-shift"), SHIFT_MS);
-  }
-
-  // Not shiftTheme: the first call only records the theme the inline
-  // bootstrap already painted, and there is nothing to ease from.
-  applyTheme(currentTheme());
-
-  themeToggle.addEventListener("click", () => {
-    const next = currentTheme() === "dark" ? "light" : "dark";
-    shiftTheme(next);
-    safeSet(THEME_KEY, next);
-  });
-
-  // Follow the OS setting as long as the visitor hasn't picked one themselves.
-  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) => {
-    if (safeGet(THEME_KEY)) return;
-    shiftTheme(e.matches ? "dark" : "light");
-  });
-
   // ---------- language switch ----------
 
   document.querySelectorAll(".lang-btn").forEach((btn) => {
@@ -569,29 +498,12 @@
     }
   }
 
-  // The masthead only becomes a surface once you have left the top, and
-  // it takes its colour from whichever band is behind it. Without that
-  // it painted a pale slab across the dark hero for the whole first
-  // screen, because --paper on the bar followed the page theme rather
-  // than the section under it.
+  // The masthead only becomes a surface once you have left the top.
   const masthead = document.getElementById("masthead");
   if (masthead) {
     const progress = document.getElementById("progress");
-    const darkBands = [...document.querySelectorAll(".on-dark")];
-
-    const overDark = () => {
-      // Sample the band at the bar's own midline, so the swap happens as
-      // the edge passes under it rather than when it first appears.
-      const y = masthead.offsetHeight / 2;
-      return darkBands.some((b) => {
-        const r = b.getBoundingClientRect();
-        return r.top <= y && r.bottom >= y;
-      });
-    };
-
     const onScroll = () => {
       masthead.classList.toggle("is-stuck", window.scrollY > 24);
-      masthead.classList.toggle("over-dark", overDark());
       if (!progress) return;
       const max = document.documentElement.scrollHeight - window.innerHeight;
       const p = max > 0 ? Math.min(1, window.scrollY / max) : 0;
@@ -599,7 +511,6 @@
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll, { passive: true });
   }
 
   // ---------- step 1: technical audit ----------
