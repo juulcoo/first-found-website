@@ -54,18 +54,41 @@
     return document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
   }
 
+  // A theme change repaints every colour on the page, but only body
+  // carried a transition, so the background eased while every heading,
+  // rule, mark and panel snapped. .theme-shift lends the whole tree a
+  // colour transition for the length of the change and is taken off
+  // again afterwards: left on, it would slow every hover and override
+  // the transitions the elements declare for themselves.
+  const SHIFT_MS = 520;
+  let shiftTimer = 0;
+
+  function shiftTheme(theme) {
+    const root = document.documentElement;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      applyTheme(theme);
+      return;
+    }
+    root.classList.add("theme-shift");
+    applyTheme(theme);
+    clearTimeout(shiftTimer);
+    shiftTimer = setTimeout(() => root.classList.remove("theme-shift"), SHIFT_MS);
+  }
+
+  // Not shiftTheme: the first call only records the theme the inline
+  // bootstrap already painted, and there is nothing to ease from.
   applyTheme(currentTheme());
 
   themeToggle.addEventListener("click", () => {
     const next = currentTheme() === "dark" ? "light" : "dark";
-    applyTheme(next);
+    shiftTheme(next);
     safeSet(THEME_KEY, next);
   });
 
   // Follow the OS setting as long as the visitor hasn't picked one themselves.
   window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) => {
     if (safeGet(THEME_KEY)) return;
-    applyTheme(e.matches ? "dark" : "light");
+    shiftTheme(e.matches ? "dark" : "light");
   });
 
   // ---------- language switch ----------

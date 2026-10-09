@@ -447,6 +447,9 @@ p { margin: 0; }
   font-weight: 600;
   font-size: 0.98rem;
   letter-spacing: -0.028em;
+  /* The bar swaps its whole token set as a band edge passes under
+     it, so the wordmark has to cross over with everything else. */
+  transition: color 0.4s var(--ease);
 }
 
 .nav {
@@ -2141,12 +2144,13 @@ p { margin: 0; }
   transform: translateY(-4px);
   transition: opacity 0.35s var(--ease), transform 0.35s var(--ease);
 }
-.here-num { color: var(--accent-warm); }
+.here-num { color: var(--accent-warm); transition: color 0.4s var(--ease); }
 .here-name {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   color: var(--ink-2);
+  transition: color 0.4s var(--ease);
 }
 .masthead.is-stuck .here { opacity: 1; transform: none; }
 
@@ -2174,11 +2178,31 @@ p { margin: 0; }
   .underline-link { display: inline-block; padding: 6px 0; }
 }
 
+/* ---------- theme change ----------
+   Every colour on the page moves at once when the theme flips. Only
+   body had a transition, so it eased while the text, rules, marks and
+   panels all snapped. This gives the whole tree one for the length of
+   the change; app.js adds the class, then removes it. box-shadow is in
+   the list because the index band paints its full-bleed colour with a
+   100vmax shadow, and it would otherwise be the one thing that jumped. */
+
+.theme-shift,
+.theme-shift *,
+.theme-shift *::before,
+.theme-shift *::after {
+  transition-property: background-color, color, border-color, outline-color,
+                       fill, stroke, box-shadow, text-decoration-color !important;
+  transition-duration: 0.5s !important;
+  transition-timing-function: var(--ease) !important;
+  transition-delay: 0s !important;
+}
+
 /* ---------- motion guard ----------
    Everything above that moves is switched off here rather than at each
    site, so a new animation cannot be added and quietly miss this. */
 
 @media (prefers-reduced-motion: reduce) {
+  .theme-shift, .theme-shift * { transition-duration: 0.01ms !important; }
   .intro > *,
   .hero-title span {
     opacity: 1;
