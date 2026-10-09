@@ -319,9 +319,7 @@
 
         <div class="chat-thread" id="chat-thread" role="log" aria-live="polite"></div>
 
-        <div class="chat-suggest" id="chat-suggest">
-          <span class="idx chat-suggest-label" data-i18n="chat.suggestLabel">Probeer</span>
-        </div>
+        <div class="chat-suggest" id="chat-suggest"></div>
 
         <form class="chat-form" id="chat-form">
           <label class="sr-only" for="chat-input" data-i18n="chat.inputLabel">Stel een vraag aan de demonstratie</label>
@@ -376,10 +374,12 @@
       </div>
     </div>
 
-    <p class="pull" data-i18n="shift.statement">
-      Vindbaarheid gaat niet meer alleen over bovenaan staan. Het gaat er
-      steeds vaker om óf uw merk überhaupt onderdeel wordt van het antwoord.
-    </p>
+    <blockquote class="pull">
+      <p data-i18n="shift.statement">
+        Vindbaarheid gaat niet meer alleen over bovenaan staan. Het gaat er
+        steeds vaker om óf uw merk überhaupt onderdeel wordt van het antwoord.
+      </p>
+    </blockquote>
   </section>
 
   <!-- ===================== WHAT GEO IS ===================== -->
@@ -400,31 +400,31 @@
     <!-- Signals resolving into one answer. Thin rules, no boxes: the
          relationship is the point, not the containers. -->
     <div class="wiring">
-      <div class="wiring-in">
-        <span class="idx wiring-label" data-i18n="geo.signalsLabel">Signalen</span>
-        <ul class="signals">
-          <li><span class="idx" aria-hidden="true">01</span><span data-i18n="geo.sig1">Content</span></li>
-          <li><span class="idx" aria-hidden="true">02</span><span data-i18n="geo.sig2">Autoriteit</span></li>
-          <li><span class="idx" aria-hidden="true">03</span><span data-i18n="geo.sig3">Entiteiten</span></li>
-          <li><span class="idx" aria-hidden="true">04</span><span data-i18n="geo.sig4">Bronnen</span></li>
-          <li><span class="idx" aria-hidden="true">05</span><span data-i18n="geo.sig5">Context</span></li>
-          <li><span class="idx" aria-hidden="true">06</span><span data-i18n="geo.sig6">Vermeldingen</span></li>
-        </ul>
-      </div>
+      <span class="idx wiring-label" data-i18n="geo.signalsLabel">Signalen</span>
+      <span aria-hidden="true"></span>
+      <span class="idx wiring-label" data-i18n="geo.outputLabel">Resultaat</span>
+
+      <ul class="signals">
+        <li><span class="idx" aria-hidden="true">01</span><span data-i18n="geo.sig1">Content</span></li>
+        <li><span class="idx" aria-hidden="true">02</span><span data-i18n="geo.sig2">Autoriteit</span></li>
+        <li><span class="idx" aria-hidden="true">03</span><span data-i18n="geo.sig3">Entiteiten</span></li>
+        <li><span class="idx" aria-hidden="true">04</span><span data-i18n="geo.sig4">Bronnen</span></li>
+        <li><span class="idx" aria-hidden="true">05</span><span data-i18n="geo.sig5">Context</span></li>
+        <li><span class="idx" aria-hidden="true">06</span><span data-i18n="geo.sig6">Vermeldingen</span></li>
+      </ul>
 
       <div class="wiring-mesh" aria-hidden="true">
         <svg viewBox="0 0 200 260" fill="none" preserveAspectRatio="none">
-          <path d="M0 20 C110 20 90 130 200 130" stroke="currentColor" stroke-width="1"></path>
-          <path d="M0 64 C110 64 90 130 200 130" stroke="currentColor" stroke-width="1"></path>
-          <path d="M0 108 C110 108 90 130 200 130" stroke="currentColor" stroke-width="1"></path>
-          <path d="M0 152 C110 152 90 130 200 130" stroke="currentColor" stroke-width="1"></path>
-          <path d="M0 196 C110 196 90 130 200 130" stroke="currentColor" stroke-width="1"></path>
-          <path d="M0 240 C110 240 90 130 200 130" stroke="currentColor" stroke-width="1"></path>
+          <path d="M0 21.67 C110 21.67 90 130 200 130" stroke="currentColor" stroke-width="1"></path>
+          <path d="M0 65.0 C110 65.0 90 130 200 130" stroke="currentColor" stroke-width="1"></path>
+          <path d="M0 108.33 C110 108.33 90 130 200 130" stroke="currentColor" stroke-width="1"></path>
+          <path d="M0 151.67 C110 151.67 90 130 200 130" stroke="currentColor" stroke-width="1"></path>
+          <path d="M0 195.0 C110 195.0 90 130 200 130" stroke="currentColor" stroke-width="1"></path>
+          <path d="M0 238.33 C110 238.33 90 130 200 130" stroke="currentColor" stroke-width="1"></path>
         </svg>
       </div>
 
       <div class="wiring-out">
-        <span class="idx wiring-label" data-i18n="geo.outputLabel">Resultaat</span>
         <span class="node" data-i18n="geo.output">AI-antwoord</span>
       </div>
     </div>
@@ -488,7 +488,7 @@
           <label for="audit-url" class="sr-only" data-i18n="tool.step1.inputLabel">Website URL</label>
           <input type="text" id="audit-url" name="url" placeholder="uwbedrijf.nl"
                  data-i18n-placeholder="tool.step1.placeholder" required autocomplete="off" inputmode="url">
-          <button type="submit" class="pill pill-solid" id="audit-submit" data-i18n="tool.step1.submit">Analyseer</button>
+          <button type="submit" class="pill" id="audit-submit" data-i18n="tool.step1.submit">Analyseer</button>
         </form>
         <p class="hint" id="audit-hint" role="status"></p>
 
@@ -522,7 +522,7 @@
 
       <div class="scan-cta" id="tool-cta" hidden>
         <p data-i18n="tool.cta.text">Benieuwd wat AI nu over u zegt?</p>
-        <a href="#contact" class="pill pill-solid" data-i18n="tool.cta.button">Plan een gesprek</a>
+        <a href="#contact" class="pill pill-accent" data-i18n="tool.cta.button">Plan een gesprek</a>
       </div>
     </div>
   </section>

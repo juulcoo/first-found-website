@@ -262,7 +262,6 @@
     // the visitor's own slot sitting empty next to them.
     function addMentions(parent) {
       const wrap = el("div", "mentions");
-      wrap.appendChild(el("span", "idx mentions-label", t("chat.mentioned")));
       // --i drives the stagger from CSS; set through the CSSOM because
       // our CSP has no unsafe-inline for style attributes.
       [
@@ -389,7 +388,7 @@
 
     // Suggested questions, rebuilt on a language change.
     function buildSuggestions() {
-      [...suggest.querySelectorAll("button")].forEach((b) => b.remove());
+      suggest.textContent = "";
       // The chip shows a short topic; the full question is what gets
       // asked. Three whole sentences here ran to four cramped lines.
       SCRIPT.forEach((step, i) => {

@@ -55,11 +55,11 @@
      brand that should end up in the answer, so it carries every index
      mark, every section opener and your own empty slot in the demo.
      5.3:1 on --paper, 4.99:1 on --paper-2. */
-  --accent-warm: #8a6016;
+  --accent-warm: #8f5a33;
   /* Hover goes darker here and lighter on the dark bands, so a mark
-     always gains contrast on hover rather than losing it. 7.57:1. */
-  --accent-warm-2: #6d4a10;
-  --accent-warm-wash: rgba(138, 96, 22, 0.08);
+     always gains contrast on hover rather than losing it. 7.43:1. */
+  --accent-warm-2: #6f4525;
+  --accent-warm-wash: rgba(143, 90, 51, 0.08);
 
   /* Four dimension hues, functional rather than decorative: each belongs
      to a dimension of the index and reappears wherever that dimension
@@ -114,9 +114,9 @@
   --accent-ink: #050b18;
   --accent-wash: rgba(53, 139, 255, 0.1);
   --accent-hair: rgba(53, 139, 255, 0.3);
-  --accent-warm: #e3b068;
-  --accent-warm-2: #f0c88c;
-  --accent-warm-wash: rgba(227, 176, 104, 0.1);
+  --accent-warm: #dba77f;
+  --accent-warm-2: #e8bb9a;
+  --accent-warm-wash: rgba(219, 167, 127, 0.1);
 
   --d-access: #358bff;
   --d-structure: #2fb8e6;
@@ -153,9 +153,9 @@
   --accent-ink: #050b18;
   --accent-wash: rgba(53, 139, 255, 0.1);
   --accent-hair: rgba(53, 139, 255, 0.3);
-  --accent-warm: #e3b068;
-  --accent-warm-2: #f0c88c;
-  --accent-warm-wash: rgba(227, 176, 104, 0.1);
+  --accent-warm: #dba77f;
+  --accent-warm-2: #e8bb9a;
+  --accent-warm-wash: rgba(219, 167, 127, 0.1);
   --d-access: #358bff;
   --d-structure: #2fb8e6;
   --d-entity: #e0aa5a;
@@ -339,6 +339,20 @@ p { margin: 0; }
   border-color: var(--ink);
 }
 .pill-solid:hover { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+
+/* The one action worth taking on the page. Filled with the accent at
+   rest rather than on hover, so it is not just another dark pill next
+   to the scan's own button. */
+.pill-accent {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+.pill-accent:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
+}
 .pill-solid:disabled {
   background: transparent;
   color: var(--muted);
@@ -816,8 +830,7 @@ p { margin: 0; }
 }
 
 /* The named companies, and the gap where the visitor is not */
-.mentions { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
-.mentions-label { width: 100%; color: var(--muted); margin-bottom: 2px; }
+.mentions { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 2px; }
 .mention {
   padding: 4px 10px;
   border: 1px solid var(--hair);
@@ -879,7 +892,6 @@ p { margin: 0; }
   gap: 6px;
   padding: 0 16px 12px;
 }
-.chat-suggest-label { color: var(--muted); margin-right: 2px; }
 .chip {
   font-family: var(--font-body);
   font-size: 0.74rem;
@@ -1020,15 +1032,35 @@ p { margin: 0; }
 }
 .shift-col-now li { color: var(--ink); }
 
+/* A real quotation, centred. The measure lives on the paragraph, not
+   on the blockquote: ch resolves against the element's own font-size,
+   and the blockquote is still at body size, so 22ch there came out at
+   176px and broke the quote into a column. */
 .pull {
-  margin: clamp(48px, 6vw, 90px) 0 0;
+  margin: clamp(56px, 7vw, 104px) 0 0;
+  text-align: center;
+}
+.pull p {
   max-width: 24ch;
+  margin-inline: auto;
   font-family: var(--font-serif);
   font-style: italic;
   font-size: clamp(1.6rem, 3.4vw, 2.9rem);
   line-height: 1.22;
   letter-spacing: -0.015em;
   color: var(--ink);
+  text-wrap: balance;
+}
+.pull p::before,
+.pull p::after {
+  color: var(--accent-warm);
+  font-style: normal;
+}
+.pull p::before { content: "\201C"; }
+.pull p::after  { content: "\201D"; }
+
+@media (max-width: 760px) {
+  .pull { max-width: none; }
 }
 
 @media (max-width: 760px) {
@@ -1071,14 +1103,21 @@ p { margin: 0; }
 }
 
 /* Signals resolving into one answer. */
+/* Two rows: the labels sit in the first, the diagram in the second.
+   With the labels inside the side columns the mesh stretched over
+   label + list while the curves only describe the list, so every
+   endpoint landed a label's height above its row and the convergence
+   sat above the node. Now the mesh spans exactly the list. */
 .wiring {
   display: grid;
   grid-template-columns: minmax(0, 1fr) clamp(90px, 14vw, 220px) minmax(0, 0.8fr);
+  grid-template-rows: auto 1fr;
   align-items: center;
   gap: clamp(12px, 2vw, 28px);
 }
+.wiring-out { align-self: center; }
 
-.wiring-label { display: block; margin-bottom: 18px; }
+.wiring-label { display: block; align-self: end; }
 
 .signals { list-style: none; margin: 0; padding: 0; }
 .signals li {
@@ -1122,9 +1161,17 @@ p { margin: 0; }
 }
 
 @media (max-width: 860px) {
-  .wiring { grid-template-columns: 1fr; gap: 26px; }
+  /* One column, so the labels have to be reordered back next to what
+     they label: source order puts them both at the top. */
+  .wiring { grid-template-columns: 1fr; grid-template-rows: none; gap: 10px; }
+  .wiring > :nth-child(1) { order: 1; }   /* Signalen  */
+  .wiring > :nth-child(4) { order: 2; }   /* the list  */
+  .wiring > :nth-child(3) { order: 3; }   /* Resultaat */
+  .wiring > :nth-child(6) { order: 4; }   /* the node  */
+  .wiring > :nth-child(2),
   .wiring-mesh { display: none; }
-  .wiring-out { padding-top: 22px; border-top: 1px solid var(--hair); }
+  .wiring > :nth-child(3) { margin-top: 24px; }
+  .wiring-out { padding-top: 18px; border-top: 1px solid var(--hair); }
 }
 
 /* ---------- AI visibility index ---------- */
