@@ -9,69 +9,79 @@
       that genuinely are interfaces: the AI canvas and the
       index report. Everything else sits on open page.
 
-   2. TWO ACCENTS WITH DIFFERENT JOBS. Blue is the machine:
-      links, the chat, the one action worth taking. Copper is
-      you, the brand that should end up in the answer, so it
-      marks an entity the way a highlighter marks a name.
+   2. ONE ACCENT, USED AS A HIGHLIGHT. Brass, never blue. It
+      marks an entity the way a highlighter marks a name in a
+      document, which is literally what we sell.
 
    3. TYPE CARRIES THE PAGE. Archivo set very large and very
       tight for statements, Instrument Serif italic for
       editorial asides, Inter for reading, IBM Plex Mono for
       index marks ([01], coordinates, labels).
 
-   One palette, no theme switch. The brand is a dark, lit room
-   and the page is that room; depth comes from three tones of
-   the same navy rather than from flipping to white.
+   One palette: a warm off-white page. Two bands stay dark because the
+   brand is a dark, lit room and losing that would lose the identity;
+   they redefine the tokens locally through .on-dark.
    ============================================================ */
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 
-  /* Three tones of one navy. The page sits on --paper; a band that
-     should read as a surface of its own lifts to --paper-2; the two
-     real interfaces, the chat and the index report, sit on --raised. */
-  --paper: #050b18;
-  --paper-2: #081426;
-  --raised: #0c1a30;
+  /* Light bands: a warm off-white. Cool grey next to the navy read as
+     two different sites; warming it lets the brass sit on it and makes
+     the dark bands feel like the same room with the lights down. */
+  --paper: #faf9f7;
+  --paper-2: #f4f2ee;
+  --raised: #ffffff;
 
-  --ink: #f7f9fc;
-  --ink-2: #aab6cc;
-  --muted: #8f9aaf;
+  --ink: #091326;
+  --ink-2: #41506b;
+  /* #8F9AAF from the brand palette reads well on the dark bands but only
+     reaches 2.7:1 on this off-white, so the light theme carries its own
+     muted. 4.85:1 against --paper, 4.5:1 against --paper-2. */
+  --muted: #656f83;
 
-  --hair: rgba(220, 235, 255, 0.11);
-  --hair-2: rgba(220, 235, 255, 0.22);
+  --hair: rgba(32, 25, 14, 0.12);
+  --hair-2: rgba(32, 25, 14, 0.24);
 
-  /* Blue is the system: links, the chat, the primary action. */
-  --accent: #358bff;
-  --accent-2: #6aa9ff;
-  --accent-ink: #050b18;
-  --accent-wash: rgba(53, 139, 255, 0.1);
-  --accent-hair: rgba(53, 139, 255, 0.3);
+  /* #1263F1 on off-white clears AA for text; the lighter #358BFF is kept
+     for dark bands, where the darker one would sink into the navy. */
+  --accent: #1263f1;
+  --accent-2: #358bff;
+  --accent-ink: #ffffff;
+  --accent-wash: rgba(18, 99, 241, 0.07);
+  --accent-hair: rgba(18, 99, 241, 0.26);
 
-  /* Copper is you. Every index mark, every section opener, and your
-     own empty slot in the demonstration. 9.2:1 on --paper. */
-  --accent-warm: #dba77f;
-  --accent-warm-2: #e8bb9a;
-  --accent-warm-wash: rgba(219, 167, 127, 0.1);
+  /* The second accent, and the one that does the talking. Blue is the
+     machine: links, the chat, the primary action. Brass is you, the
+     brand that should end up in the answer, so it carries every index
+     mark, every section opener and your own empty slot in the demo.
+     5.3:1 on --paper, 4.99:1 on --paper-2. */
+  --accent-warm: #8f5a33;
+  /* Hover goes darker here and lighter on the dark bands, so a mark
+     always gains contrast on hover rather than losing it. 7.43:1. */
+  --accent-warm-2: #6f4525;
+  --accent-warm-wash: rgba(143, 90, 51, 0.08);
 
-  /* Four dimension hues, functional rather than decorative: each
-     belongs to a dimension of the index and reappears wherever that
-     dimension does. They run blue to copper so the index reads as a
-     spread and not as one bar repeated four times. */
-  --d-access: #358bff;
-  --d-structure: #2fb8e6;
-  --d-entity: #e0aa5a;
-  --d-answer: #ef8a6e;
+  /* Four dimension hues, functional rather than decorative: each belongs
+     to a dimension of the index and reappears wherever that dimension
+     does. Four blues made the index read as one bar repeated four
+     times, so the set now runs blue to brass across the warm/cool
+     divide the rest of the page is built on. No purple, by direction.
+     All four clear AA on both papers. */
+  --d-access: #1263f1;
+  --d-structure: #09718c;
+  --d-entity: #8f6315;
+  --d-answer: #b24f3a;
 
-  --good: #35c08c;
-  --good-wash: rgba(53, 192, 140, 0.12);
-  --bad: #ff8a72;
-  --bad-wash: rgba(255, 138, 114, 0.12);
+  --good: #0f7a5a;
+  --good-wash: rgba(15, 122, 90, 0.1);
+  --bad: #c0392b;
+  --bad-wash: rgba(192, 57, 43, 0.08);
 
-  --invert-bg: #f7f9fc;
-  --invert-ink: #050b18;
-  --invert-2: rgba(5, 11, 24, 0.68);
-  --invert-hair: rgba(5, 11, 24, 0.16);
+  --invert-bg: #050b18;
+  --invert-ink: #f7f9fc;
+  --invert-2: rgba(247, 249, 252, 0.66);
+  --invert-hair: rgba(247, 249, 252, 0.14);
 
   --font-display: "Archivo", system-ui, sans-serif;
   --font-serif: "Instrument Serif", Georgia, serif;
@@ -84,6 +94,51 @@
 
   --ease: cubic-bezier(0.16, 0.84, 0.28, 1);
   --slow: 0.9s;
+}
+
+/* The hero and the closing band stay dark in both themes. The banner the
+   brand is built on is a dark, lit room; losing that in light mode would
+   lose the identity. Anything inside a .on-dark band reads from these,
+   and so does the masthead while one of them is behind it. */
+.on-dark,
+.masthead.over-dark {
+  --paper: #050b18;
+  --paper-2: #030711;
+  --raised: #08162c;
+  --ink: #f7f9fc;
+  --ink-2: #aab6cc;
+  --muted: #8f9aaf;
+  --hair: rgba(220, 235, 255, 0.11);
+  --hair-2: rgba(220, 235, 255, 0.22);
+  --accent: #358bff;
+  --accent-2: #6aa9ff;
+  --accent-ink: #050b18;
+  --accent-wash: rgba(53, 139, 255, 0.1);
+  --accent-hair: rgba(53, 139, 255, 0.3);
+  --accent-warm: #dba77f;
+  --accent-warm-2: #e8bb9a;
+  --accent-warm-wash: rgba(219, 167, 127, 0.1);
+  --d-access: #358bff;
+  --d-structure: #2fb8e6;
+  --d-entity: #e0aa5a;
+  --d-answer: #ef8a6e;
+  /* Without these the band fell back to the light theme's dark green
+     and red, which sat at 3.6:1 on the navy. The scan result lives in
+     here, so that was its pass/fail icons. */
+  --good: #35c08c;
+  --good-wash: rgba(53, 192, 140, 0.12);
+  --bad: #ff8a72;
+  --bad-wash: rgba(255, 138, 114, 0.12);
+
+  --invert-bg: #f7f9fc;
+  --invert-ink: #050b18;
+  --invert-2: rgba(5, 11, 24, 0.68);
+  --invert-hair: rgba(5, 11, 24, 0.16);
+}
+
+.on-dark {
+  color: var(--ink);
+  background: var(--paper);
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -319,7 +374,10 @@ p { margin: 0; }
   transition: background-color 0.4s var(--ease), border-color 0.4s var(--ease),
               backdrop-filter 0.4s var(--ease);
 }
-/* Only becomes a surface once you have left the top of the page. */
+/* Only becomes a surface once you have left the top of the page. The
+   colour comes from --paper, which .over-dark redefines, so the bar is
+   light over the page and dark over the hero and the index band
+   instead of laying a pale slab across them. */
 .masthead.is-stuck {
   background: color-mix(in srgb, var(--paper) 82%, transparent);
   backdrop-filter: saturate(150%) blur(16px);
@@ -464,15 +522,15 @@ p { margin: 0; }
 /* Dark and light bands alternate down the page. The two dark ones are
    the hero and the index: the moments meant to feel like the product
    rather than the brochure. */
-/* The index is the product moment, so it lifts off the page as its own
-   surface. It sits inside the shell measure, so painting the band on
-   the element itself would stop the colour at 1340px; the shadow
-   spreads it sideways and the clip keeps it off the sections above and
+/* .index sits inside the shell measure, so painting the band on the
+   element itself stopped the dark at 1340px. The shadow spreads the
+   colour sideways and the clip keeps it off the sections above and
    below. 100vmax rather than 100vw: vw counts the scrollbar. */
 .index {
-  box-shadow: 0 0 0 100vmax var(--paper-2);
+  box-shadow: 0 0 0 100vmax var(--paper);
   clip-path: inset(0 -100vmax);
 }
+.index.on-dark { border-top-color: rgba(220, 235, 255, 0.12); }
 
 .hero-inner {
   position: relative;
@@ -1079,7 +1137,7 @@ p { margin: 0; }
 
 /* ---------- AI visibility index ---------- */
 
-.index { border-top: 1px solid var(--hair); border-bottom: 1px solid var(--hair); }
+.index { border-top: 1px solid var(--hair); }
 
 .index-head { max-width: 46ch; margin-bottom: clamp(40px, 5vw, 70px); }
 .index-head .display-sm { margin-bottom: 0.5em; }

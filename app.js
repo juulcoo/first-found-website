@@ -498,12 +498,29 @@
     }
   }
 
-  // The masthead only becomes a surface once you have left the top.
+  // The masthead only becomes a surface once you have left the top, and
+  // it takes its colour from whichever band is behind it. Without that
+  // it painted a pale slab across the dark hero for the whole first
+  // screen, because --paper on the bar followed the page rather than
+  // the section under it.
   const masthead = document.getElementById("masthead");
   if (masthead) {
     const progress = document.getElementById("progress");
+    const darkBands = [...document.querySelectorAll(".on-dark")];
+
+    const overDark = () => {
+      // Sample the band at the bar's own midline, so the swap happens as
+      // the edge passes under it rather than when it first appears.
+      const y = masthead.offsetHeight / 2;
+      return darkBands.some((b) => {
+        const r = b.getBoundingClientRect();
+        return r.top <= y && r.bottom >= y;
+      });
+    };
+
     const onScroll = () => {
       masthead.classList.toggle("is-stuck", window.scrollY > 24);
+      masthead.classList.toggle("over-dark", overDark());
       if (!progress) return;
       const max = document.documentElement.scrollHeight - window.innerHeight;
       const p = max > 0 ? Math.min(1, window.scrollY / max) : 0;
@@ -511,6 +528,7 @@
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
   }
 
   // ---------- step 1: technical audit ----------
