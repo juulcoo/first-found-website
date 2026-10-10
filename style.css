@@ -63,9 +63,11 @@
   --ink: #091326;
   --ink-2: #41506b;
   /* #8F9AAF from the brand palette reads well on the dark bands but only
-     reaches 2.7:1 on this off-white, so the light theme carries its own
-     muted. 4.85:1 against --paper, 4.5:1 against --paper-2. */
-  --muted: #656f83;
+     reaches 2.7:1 on this off-white, so the page carries its own muted.
+     5.49:1 on --paper and 5.16:1 on --paper-2, with the headroom there
+     on purpose: the sweep crosses behind this text, and at 4.8 the
+     tint of a single line was enough to push it under AA. */
+  --muted: #5d6678;
 
   --hair: rgba(32, 25, 14, 0.12);
   --hair-2: rgba(32, 25, 14, 0.24);
@@ -681,6 +683,51 @@ p { margin: 0; }
 @keyframes line-in {
   from { clip-path: inset(0 0 110% 0); transform: translateY(0.22em); }
   to { clip-path: inset(-0.18em -0.08em -0.22em 0); transform: none; }
+}
+
+/* ---------- the sweep, carried down the page ----------
+   The hero's curves reused in every band, so the page reads as one
+   room rather than a dark opening followed by a plain document.
+
+   The layer sits at z-index -1 inside a band that is its own stacking
+   context, which is what puts it above the band's background and
+   below every bit of its content without any section needing a
+   wrapper around what it already holds.
+
+   On the white bands the stroke is barely there on purpose: it is a
+   watermark behind reading matter, not decoration competing with it.
+   The navy bands can carry it much brighter because nothing there is
+   being read against a pale ground. */
+
+.shift, .geo, .index, .services, .method,
+.packages, .about, .faq, .contact {
+  position: relative;
+  isolation: isolate;
+}
+
+.band-lines {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  color: rgba(18, 99, 241, 0.13);
+}
+
+/* Against navy it is the same curve the hero draws, at hero strength. */
+.on-dark .band-lines,
+.index .band-lines {
+  color: rgba(122, 176, 255, 0.3);
+}
+
+/* Alternating the sweep stops nine identical bands reading as a tile. */
+.geo .band-lines,
+.method .band-lines,
+.about .band-lines,
+.contact .band-lines {
+  transform: scaleX(-1);
 }
 
 /* ---------- the field ----------

@@ -161,6 +161,19 @@
       <path fill="url(#ff-blue)"
             d="M7 7c0-2.21 1.79-4 4-4h18v7.5H14.5v3H26V21H14.5v8H7z"/>
     </symbol>
+
+    <!-- The hero's sweep, drawn once and reused down the page so every
+         band is the same room seen from a different angle. Strokes are
+         currentColor: each band sets its own colour and opacity, which
+         is the only difference between the navy bands and the white. -->
+    <symbol id="ff-lines" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+      <path d="M-200 900 C 200 820 420 470 860 250 C 1120 126 1340 40 1640 -40"
+            fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M1640 -60 C 1320 90 1170 330 1090 900"
+            fill="none" stroke="currentColor" stroke-width="1.2"/>
+      <path d="M-200 980 C 260 900 440 560 900 350 C 1160 226 1380 150 1680 70"
+            fill="none" stroke="currentColor" stroke-width="1"/>
+    </symbol>
   </defs>
 </svg>
 
@@ -331,6 +344,7 @@
 
   <!-- ===================== THE SHIFT ===================== -->
   <section class="shift" id="verschuiving">
+    <svg class="band-lines" aria-hidden="true" focusable="false"><use href="#ff-lines"/></svg>
     <span class="idx band-mark" data-i18n="shift.mark">De verschuiving</span>
 
     <div class="shift-type">
@@ -382,6 +396,7 @@
 
   <!-- ===================== WHAT GEO IS ===================== -->
   <section class="geo" id="geo">
+    <svg class="band-lines" aria-hidden="true" focusable="false"><use href="#ff-lines"/></svg>
     <span class="idx band-mark" data-i18n="geo.mark">Wat GEO is</span>
 
     <div class="statement">
@@ -432,6 +447,7 @@
        Element ids below are wired to app.js (the audit).
        Rename nothing without updating app.js alongside it. -->
   <section class="index on-dark" id="index">
+    <svg class="band-lines" aria-hidden="true" focusable="false"><use href="#ff-lines"/></svg>
     <div class="index-inner">
       <div class="index-head">
         <span class="idx band-mark" data-i18n="index.mark">AI Visibility Index</span>
@@ -529,6 +545,7 @@
 
   <!-- ===================== SERVICES ===================== -->
   <section class="services" id="diensten">
+    <svg class="band-lines" aria-hidden="true" focusable="false"><use href="#ff-lines"/></svg>
     <div class="services-head">
       <span class="idx band-mark" data-i18n="services.mark">Diensten</span>
       <h2 class="display-sm" data-i18n="services.title">Vier disciplines.</h2>
@@ -564,6 +581,7 @@
 
   <!-- ===================== METHOD ===================== -->
   <section class="method" id="werkwijze">
+    <svg class="band-lines" aria-hidden="true" focusable="false"><use href="#ff-lines"/></svg>
     <div class="method-aside">
       <span class="idx band-mark" data-i18n="method.mark">Werkwijze</span>
       <h2 class="display-sm" data-i18n="method.title">Meten, dan pas schrijven.</h2>
@@ -594,6 +612,7 @@
 
   <!-- ===================== PACKAGES ===================== -->
   <section class="packages" id="pakketten">
+    <svg class="band-lines" aria-hidden="true" focusable="false"><use href="#ff-lines"/></svg>
     <div class="packages-head">
       <span class="idx band-mark" data-i18n="packages.mark">Samenwerken</span>
       <h2 class="display-sm" data-i18n="packages.title">Eén opstart, daarna onderhoud.</h2>
@@ -678,6 +697,7 @@
 
   <!-- ===================== ABOUT ===================== -->
   <section class="about" id="over">
+    <svg class="band-lines" aria-hidden="true" focusable="false"><use href="#ff-lines"/></svg>
     <span class="idx band-mark" data-i18n="about.mark">Over FirstFound</span>
     <p class="about-statement" data-i18n="about.statement">
       Gebouwd voor een zoeklandschap dat nog maar net begint.
@@ -718,6 +738,7 @@
 
   <!-- ===================== FAQ ===================== -->
   <section class="faq" id="faq">
+    <svg class="band-lines" aria-hidden="true" focusable="false"><use href="#ff-lines"/></svg>
     <div class="faq-aside">
       <span class="idx band-mark" data-i18n="faq.mark">Veelgestelde vragen</span>
       <h2 class="display-sm" data-i18n="faq.title">Wat mensen ons vragen.</h2>
@@ -795,6 +816,7 @@
 
   <!-- ===================== CONTACT ===================== -->
   <section class="contact" id="contact">
+    <svg class="band-lines" aria-hidden="true" focusable="false"><use href="#ff-lines"/></svg>
     <div class="contact-aside">
       <span class="idx band-mark" data-i18n="contact.mark">Contact</span>
       <p class="contact-statement" data-i18n="contact.statement">Word onderdeel van het antwoord.</p>
