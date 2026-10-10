@@ -416,95 +416,97 @@
        Element ids below are wired to app.js (the audit).
        Rename nothing without updating app.js alongside it. -->
   <section class="index on-dark" id="index">
-    <div class="index-head">
-      <span class="idx band-mark" data-i18n="index.mark">AI Visibility Index</span>
-      <h2 class="display-sm" data-i18n="index.title">Zichtbaarheid is meetbaar.</h2>
-      <p class="index-lead" data-i18n="index.lead">
-        We brengen vier dimensies in kaart en herhalen die meting. Zo ziet u
-        niet alleen waar u staat, maar ook welke kant het op beweegt.
-      </p>
-    </div>
-
-    <div class="report" id="report">
-      <div class="report-top">
-        <span class="idx">AI Visibility Index</span>
-        <span class="idx report-flag" data-i18n="index.illustrative">Voorbeeldwaarden</span>
-      </div>
-      <ul class="meters">
-        <li class="meter" data-dim="access" data-v="62">
-          <span class="meter-name" data-i18n="index.m1">Merkaanwezigheid</span>
-          <span class="meter-track" aria-hidden="true"><span class="meter-fill"></span></span>
-          <span class="meter-val idx" aria-hidden="true">62</span>
-        </li>
-        <li class="meter" data-dim="structure" data-v="88">
-          <span class="meter-name" data-i18n="index.m2">Zichtbaarheid concurrenten</span>
-          <span class="meter-track" aria-hidden="true"><span class="meter-fill"></span></span>
-          <span class="meter-val idx" aria-hidden="true">88</span>
-        </li>
-        <li class="meter" data-dim="entity" data-v="45">
-          <span class="meter-name" data-i18n="index.m3">Bronautoriteit</span>
-          <span class="meter-track" aria-hidden="true"><span class="meter-fill"></span></span>
-          <span class="meter-val idx" aria-hidden="true">45</span>
-        </li>
-        <li class="meter" data-dim="answer" data-v="71">
-          <span class="meter-name" data-i18n="index.m4">Entiteitshelderheid</span>
-          <span class="meter-track" aria-hidden="true"><span class="meter-fill"></span></span>
-          <span class="meter-val idx" aria-hidden="true">71</span>
-        </li>
-      </ul>
-    </div>
-
-    <div class="scan">
-      <div class="scan-head">
-        <h3 class="scan-title" data-i18n="index.scanTitle">Begin met een momentopname</h3>
-        <p data-i18n="index.scanLead">
-          Vier dimensies, nu meteen gemeten op uw eigen site. Geen account,
-          geen wachttijd.
+    <div class="index-inner">
+      <div class="index-head">
+        <span class="idx band-mark" data-i18n="index.mark">AI Visibility Index</span>
+        <h2 class="display-sm" data-i18n="index.title">Zichtbaarheid is meetbaar.</h2>
+        <p class="index-lead" data-i18n="index.lead">
+          We brengen vier dimensies in kaart en herhalen die meting. Zo ziet u
+          niet alleen waar u staat, maar ook welke kant het op beweegt.
         </p>
       </div>
 
-      <div class="step-block" id="step-audit">
-        <span class="idx" data-i18n="tool.step1.label">Directe scan</span>
-        <h4 data-i18n="tool.step1.title">Wat kan een AI-systeem van uw site maken?</h4>
-        <form id="audit-form" class="field-row">
-          <label for="audit-url" class="sr-only" data-i18n="tool.step1.inputLabel">Website URL</label>
-          <input type="text" id="audit-url" name="url" placeholder="uwbedrijf.nl"
-                 data-i18n-placeholder="tool.step1.placeholder" required autocomplete="off" inputmode="url">
-          <button type="submit" class="pill" id="audit-submit" data-i18n="tool.step1.submit">Analyseer</button>
-        </form>
-        <p class="hint" id="audit-hint" role="status"></p>
-
-        <div class="result" id="audit-result" hidden>
-          <div class="score">
-            <div class="score-dial" id="audit-dial"><span class="score-num" id="audit-score"></span></div>
-            <div class="score-meta">
-              <span id="audit-grade"></span>
-              <span class="idx" data-i18n="tool.step1.scoreSub">technisch fundament, op 100</span>
-            </div>
-          </div>
-
-          <!-- The visitor's real numbers, rendered in the same shape as the
-               illustrative index above. Filled by app.js. -->
-          <ul class="meters meters-live" id="audit-dimensions"></ul>
-
-          <div class="findings" id="audit-checks"></div>
-
-          <p class="locked-note" data-i18n="tool.lockedNote">
-            Twee dimensies van de index staan hier niet in: of een AI-systeem
-            u daadwerkelijk noemt, en hoe uw concurrenten ervoor staan. Die
-            komen uit echte modelbevragingen en nemen we door in een gesprek.
-          </p>
+      <div class="report" id="report">
+        <div class="report-top">
+          <span class="idx">AI Visibility Index</span>
+          <span class="idx report-flag" data-i18n="index.illustrative">Voorbeeldwaarden</span>
         </div>
+        <ul class="meters">
+          <li class="meter" data-dim="access" data-v="62">
+            <span class="meter-name" data-i18n="index.m1">Merkaanwezigheid</span>
+            <span class="meter-track" aria-hidden="true"><span class="meter-fill"></span></span>
+            <span class="meter-val idx" aria-hidden="true">62</span>
+          </li>
+          <li class="meter" data-dim="structure" data-v="88">
+            <span class="meter-name" data-i18n="index.m2">Zichtbaarheid concurrenten</span>
+            <span class="meter-track" aria-hidden="true"><span class="meter-fill"></span></span>
+            <span class="meter-val idx" aria-hidden="true">88</span>
+          </li>
+          <li class="meter" data-dim="entity" data-v="45">
+            <span class="meter-name" data-i18n="index.m3">Bronautoriteit</span>
+            <span class="meter-track" aria-hidden="true"><span class="meter-fill"></span></span>
+            <span class="meter-val idx" aria-hidden="true">45</span>
+          </li>
+          <li class="meter" data-dim="answer" data-v="71">
+            <span class="meter-name" data-i18n="index.m4">Entiteitshelderheid</span>
+            <span class="meter-track" aria-hidden="true"><span class="meter-fill"></span></span>
+            <span class="meter-val idx" aria-hidden="true">71</span>
+          </li>
+        </ul>
       </div>
 
-      <p class="scan-note" data-i18n="tool.note">
-        Deze scan leest uw site zoals een AI-crawler dat doet. Wat modellen
-        vervolgens over u zeggen, meten we in de volledige index.
-      </p>
+      <div class="scan">
+        <div class="scan-head">
+          <h3 class="scan-title" data-i18n="index.scanTitle">Begin met een momentopname</h3>
+          <p data-i18n="index.scanLead">
+            Vier dimensies, nu meteen gemeten op uw eigen site. Geen account,
+            geen wachttijd.
+          </p>
+        </div>
 
-      <div class="scan-cta" id="tool-cta" hidden>
-        <p data-i18n="tool.cta.text">Benieuwd wat AI nu over u zegt?</p>
-        <a href="#contact" class="pill pill-accent" data-i18n="tool.cta.button">Plan een gesprek</a>
+        <div class="step-block" id="step-audit">
+          <span class="idx" data-i18n="tool.step1.label">Directe scan</span>
+          <h4 data-i18n="tool.step1.title">Wat kan een AI-systeem van uw site maken?</h4>
+          <form id="audit-form" class="field-row">
+            <label for="audit-url" class="sr-only" data-i18n="tool.step1.inputLabel">Website URL</label>
+            <input type="text" id="audit-url" name="url" placeholder="uwbedrijf.nl"
+                   data-i18n-placeholder="tool.step1.placeholder" required autocomplete="off" inputmode="url">
+            <button type="submit" class="pill" id="audit-submit" data-i18n="tool.step1.submit">Analyseer</button>
+          </form>
+          <p class="hint" id="audit-hint" role="status"></p>
+
+          <div class="result" id="audit-result" hidden>
+            <div class="score">
+              <div class="score-dial" id="audit-dial"><span class="score-num" id="audit-score"></span></div>
+              <div class="score-meta">
+                <span id="audit-grade"></span>
+                <span class="idx" data-i18n="tool.step1.scoreSub">technisch fundament, op 100</span>
+              </div>
+            </div>
+
+            <!-- The visitor's real numbers, rendered in the same shape as the
+                 illustrative index above. Filled by app.js. -->
+            <ul class="meters meters-live" id="audit-dimensions"></ul>
+
+            <div class="findings" id="audit-checks"></div>
+
+            <p class="locked-note" data-i18n="tool.lockedNote">
+              Twee dimensies van de index staan hier niet in: of een AI-systeem
+              u daadwerkelijk noemt, en hoe uw concurrenten ervoor staan. Die
+              komen uit echte modelbevragingen en nemen we door in een gesprek.
+            </p>
+          </div>
+        </div>
+
+        <p class="scan-note" data-i18n="tool.note">
+          Deze scan leest uw site zoals een AI-crawler dat doet. Wat modellen
+          vervolgens over u zeggen, meten we in de volledige index.
+        </p>
+
+        <div class="scan-cta" id="tool-cta" hidden>
+          <p data-i18n="tool.cta.text">Benieuwd wat AI nu over u zegt?</p>
+          <a href="#contact" class="pill pill-accent" data-i18n="tool.cta.button">Plan een gesprek</a>
+        </div>
       </div>
     </div>
   </section>

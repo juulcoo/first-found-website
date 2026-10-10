@@ -33,6 +33,33 @@
   --paper-2: #f4f2ee;
   --raised: #ffffff;
 
+  /* The page's own colour, held separately because .on-dark reassigns
+     --paper for everything inside a dark band. A gradient that has to
+     fade a band back into the page needs the page colour while it is
+     standing inside the band, so this one is never overridden.
+     --band-fade is read by app.js too; keep it a plain length. */
+  --page: #faf9f7;
+  /* The same colour at zero alpha. Fading to the keyword `transparent`
+     means fading to transparent BLACK, which drags the middle of every
+     one of these gradients through a grey haze. */
+  --page-0: rgba(250, 249, 247, 0);
+  --band-fade: 140px;
+
+  /* The stop list every band edge fades along, written once and used in
+     both directions. A plain two-stop ramp has a constant slope, so it
+     kinks where it reaches full opacity and leaves a visible line at
+     the end of the gradient; these stops ease into the page colour so
+     the dissolve has no edge to find. */
+  --scrim: var(--page) 0%,
+           rgba(250, 249, 247, 0.985) 8%,
+           rgba(250, 249, 247, 0.93) 19%,
+           rgba(250, 249, 247, 0.82) 31%,
+           rgba(250, 249, 247, 0.65) 44%,
+           rgba(250, 249, 247, 0.45) 58%,
+           rgba(250, 249, 247, 0.26) 72%,
+           rgba(250, 249, 247, 0.1) 86%,
+           var(--page-0) 100%;
+
   --ink: #091326;
   --ink-2: #41506b;
   /* #8F9AAF from the brand palette reads well on the dark bands but only
@@ -263,15 +290,18 @@ p { margin: 0; }
 
 /* ---------- shell ---------- */
 
-.hero-inner, .shift, .geo, .index, .services, .method, .packages, .about, .faq, .contact {
+.hero-inner, .shift, .geo, .index-inner, .services, .method, .packages, .about, .faq, .contact {
   max-width: var(--shell);
   margin: 0 auto;
   padding-inline: var(--pad);
 }
 
-.shift, .geo, .index, .services, .method, .packages, .about, .faq, .contact {
+.shift, .geo, .services, .method, .packages, .about, .faq, .contact {
   padding-block: var(--band-y);
 }
+
+/* Same rhythm, but never less than its own fade plus breathing room. */
+.index-inner { padding-block: max(var(--band-y), calc(var(--band-fade) + 40px)); }
 
 /* ---------- controls ---------- */
 
@@ -522,14 +552,38 @@ p { margin: 0; }
 /* Dark and light bands alternate down the page. The two dark ones are
    the hero and the index: the moments meant to feel like the product
    rather than the brochure. */
-/* .index sits inside the shell measure, so painting the band on the
-   element itself stopped the dark at 1340px. The shadow spreads the
-   colour sideways and the clip keeps it off the sections above and
-   below. 100vmax rather than 100vw: vw counts the scrollbar. */
+/* A full-width band with the shell measure on .index-inner, the same
+   shape as the hero. It used to be shell-width with the colour thrown
+   sideways by a 100vmax shadow; the fades below cannot be drawn by a
+   shadow, and as absolutely positioned boxes they added a viewport's
+   worth of horizontal overflow. A real full-width section needs
+   neither trick. */
 .index {
-  box-shadow: 0 0 0 100vmax var(--paper);
-  clip-path: inset(0 -100vmax);
+  position: relative;
+  background: var(--paper);
 }
+
+/* Both edges dissolve rather than butt up against the page. */
+.index::before,
+.index::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: var(--band-fade);
+  pointer-events: none;
+  z-index: 0;
+}
+.index::before {
+  top: 0;
+  background: linear-gradient(to bottom, var(--scrim));
+}
+.index::after {
+  bottom: 0;
+  background: linear-gradient(to top, var(--scrim));
+}
+/* The band's own content has to sit above its fades. */
+.index-inner { position: relative; z-index: 1; }
 .index.on-dark { border-top-color: rgba(220, 235, 255, 0.12); }
 
 .hero-inner {
@@ -541,7 +595,9 @@ p { margin: 0; }
   align-content: center;
   min-height: 100svh;
   padding-top: clamp(116px, 16vh, 176px);
-  padding-bottom: clamp(44px, 6vw, 80px);
+  /* Clear of the field's bottom fade: the coordinates used to sit in
+     the pale end of it. */
+  padding-bottom: max(clamp(44px, 6vw, 80px), calc(var(--band-fade) + 40px));
 }
 
 .hero-rule {
@@ -642,6 +698,19 @@ p { margin: 0; }
     radial-gradient(130% 95% at 76% 4%, #0c1f3e 0%, transparent 62%),
     linear-gradient(180deg, #06101f 0%, #050b18 58%, #04091400 100%),
     #050b18;
+}
+
+/* The hero hands over to the page rather than stopping at a line. Sits
+   inside the field, so it fades the curves out with the navy and still
+   passes under .hero-inner, which holds z-index 1. */
+.hero-field::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--band-fade);
+  background: linear-gradient(to top, var(--scrim));
 }
 
 .hero-glow {
@@ -940,7 +1009,6 @@ p { margin: 0; }
 
 /* ---------- the shift ---------- */
 
-.shift { border-top: 1px solid var(--hair); }
 
 .shift-type {
   display: flex;
@@ -1137,7 +1205,6 @@ p { margin: 0; }
 
 /* ---------- AI visibility index ---------- */
 
-.index { border-top: 1px solid var(--hair); }
 
 .index-head { max-width: 46ch; margin-bottom: clamp(40px, 5vw, 70px); }
 .index-head .display-sm { margin-bottom: 0.5em; }
@@ -1988,7 +2055,7 @@ p { margin: 0; }
    reads as the same design, just less of a hike. */
 
 @media (max-width: 760px) {
-  :root { --band-y: clamp(48px, 10vw, 68px); }
+  :root { --band-y: clamp(48px, 10vw, 68px); --band-fade: 90px; }
 
   /* The masthead is shorter here, so the hero does not need a desktop
      fold's worth of clearance above the headline. */

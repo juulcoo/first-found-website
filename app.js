@@ -508,13 +508,27 @@
     const progress = document.getElementById("progress");
     const darkBands = [...document.querySelectorAll(".on-dark")];
 
+    // Each band fades into the page over --band-fade at either end, so
+    // its own edge is still page-coloured. Inset the test by that much
+    // and the bar turns where the navy actually is. Read once per
+    // resize rather than per scroll: the token is shorter below 760px,
+    // and getComputedStyle on every scroll event is not free.
+    let fade = 0;
+    const readFade = () => {
+      fade =
+        parseFloat(
+          getComputedStyle(document.documentElement).getPropertyValue("--band-fade")
+        ) || 0;
+    };
+    readFade();
+
     const overDark = () => {
-      // Sample the band at the bar's own midline, so the swap happens as
-      // the edge passes under it rather than when it first appears.
+      // Sample at the bar's own midline, so the swap happens as the edge
+      // passes under it rather than when it first appears.
       const y = masthead.offsetHeight / 2;
       return darkBands.some((b) => {
         const r = b.getBoundingClientRect();
-        return r.top <= y && r.bottom >= y;
+        return r.top + fade <= y && r.bottom - fade >= y;
       });
     };
 
@@ -528,7 +542,7 @@
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll, { passive: true });
+    window.addEventListener("resize", () => { readFade(); onScroll(); }, { passive: true });
   }
 
   // ---------- step 1: technical audit ----------
