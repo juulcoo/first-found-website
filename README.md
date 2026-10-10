@@ -1,6 +1,6 @@
 # First Found :: website
 
-A static marketing site with two small serverless functions:
+A static marketing site with one small serverless function:
 
 - `/api/audit`: the only endpoint. A free technical scan across four
   dimensions (accessibility, structure, entity clarity, answer
@@ -16,10 +16,10 @@ measured for nothing, and the two dimensions that need real model
 queries (brand presence, competitor visibility) stay in the
 conversation. If it is ever reinstated, set a provider spend cap first.
 
-No build step, no framework, no database. Plain HTML/CSS/JS + two Netlify
-Functions.
+No build step, no framework, no database. Plain HTML/CSS/JS plus one
+Netlify Function.
 
-The site is bilingual (Dutch/English) and themed light/dark. Both are
+The site is bilingual (Dutch/English). Language is
 plain front-end concerns, with no build step and no extra requests:
 
 - **Language**: every string lives in `i18n.js`. The markup ships with
@@ -27,14 +27,32 @@ plain front-end concerns, with no build step and no extra requests:
   and for crawlers that don't execute it; `i18n.js` swaps in English when
   the visitor prefers it. The choice follows the browser language on a
   first visit and is remembered in `localStorage` after that.
-- **Theme**: one set of CSS custom properties in `style.css`, with the
-  dark theme redefining only the tokens. A small inline script in
-  `<head>` sets `data-theme` before first paint, so there's no flash of
-  the wrong theme. It follows the OS setting until the visitor picks one.
+- **Colour**: one palette, no theme switch. `:root` in `style.css` is a
+  warm off-white page; the hero and the index band redefine the same
+  tokens through `.on-dark`, because the brand is a dark lit room and
+  losing that would lose the identity. Each band's edges dissolve into
+  the page over `--band-fade` rather than meeting it at a line.
 
 Because the functions return language-neutral keys rather than sentences
 (see below), switching language re-renders results already on screen
 without calling the API again.
+
+## Still open
+
+One thing on this site is deliberately incomplete, because it needs
+information only you have.
+
+**The privacy statement.** The contact form collects a name, an email
+address, a company and a message, and it now says in one line what
+those are used for, which is the honest minimum. A full statement
+needs the legal entity name, the KvK number, how long you keep
+enquiries, and how someone asks to see or delete theirs. Write those
+four things down and the rest is a short page plus a link under the
+form.
+
+Prices (setup and the monthly tiers) and the guarantee and regional
+exclusivity are also still unpublished. That is a decision, not an
+oversight: the site says the packages are discussed in a call.
 
 ## Before you deploy: two things to fill in, one to switch on after
 
@@ -149,7 +167,7 @@ anything unexpected. Set it and forget it.
   cross-origin isolation headers.
 
   ⚠️ The CSP contains a **sha256 hash of the inline `<script>`** in
-  `index.html`'s `<head>` (the theme/language bootstrap). If you edit
+  `index.html`'s `<head>` (the language bootstrap). If you edit
   that script, the hash no longer matches and the browser will
   **silently refuse to run it**. The page still works, but flashes the
   wrong theme on load. After editing it, run:
@@ -280,13 +298,15 @@ Three things recur and should keep recurring in anything added later:
 - **Index marks.** Every label, number and coordinate is IBM Plex Mono,
   uppercase, wide-tracked (`.idx`). `[01]`-style numbering appears on
   sources, signals, services, phases and credibility points.
-- **One accent, used as a highlight.** Brass, never blue. It marks an
+- **Two accents with different jobs.** Blue is the machine: links, the
+  chat, the one action worth taking. Copper is you, the brand that
+  should end up in the answer. It marks an
   entity the way a highlighter marks a name in a document, which is
   what the product does.
 - **Hairlines, not cards.** Only two elements are given a surface: the
   hero canvas and the index report, because both genuinely are
   interfaces. Everything else sits on open page.
-- **Colour is a key, not decoration.** Beyond brass there are four
+- **Colour is a key, not decoration.** Beyond the two accents there are four
   dimension hues (`--d-access`, `--d-structure`, `--d-entity`,
   `--d-answer`). Anything belonging to a dimension carries
   `data-dim="..."`, which sets `--hue`; the meters and finding groups
@@ -353,9 +373,13 @@ parser-inserted style attributes.
 ```
 index.html                     the whole site (one page)
 og-image.png                   1200x630 social preview, regenerate if the claim changes
-style.css                      design tokens + light/dark themes
+favicon.svg / .ico             the brand mark; apple-touch-icon.png is the 180px version
+robots.txt                     every AI crawler explicitly allowed, points at the sitemap
+sitemap.xml                    one URL; bump <lastmod> when the page changes materially
+llms.txt                       what this site is, for AI systems that read it
+style.css                      design tokens and the whole visual system
 i18n.js                        NL/EN dictionary and the translation engine
-app.js                         front-end logic for the tool, theme, nav, contact form
+app.js                         front-end logic for the tool, chat, nav, contact form
 netlify.toml                   build config, /api/* routing, security headers
 tools-csp-hash.sh              reprints the CSP hash after editing the inline script
 fonts/                         self-hosted webfonts (see fonts/LICENSE.md)

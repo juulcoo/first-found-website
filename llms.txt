@@ -1,0 +1,57 @@
+# FirstFound
+
+> FirstFound is a Dutch consultancy for AI visibility, also called GEO
+> or generative engine optimisation. We measure whether a company is
+> named when AI systems answer buying questions in its market, and we
+> improve the signals those systems read. Based in Groningen, the
+> Netherlands; the site is one page, in Dutch and English.
+
+Search is changing from a list of links into a generated answer. A
+company is either part of that answer or it is not. FirstFound is the
+measuring and the work that follows from it: no guarantees of being
+named by any particular model, because nobody can honestly offer that.
+
+## What we do
+
+- [AI Visibility](https://firstfound.nl/#diensten): measure how and
+  where a brand appears across AI systems, with competitors alongside.
+- [GEO strategy](https://firstfound.nl/#diensten): improve the signals
+  that decide whether a brand becomes part of the answer.
+- [Authority and content](https://firstfound.nl/#diensten): strengthen
+  the information ecosystem around a brand, on its own site and on the
+  sources AI systems actually cite.
+- [Monitoring](https://firstfound.nl/#diensten): track how AI platforms
+  represent a company over time, and alert when the picture shifts.
+
+## How it works
+
+- [The shift](https://firstfound.nl/#verschuiving): what changes when a
+  search engine becomes an answer engine.
+- [What GEO is](https://firstfound.nl/#geo): an AI system does not pick
+  the highest-ranked page; it assembles an answer from signals it
+  trusts. GEO is the work of putting those signals in order.
+- [Method](https://firstfound.nl/#werkwijze): measure, then write.
+  Analysis, strategy, optimisation, monitoring.
+- [Engagement](https://firstfound.nl/#pakketten): a one-off setup,
+  after which a monthly package keeps the visibility current.
+
+## Tools
+
+- [Visibility scan](https://firstfound.nl/#index): a free technical
+  scan of a site, read the way an AI crawler reads it. It measures
+  access, structure, entity clarity and answerability on the site
+  itself. It does not query any AI model and does not report what a
+  model says about a company.
+
+## About
+
+- [About FirstFound](https://firstfound.nl/#over): GEO is young, which
+  is exactly why specialisation matters. There is no handbook, only
+  measuring, interpreting and adjusting.
+- [FAQ](https://firstfound.nl/#faq)
+
+## Contact
+
+- Email: info@firstfound.nl
+- Phone: +31 6 11164609
+- Based in Groningen, the Netherlands

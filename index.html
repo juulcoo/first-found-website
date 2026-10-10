@@ -8,6 +8,13 @@
 <meta name="theme-color" content="#050b18">
 <link rel="canonical" href="https://firstfound.nl/">
 
+<!-- The brand mark, same geometry as the one in the masthead. The .ico
+     carries 16/32/48 for older browsers; the .svg is what anything
+     current will use. -->
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="FirstFound">
 <meta property="og:locale" content="nl_NL">
@@ -835,6 +842,10 @@
       </div>
       <input type="text" name="bot-field" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
       <button type="submit" class="pill pill-solid" data-i18n="contact.submit">Verstuur</button>
+      <!-- A form that collects a name, an email and a company needs to say
+           what happens to them. This is the honest minimum; a full privacy
+           statement needs the legal entity and KvK number. -->
+      <p class="form-note" data-i18n="contact.privacy">We gebruiken deze gegevens alleen om op uw bericht te reageren en bewaren ze niet langer dan daarvoor nodig is.</p>
       <p class="form-status" id="contact-status" role="status"></p>
     </form>
   </section>

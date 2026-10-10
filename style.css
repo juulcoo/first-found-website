@@ -1913,6 +1913,15 @@ p { margin: 0; }
   color: var(--accent);
 }
 .form-fallback[hidden] { display: none; }
+/* What happens to what the form collects. Quiet, but present. */
+.form-note {
+  margin-top: -6px;
+  max-width: 54ch;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
 .form-status.ok { color: var(--good); }
 .form-status.fail { color: var(--bad); }
 
@@ -2154,6 +2163,12 @@ p { margin: 0; }
   .details > div { padding: 13px 0; }
 }
 
+/* Only shown where the carousel exists. Declared before that media
+   query, not after it: same specificity, and the later rule wins, so
+   sitting below it meant the hint was hidden at every width and the
+   carousel had no affordance at all. */
+.tiers-hint { display: none; margin-top: 12px; color: var(--muted); }
+
 /* Three stacked pricing cards were nearly two screens on their own.
    As a snap carousel they occupy one, and comparing them becomes a
    swipe instead of a scroll back and forth. */
@@ -2188,8 +2203,6 @@ p { margin: 0; }
   .tiers-hint { display: block; }
 }
 
-/* Only shown where the carousel exists. */
-.tiers-hint { display: none; margin-top: 12px; color: var(--muted); }
 
 /* Where you are, in the masthead, once the hero is behind you. Uses the
    same index-mark language as the rest of the site. */
