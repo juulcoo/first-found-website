@@ -337,23 +337,32 @@
       <span class="shift-word shift-is" data-i18n="shift.to">Antwoord</span>
     </div>
 
-    <div class="shift-cols">
-      <div class="shift-col">
+    <!-- One contrast per row rather than two separate lists: stacked on a
+         phone, two independent columns lose the pairing that is the
+         entire point of the section. The visible headings only label
+         the columns, so they are hidden from assistive tech and each
+         value carries its own label instead; interleaved pairs would
+         otherwise be read with no idea which side is which. -->
+    <div class="shift-table">
+      <div class="shift-head" aria-hidden="true">
         <span class="idx" data-i18n="shift.leftLabel">Zoekmachine</span>
-        <ul>
-          <li data-i18n="shift.left1">Tien blauwe links</li>
-          <li data-i18n="shift.left2">De gebruiker vergelijkt zelf</li>
-          <li data-i18n="shift.left3">U concurreert om een positie</li>
-        </ul>
+        <span class="idx shift-head-now" data-i18n="shift.rightLabel">AI-systeem</span>
       </div>
-      <div class="shift-col shift-col-now">
-        <span class="idx" data-i18n="shift.rightLabel">AI-systeem</span>
-        <ul>
-          <li data-i18n="shift.right1">Eén gegenereerd antwoord</li>
-          <li data-i18n="shift.right2">Drie bedrijven genoemd</li>
-          <li data-i18n="shift.right3">U staat er wel of niet in</li>
-        </ul>
-      </div>
+
+      <ul class="shift-rows">
+        <li class="shift-row">
+          <span class="shift-then"><span class="sr-only" data-i18n="shift.leftSr">Zoekmachine: </span><span data-i18n="shift.left1">Tien blauwe links</span></span>
+          <span class="shift-now"><span class="sr-only" data-i18n="shift.rightSr">AI-systeem: </span><span data-i18n="shift.right1">Eén gegenereerd antwoord</span></span>
+        </li>
+        <li class="shift-row">
+          <span class="shift-then"><span class="sr-only" data-i18n="shift.leftSr">Zoekmachine: </span><span data-i18n="shift.left2">De gebruiker vergelijkt zelf</span></span>
+          <span class="shift-now"><span class="sr-only" data-i18n="shift.rightSr">AI-systeem: </span><span data-i18n="shift.right2">Drie bedrijven genoemd</span></span>
+        </li>
+        <li class="shift-row">
+          <span class="shift-then"><span class="sr-only" data-i18n="shift.leftSr">Zoekmachine: </span><span data-i18n="shift.left3">U concurreert om een positie</span></span>
+          <span class="shift-now"><span class="sr-only" data-i18n="shift.rightSr">AI-systeem: </span><span data-i18n="shift.right3">U staat er wel of niet in</span></span>
+        </li>
+      </ul>
     </div>
 
     <blockquote class="pull">

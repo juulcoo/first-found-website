@@ -1043,23 +1043,32 @@ p { margin: 0; }
 }
 .shift.is-visible .shift-arrow path { stroke-dashoffset: 0; }
 
-.shift-cols {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(24px, 4vw, 72px);
+/* Three contrasts, one per row: what a search engine gives you on the
+   left, what an AI system gives you on the right. Two separate lists
+   read fine side by side and fall apart the moment they stack, which
+   is what a phone does to them. */
+.shift-table {
   padding-top: clamp(26px, 3vw, 40px);
   border-top: 1px solid var(--hair);
 }
-.shift-col .idx { display: block; margin-bottom: 20px; }
-.shift-col-now .idx { color: var(--accent-warm); }
-.shift-col ul { list-style: none; margin: 0; padding: 0; }
-.shift-col li {
-  padding: 13px 0;
-  border-bottom: 1px solid var(--hair);
-  font-size: 0.98rem;
-  color: var(--ink-2);
+.shift-head,
+.shift-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(24px, 4vw, 72px);
 }
-.shift-col-now li { color: var(--ink); }
+.shift-head { margin-bottom: 4px; }
+.shift-head-now { color: var(--accent-warm); }
+.shift-row {
+  align-items: baseline;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--hair);
+}
+.shift-rows { list-style: none; margin: 0; padding: 0; }
+.shift-then,
+.shift-now { font-size: 0.98rem; }
+.shift-then { color: var(--ink-2); }
+.shift-now { color: var(--ink); }
 
 /* A real quotation, centred. The measure lives on the paragraph, not
    on the blockquote: ch resolves against the element's own font-size,
@@ -1090,11 +1099,34 @@ p { margin: 0; }
 
 @media (max-width: 760px) {
   .pull { max-width: none; }
-}
 
-@media (max-width: 760px) {
-  .shift-cols { grid-template-columns: 1fr; gap: 32px; }
-  .pull { max-width: none; }
+  /* Side by side, "Zoeken" and the arrow filled the line and
+     "Antwoord" wrapped under them, so the arrow pointed at nothing.
+     Vertical, it reads top to bottom and the arrow has somewhere to
+     go. The svg keeps its 5:1 proportion through the rotation, or the
+     head squashes. */
+  .shift-type { flex-direction: column; align-items: flex-start; gap: 4px; }
+  .shift-arrow {
+    flex: none;
+    min-width: 0;
+    max-width: none;
+    width: 22px;
+    height: 46px;
+    margin-left: 6px;
+    display: grid;
+    place-items: center;
+  }
+  .shift-arrow svg { width: 46px; height: 10px; transform: rotate(90deg); }
+
+  /* Each contrast keeps its pair together: what you had above, what
+     you get below, tied by a rule down the left. The column headings
+     have nothing left to head once the grid is one column. */
+  .shift-head { display: none; }
+  .shift-row { grid-template-columns: 1fr; gap: 7px; }
+  .shift-now {
+    padding-left: 13px;
+    border-left: 2px solid var(--accent-warm);
+  }
 }
 
 /* ---------- what GEO is ---------- */
@@ -2024,8 +2056,10 @@ p { margin: 0; }
 .setup-list li:hover .idx { color: var(--accent-warm-2); }
 
 /* The two columns of the shift */
-.shift-col li { transition: color 0.3s var(--ease), padding-left 0.35s var(--ease); }
-.shift-col li:hover { color: var(--ink); padding-left: 5px; }
+.shift-row { transition: border-color 0.35s var(--ease); }
+.shift-row:hover { border-bottom-color: var(--accent-warm-hair, var(--hair-2)); }
+.shift-then { transition: color 0.3s var(--ease); }
+.shift-row:hover .shift-then { color: var(--ink); }
 
 /* Scan findings */
 .checks li { transition: color 0.3s var(--ease); }
@@ -2082,7 +2116,7 @@ p { margin: 0; }
   .setup-list li { padding: 9px 0; }
   .checks li { padding: 10px 0; }
   .signals li { padding: 9px 0; }
-  .shift-col li { padding: 10px 0; }
+  .shift-row { padding: 14px 0; }
 
   /* Packages was the single heaviest block at over three screens. */
   .setup { padding: 24px 0; margin-bottom: 30px; gap: 22px; }
@@ -2115,7 +2149,7 @@ p { margin: 0; }
   .about-body { margin-bottom: 32px; }
   .creds { margin-bottom: 30px; }
   .shift-type { margin-bottom: 30px; }
-  .shift-cols { padding-top: 20px; gap: 24px; }
+  .shift-table { padding-top: 20px; }
   .contact .details { margin-top: 26px; }
   .details > div { padding: 13px 0; }
 }

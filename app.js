@@ -61,7 +61,7 @@
   // ---------- scroll reveal ----------
 
   const revealTargets = document.querySelectorAll(
-    ".chat, .shift-type, .shift-col, .pull, .statement, .geo-body," +
+    ".chat, .shift-type, .shift-table, .pull, .statement, .geo-body," +
     " .wiring, .index-head, .report, .scan-head, .step-block, .rows, .phases," +
     " .setup, .setup-list, .signals, .tiers-head, .tier, .about-statement, .about-body, .creds," +
     " .local, .contact-aside, .form, .foot-statement, .faq-aside, .qas"
